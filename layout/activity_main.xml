@@ -1,45 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.aria.Loading"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:scaleType="fitXY" />
 
     <TextView
+        android:id="@+id/aria"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/cinzel"
+        android:shadowColor="@color/white"
+        android:shadowDx="5"
+        android:shadowDy="1.5"
+        android:shadowRadius="1"
+        android:text="Aria"
+        android:textColor="@color/blueText"
+        android:textSize="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.33"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <Button
-        android:id="@+id/btnAddAria"
+
+    <TextView
+        android:id="@+id/point1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="addaria">
+        android:fontFamily="@font/cinzel"
+        android:shadowColor="@color/white"
+        android:shadowDx="1.5"
+        android:shadowDy="1.5"
+        android:shadowRadius="1"
+        android:text="."
+        android:textColor="@color/blueText"
+        android:textSize="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </Button>
-
-    <Button
-        android:id="@+id/btnAddCalnder"
+    <TextView
+        android:id="@+id/point2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="addCalendar"
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:fontFamily="@font/cinzel"
+        android:shadowColor="@color/white"
+        android:shadowDx="1.5"
+        android:shadowDy="1.5"
+        android:shadowRadius="1"
+        android:text="."
+        android:textColor="@color/blueText"
+        android:textSize="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.58"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </Button>
-
-    <Button
-        android:id="@+id/btnCalendar"
+    <TextView
+        android:id="@+id/point3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Calendar"
-        tools:layout_editor_absoluteX="306dp"
-        tools:layout_editor_absoluteY="0dp">
-
-    </Button>
-
-</LinearLayout>
+        android:fontFamily="@font/cinzel"
+        android:shadowColor="@color/white"
+        android:shadowDx="1.5"
+        android:shadowDy="1.5"
+        android:shadowRadius="1"
+        android:text="."
+        android:textColor="@color/blueText"
+        android:textSize="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.62"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
