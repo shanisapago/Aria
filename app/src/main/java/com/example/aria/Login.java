@@ -23,8 +23,8 @@ public class Login extends AppCompatActivity {
 
         Button login = findViewById(R.id.buttonLogin);
         login.setOnClickListener(v->{
-            //Intent i=new Intent(this, Signin.class);
-            //startActivity(i);
+            Intent i=new Intent(this, CalendarActivity.class);
+            startActivity(i);
         });
     }
 }

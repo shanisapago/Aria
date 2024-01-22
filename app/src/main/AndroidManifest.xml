@@ -25,6 +25,15 @@
             android:name=".Day"
             android:exported="false" />
         <activity
+            android:name=".CalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddAriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddCalendarActivity"
+            android:exported="false" />
+        <activity
             android:name=".Loading"
             android:exported="false" />
         <activity

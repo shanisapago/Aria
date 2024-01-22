@@ -18,8 +18,9 @@
      </View>
         <ImageButton
             android:id="@+id/btnAria"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="8dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
             android:background="@drawable/aria"
             android:layout_weight="0.1">
 
@@ -27,8 +28,9 @@
 
         <ImageButton
             android:id="@+id/btnExit"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="15dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:background="@drawable/exit"
             android:layout_weight="0.1">
 

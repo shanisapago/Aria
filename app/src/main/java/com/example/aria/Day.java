@@ -1,5 +1,6 @@
 package com.example.aria;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,8 +39,8 @@ public class Day extends AppCompatActivity {
 
         ImageView add = findViewById(R.id.addBtn);
         add.setOnClickListener(v->{
-            //Intent i=new Intent(this, Signin.class);
-            //startActivity(i);
+            Intent i=new Intent(this, AddCalendarActivity.class);
+            startActivity(i);
         });
     }
 }
