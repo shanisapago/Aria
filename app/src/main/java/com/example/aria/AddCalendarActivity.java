@@ -1,5 +1,6 @@
 package com.example.aria;
 
+
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,15 +24,17 @@ public class AddCalendarActivity extends AppCompatActivity {
 
         ImageButton btnClose = findViewById(R.id.btnClose);
         btnClose.setOnClickListener(view -> {
-            Intent intent = new Intent(this, Day.class);
+            Intent intent = new Intent(this, CalendarActivity.class);
+
             startActivity(intent);
         });
 
         ImageButton btnDone = findViewById(R.id.btnDone);
         btnDone.setOnClickListener(view -> {
-            Intent intent = new Intent(this, Day.class);
+            Intent intent = new Intent(this, CalendarActivity.class);
             startActivity(intent);
         });
+
         Spinner spinner = findViewById(R.id.alert);
         String[] items = {"None", "hour before", "day before"};
         ArrayAdapter<String> AlertAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);

@@ -4,9 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+
+import com.example.aria.RetroFitClasses.Event;
+import com.example.aria.RetroFitClasses.EventsAPI;
+import com.example.aria.RetroFitClasses.UsersAPI;
+
+import java.util.Calendar;
+import java.util.List;
 
 public class Loading extends AppCompatActivity {
 
@@ -27,8 +35,33 @@ public class Loading extends AppCompatActivity {
         point2.startAnimation(animation);
         point3.startAnimation(animation);
 
-        Intent i=new Intent(this, Day.class);
-        startActivity(i);
+        EventsAPI eventsAPI=new EventsAPI();
+        //System.out.println(username);
+        String name = "dani";
+        eventsAPI.updateTitle(4,name);
+
+        //String username = getIntent().getExtras().getString("username");
+        //UsersAPI usersAPI=new UsersAPI();
+        //System.out.println(username);
+        //List<Event> e = usersAPI.getEvents(username);
+        //for(int i=0;i<e.size();i++){
+        //    System.out.println(e.get(i).getTitle());
+        //}
+
+        new CountDownTimer(5000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                Intent i=new Intent(Loading.this, CalendarActivity.class);
+                startActivity(i);
+            }
+        }.start();
+
+
+        /*Intent i=new Intent(this, Day.class);
+        startActivity(i);*/
        /* new android.os.Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {

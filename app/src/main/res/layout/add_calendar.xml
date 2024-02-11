@@ -56,18 +56,19 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.025"></View>
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/rectangle_field"
-            android:hint="Title"
-            android:fontFamily="@font/poppins3"
-            android:textColor="@color/gray"
-            android:textSize="30dp"
-            android:layout_weight="0.95"
-            >
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/rectangle_field"
+                android:hint="Title"
+                android:fontFamily="@font/poppins"
+                android:textColor="@color/gray"
+                android:textSize="30dp"
+                android:layout_weight="0.95"
+                >
 
-        </EditText>
+            </EditText>
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -94,7 +95,8 @@
                 android:layout_weight="0.25"
                 android:text="Starts"
                 android:textSize="27dp"
-                android:fontFamily="@font/poppins3">
+                android:fontFamily="@font/poppins">
+
             </TextView>
 
             <TextView
@@ -134,7 +136,8 @@
                 android:layout_weight="0.25"
                 android:text="Ends"
                 android:textSize="27dp"
-                android:fontFamily="@font/poppins3">
+                android:fontFamily="@font/poppins">
+
             </TextView>
             <TextView
                 android:id="@+id/endsTextView"
@@ -176,7 +179,8 @@
                 android:layout_weight="0.25"
                 android:text="Alert"
                 android:textSize="27dp"
-                android:fontFamily="@font/poppins3">
+                android:fontFamily="@font/poppins">
+
             </TextView>
             <Spinner
                 android:id="@+id/alert"
@@ -213,7 +217,8 @@
                 android:background="@drawable/rectangle_field"
                 android:hint="Notes"
                 android:gravity="top"
-                android:fontFamily="@font/poppins3"
+                android:fontFamily="@font/poppins"
+
                 android:textColor="@color/gray"
                 android:textSize="30dp"
                 android:maxLength="30"

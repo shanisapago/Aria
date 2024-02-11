@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.aria.RetroFitClasses.UsersAPI;
+
 public class Signin extends AppCompatActivity {
 
     @Override
@@ -66,6 +68,17 @@ public class Signin extends AppCompatActivity {
                 }
 
             }
+
+            if((phone.length()==10)&&(phone.charAt(0)=='0')&&(phone.charAt(1)=='5')){
+                //System.out.println("naama");
+                phoneFlag=true;
+            }
+            if(passFlag&&phoneFlag&&usernameFlag){
+
+                UsersAPI usersAPI=new UsersAPI();
+                usersAPI.post(username, password, phone);
+
+
             else {
                 wrongConfirm.setVisibility(View.GONE);
                 wrongPass.setVisibility(View.GONE);

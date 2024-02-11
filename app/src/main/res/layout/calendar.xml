@@ -10,12 +10,13 @@
         android:layout_weight="0.1"
         android:orientation="horizontal">
 
-     <View
-         android:layout_width="0dp"
-         android:layout_height="match_parent"
-         android:layout_weight="0.8">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8">
 
-     </View>
+        </View>
+
         <ImageButton
             android:id="@+id/btnAria"
             android:layout_width="8dp"

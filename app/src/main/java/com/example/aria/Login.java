@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,11 @@ public class Login extends AppCompatActivity {
 
         Button login = findViewById(R.id.buttonLogin);
         login.setOnClickListener(v->{
+            EditText username = findViewById(R.id.usernameSubmit);
+            EditText password = findViewById(R.id.passwordSubmit);
+            Intent i=new Intent(this, Loading.class);
+            System.out.println(username.getText());
+            i.putExtra("username", username.getText().toString());
             Intent i=new Intent(this, CalendarActivity.class);
             startActivity(i);
         });
