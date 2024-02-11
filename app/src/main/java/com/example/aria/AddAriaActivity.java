@@ -22,7 +22,9 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.example.aria.adapters.MeetingTimeAdapter;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,6 +118,7 @@ public class AddAriaActivity extends AppCompatActivity {
         meetingTimeList.add(t3);
         meetingTimeList.add(t4);
         MeetingTimeAdapter adapter=new MeetingTimeAdapter(meetingTimeList);
+
         lstTimeMeeting.setAdapter(adapter);
 
         ImageButton addDate = findViewById(R.id.addDate);
@@ -149,3 +152,4 @@ public class AddAriaActivity extends AppCompatActivity {
 
     }
 }
+

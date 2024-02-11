@@ -76,6 +76,28 @@
             android:minHeight="48dp"
             android:textColor="@color/black" />
     </LinearLayout>
+        <LinearLayout
+            android:id="@+id/wrongUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/wrong"
+                android:paddingLeft="5dp"
+                android:gravity="center">
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bla"
+                android:paddingLeft="5dp"
+                android:gravity="center"
+                android:textColor="@color/RedWarning">
+            </TextView>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout8"
@@ -130,6 +152,28 @@
                 android:inputType="textPassword"
                 android:layout_marginLeft="2dp"
                 android:minHeight="48dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/wrongPass"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/wrong"
+                android:paddingLeft="5dp"
+                android:gravity="center">
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bla"
+                android:paddingLeft="5dp"
+                android:gravity="center"
+                android:textColor="@color/RedWarning">
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -186,6 +230,28 @@
                 android:inputType="textPassword"
                 android:minHeight="48dp"/>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/wrongConfirm"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/wrong"
+                android:paddingLeft="5dp"
+                android:gravity="center">
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bla"
+                android:paddingLeft="5dp"
+                android:gravity="center"
+                android:textColor="@color/RedWarning">
+            </TextView>
+        </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -239,6 +305,28 @@
             android:inputType="phone"
             android:minHeight="48dp"/>
     </LinearLayout>
+        <LinearLayout
+            android:id="@+id/wrongPhone"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/wrong"
+                android:paddingLeft="5dp"
+                android:gravity="center">
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bla"
+                android:paddingLeft="5dp"
+                android:gravity="center"
+                android:textColor="@color/RedWarning">
+            </TextView>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout5"

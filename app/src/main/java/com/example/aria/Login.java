@@ -29,6 +29,7 @@ public class Login extends AppCompatActivity {
             Intent i=new Intent(this, Loading.class);
             System.out.println(username.getText());
             i.putExtra("username", username.getText().toString());
+            Intent i=new Intent(this, CalendarActivity.class);
             startActivity(i);
         });
     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
@@ -32,6 +33,17 @@ public class CalendarActivity extends AppCompatActivity {
             Intent intent=new Intent(this,AddAriaActivity.class);
             startActivity(intent);
         });
+
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                Intent i = new Intent(CalendarActivity.this, Day.class);
+                startActivity(i);
+            }
+        });
+
+        //calendarView.setBackgroundColor(R.color.blueText);
 
     }
 }
