@@ -3,4 +3,5 @@
     <string name="click_here">click here</string>
     <string name="to_register">to register</string>
     <string name="not_registered">Not registered?</string>
+    <string name="BaseUrl">http://10.0.2.2:3000/</string>
 </resources>
