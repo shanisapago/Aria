@@ -21,79 +21,81 @@
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center">
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingTop="20dp"
-        app:layout_constraintVertical_bias="0.44">
-
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/username" />
-
-        <TextView
-            android:id="@+id/username"
-            android:paddingLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/cinzel"
-            android:shadowColor="@color/white"
-            android:shadowRadius="1"
-            android:shadowDx="4"
-            android:shadowDy="1.5"
-            android:text="Username"
-            android:gravity="center"
-            android:paddingTop="5dp"
-            android:textColor="@color/blueText"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.537" />
-
-        <EditText
-            android:id="@+id/usernameSubmit"
-            android:layout_width="0dp"
-            android:layout_marginLeft="2dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="right"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:textColor="@color/black" />
-    </LinearLayout>
         <LinearLayout
-            android:id="@+id/wrongUser"
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingHorizontal="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingTop="20dp"
+            app:layout_constraintVertical_bias="0.44">
+
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/username" />
+
+            <TextView
+                android:id="@+id/username"
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cinzel"
+                android:shadowColor="@color/white"
+                android:shadowRadius="1"
+                android:shadowDx="4"
+                android:shadowDy="1.5"
+                android:text="Username"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:textColor="@color/blueText"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.537" />
+
+            <EditText
+                android:id="@+id/usernameSubmit"
+                android:layout_width="0dp"
+                android:layout_marginLeft="2dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="right"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:textColor="@color/black" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/wrong"
                 android:paddingLeft="5dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/wrongUser"
+                android:visibility="gone">
             </ImageView>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/wrongUser2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="bla"
-                android:paddingLeft="5dp"
+                android:paddingLeft="119dp"
                 android:gravity="center"
                 android:textColor="@color/RedWarning">
             </TextView>
@@ -152,25 +154,27 @@
                 android:inputType="textPassword"
                 android:layout_marginLeft="2dp"
                 android:minHeight="48dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/wrongPass"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/wrong"
                 android:paddingLeft="5dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/wrongPass"
+                android:visibility="gone">
             </ImageView>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/wrongPass2"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="bla"
-                android:paddingLeft="5dp"
+                android:paddingLeft="119dp"
                 android:gravity="center"
                 android:textColor="@color/RedWarning">
             </TextView>
@@ -229,100 +233,104 @@
                 android:ems="10"
                 android:inputType="textPassword"
                 android:minHeight="48dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/wrongConfirm"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/wrong"
                 android:paddingLeft="5dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/wrongConfirm"
+                android:visibility="gone">
             </ImageView>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/wrongConfirm2"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="bla"
-                android:paddingLeft="5dp"
+                android:paddingLeft="119dp"
                 android:gravity="center"
                 android:textColor="@color/RedWarning">
             </TextView>
         </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="5dp"
-        android:paddingTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.44">
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/phone" />
-
-        <TextView
-            android:id="@+id/phoneText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:fontFamily="@font/cinzel"
-            android:paddingTop="5dp"
-            android:shadowColor="@color/white"
-            android:shadowRadius="1"
-            android:shadowDx="4"
-            android:shadowDy="1.5"
-            android:text="Phone \n Number"
-            android:paddingLeft="5dp"
-            android:textColor="@color/blueText"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:layout_marginLeft="14dp"
-            android:importantForAutofill="no"
-            android:textColor="@color/black"
-            android:id="@+id/phoneSubmit"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="phone"
-            android:minHeight="48dp"/>
-    </LinearLayout>
         <LinearLayout
-            android:id="@+id/wrongPhone"
-            android:visibility="gone"
+            android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingHorizontal="5dp"
+            android:paddingTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.44">
+
             <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/phone" />
+
+            <TextView
+                android:id="@+id/phoneText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:fontFamily="@font/cinzel"
+                android:paddingTop="5dp"
+                android:shadowColor="@color/white"
+                android:shadowRadius="1"
+                android:shadowDx="4"
+                android:shadowDy="1.5"
+                android:text="Phone \n Number"
+                android:paddingLeft="5dp"
+                android:textColor="@color/blueText"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:layout_marginLeft="14dp"
+                android:importantForAutofill="no"
+                android:textColor="@color/black"
+                android:id="@+id/phoneSubmit"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone"
+                android:minHeight="48dp"/>
+            <ImageView
+                android:id="@+id/wrongPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/wrong"
                 android:paddingLeft="5dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone">
             </ImageView>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/wrongPhone2"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="bla"
-                android:paddingLeft="5dp"
+                android:paddingLeft="119dp"
                 android:gravity="center"
                 android:textColor="@color/RedWarning">
             </TextView>

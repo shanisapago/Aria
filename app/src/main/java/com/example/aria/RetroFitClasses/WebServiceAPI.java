@@ -1,5 +1,8 @@
 package com.example.aria.RetroFitClasses;
-import com.example.aria.ConvertToJSON;
+import com.example.aria.IdClass;
+import com.example.aria.JoinEvent;
+import com.example.aria.UserPass;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -11,7 +14,6 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Url;
 
 public interface WebServiceAPI {
 
@@ -19,44 +21,40 @@ public interface WebServiceAPI {
         @POST("Users")
         Call<Void> addUser(@Body User user);
 
-        @GET("Users/{id}")
-        Call<List<Event>> getEvents(@Path("id") String username);
-
-        @PUT("Events/{id}/Title")
-        Call<Void> updateTitle(@Path("id") int id, @Body ConvertToJSON title);
-
-        /*@GET("Users/{id}")
-        Call<User> getUsers(@Path("id") String id, @Header("authorization") String token);
-
-        @POST("Users")
-        Call<Void> createPost(@Body UserPassName user);
-
         @POST("Tokens")
         Call<String> createPost(@Body UserPass user);
 
-        @GET("Chats/{id}/Messages")
-        Call<List<Message>> getMessages(@Path("id") int id, @Header("authorization") String token);
+        @GET("Users")
+        Call<List<NewEvent>> getEvents(@Header("authorization") String token);
 
-        @POST("Chats/{id}/Messages")
-        Call<Message> createPost(@Path("id") int id, @Header("authorization") String token, @Body ConvertToJSON msg);
+        @POST("Events")
+        Call<IdClass> addEvent(@Body NewEvent event);
 
-        @GET("Chats/{id}")
-        Call<Chat> getChatsById(@Path("id") int id, @Header("authorization") String token);
+        @POST("Events/Join")
+        Call<Void> joinEvent(@Body JoinEvent event);
 
-        @GET("Chats")
-        Call<List<UserChat>> getChats(@Header("authorization") String token);
+        @PUT("Events/{id}/Title")
+        Call<Void> updateTitle(@Path("id") int id, @Body JsonObject title);
 
-        @POST("Chats")
-        Call<NewChat> createChat(@Header("authorization") String token, @Body ConvertToJsonChat username);
+        @PUT("Events/{id}/Description")
+        Call<Void> updateDescription(@Path("id") int id, @Body JsonObject description);
 
-        @POST("AppToken")
-        Call<Void> createPost(@Body AppToken appToken);
-        @DELETE("AppToken/{id}")
-        Call<Void> deleteToken(@Path("id") String id);*/
+        @PUT("Events/{id}/Date")
+        Call<Void> updateDate(@Path("id") int id, @Body JsonObject date);
 
-/*
-@DELETE("posts/{id}")
-Call<Void> deletePost(@Path("id") int id);
+        @PUT("Events/{id}/Start")
+        Call<Void> updateStart(@Path("id") int id, @Body JsonObject start);
 
- */
+        @PUT("Events/{id}/End")
+        Call<Void> updateEnd(@Path("id") int id, @Body JsonObject end);
+
+        @DELETE("Events/{id}/Date")
+        Call<Void> deleteByDate(@Path("id") String date);
+
+        @PUT("Events/{id}/Alert")
+        Call<Void> updateAlert(@Path("id") int id, @Body JsonObject Alert);
+
+        @DELETE("Events/{id}/{username}/DeleteById")
+        Call<Void> deleteEventById(@Path("id") int id, @Path("username") String username);
+
 }

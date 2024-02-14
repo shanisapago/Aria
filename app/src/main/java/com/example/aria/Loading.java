@@ -9,11 +9,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.example.aria.RetroFitClasses.Event;
+import com.example.aria.RetroFitClasses.NewEvent;
 import com.example.aria.RetroFitClasses.EventsAPI;
 import com.example.aria.RetroFitClasses.UsersAPI;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class Loading extends AppCompatActivity {
@@ -36,17 +35,42 @@ public class Loading extends AppCompatActivity {
         point3.startAnimation(animation);
 
         EventsAPI eventsAPI=new EventsAPI();
-        //System.out.println(username);
-        String name = "dani";
-        eventsAPI.updateTitle(4,name);
+        //eventsAPI.updateEnd(4,"20:00");
+        //eventsAPI.updateStart(4,"15:00");
+        //eventsAPI.updateDate(4,"10/05/2022");
+        //eventsAPI.updateDescription(4,"shanishanishani");
+        //Alert a = new Alert("dani", "yes");
 
-        //String username = getIntent().getExtras().getString("username");
-        //UsersAPI usersAPI=new UsersAPI();
+        String[] users = {"nir"};
+        Alert a = new Alert("nir", "yes");
+        Alert[] alerts = {a};
+
+        String id = eventsAPI.addEvent(users, "kkkjjj", "mmmmmm","10:00", "12:00", alerts, "23/07/2023" );
+        String[] users2 = {"shani"};
+        Alert a2 = new Alert("shani", "no");
+        Alert[] alerts2 = {a2};
+        System.out.println("the integer id");
+        System.out.println(id);
+        System.out.println(Integer.parseInt(id));
+        eventsAPI.joinEvent(Integer.parseInt(id), users2, alerts2);
+        eventsAPI.updateDescription(Integer.parseInt(id),"ssss");
+        eventsAPI.updateStart(Integer.parseInt(id),"13:00");
+        eventsAPI.updateEnd(Integer.parseInt(id),"14:00");
+        eventsAPI.updateDate(Integer.parseInt(id),"24/07/2024");
+        eventsAPI.updateTitle(Integer.parseInt(id),"ssss");
+        eventsAPI.updateAlert(Integer.parseInt(id),"nir","sssss");
         //System.out.println(username);
-        //List<Event> e = usersAPI.getEvents(username);
-        //for(int i=0;i<e.size();i++){
-        //    System.out.println(e.get(i).getTitle());
-        //}
+        //String name = "dani";
+        //eventsAPI.updateTitle(4,name);
+        //eventsAPI.deleteByDate("10/04/2023");
+
+        String token = getIntent().getExtras().getString("token");
+        UsersAPI usersAPI=new UsersAPI();
+        //System.out.println(username);
+        /*List<NewEvent> e = usersAPI.getEvents(token);
+        for(int i=0;i<e.size();i++){
+            System.out.println(e.get(i).getTitle());
+        }*/
 
         new CountDownTimer(5000, 1000) {
 
@@ -58,22 +82,6 @@ public class Loading extends AppCompatActivity {
                 startActivity(i);
             }
         }.start();
-
-
-        /*Intent i=new Intent(this, Day.class);
-        startActivity(i);*/
-       /* new android.os.Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                point2.startAnimation(animation);
-            }
-        },600);
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                point3.startAnimation(animation);
-            }
-        },1600);*/
 
 
     }

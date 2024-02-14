@@ -2,39 +2,39 @@ package com.example.aria.RetroFitClasses;
 
 import com.example.aria.Alert;
 
-public class Event {
-    private String username;
-    private int id;
+public class NewEvent {
+    private String[] users;
     private String title;
     private String description;
     private String start;
     private String end;
+    private String date;
     private Alert[] alert;
 
-    public Event(String username, int id, String title, String description, String start, String end, Alert[] alert) {
-        this.username = username;
-        this.id = id;
+    public NewEvent(String[] users, String title, String description, String start, String end, Alert[] alert, String date) {
+        this.users = users;
         this.title = title;
         this.description = description;
         this.start = start;
         this.end = end;
         this.alert = alert;
+        this.date = date;
     }
 
-    public String getUsername() {
-        return username;
+    public String getDate() {
+        return date;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public int getId() {
-        return id;
+    public String[] getUsername() {
+        return users;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUsername(String[] users) {
+        this.users = users;
     }
 
     public String getTitle() {
