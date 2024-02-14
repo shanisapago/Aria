@@ -16,6 +16,7 @@
             android:layout_weight="0.8">
 
         </View>
+
         <ImageButton
             android:id="@+id/btnAria"
             android:layout_width="8dp"

@@ -61,6 +61,7 @@
                 android:background="@drawable/rectangle_field"
                 android:hint="Name"
                 android:fontFamily="@font/poppins"
+
                 android:textColor="@color/gray"
                 android:textSize="30dp"
                 android:layout_weight="0.95"
@@ -95,6 +96,7 @@
                 android:background="@drawable/rectangle_field"
                 android:hint="Phone Number"
                 android:fontFamily="@font/poppins"
+
                 android:textColor="@color/gray"
                 android:textSize="30dp"
                 android:layout_weight="0.95"
@@ -114,6 +116,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.025"
             android:fontFamily="@font/poppins"
+
             android:textColor="@color/RedWarning">
 
         </TextView>
@@ -133,6 +136,7 @@
                 android:hint="Details"
                 android:gravity="top"
                 android:fontFamily="@font/poppins"
+
                 android:textColor="@color/gray"
                 android:textSize="30dp"
                 android:maxLength="30"
@@ -165,6 +169,7 @@
                 android:text="Alert"
                 android:textSize="27dp"
                 android:fontFamily="@font/poppins">
+
             </TextView>
             <Spinner
                 android:id="@+id/alert"
@@ -207,6 +212,7 @@
                     android:textSize="27dp"
                     android:fontFamily="@font/poppins">
 
+
                 </TextView>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -236,6 +242,7 @@
                     </ImageButton>
 
                 </LinearLayout>
+
 
 
 
