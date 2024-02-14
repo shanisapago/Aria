@@ -1,10 +1,5 @@
 package com.example.aria.RetroFitClasses;
 
-import com.example.aria.R;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.Reader;
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,7 +13,7 @@ public class UsersAPI {
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
     User user;
-    List<Event> events;
+    List<NewEvent> events;
 
     public UsersAPI() {
         retrofit = new Retrofit.Builder()
@@ -34,27 +29,21 @@ public class UsersAPI {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                System.out.println("onResponse");
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                System.out.println("fail");
-                 System.out.println(t);
-                 System.out.println(call);
             }
         });
     }
 
-    public List<Event> getEvents(String username) {
-        Call<List<Event>> call = webServiceAPI.getEvents(username);
+    public List<NewEvent> getEvents(String username) {
+        Call<List<NewEvent>> call = webServiceAPI.getEvents(username);
         Thread t=new Thread((() -> {
             try{
                 events=call.execute().body();
             }
             catch (Exception e){
-                System.out.println("exception");
-                System.out.println(e);
             }
         }));
         t.start();

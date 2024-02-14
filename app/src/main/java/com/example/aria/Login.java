@@ -3,11 +3,15 @@ package com.example.aria;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.aria.RetroFitClasses.TokensAPI;
 
 public class Login extends AppCompatActivity {
 
@@ -26,10 +30,22 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(v->{
             EditText username = findViewById(R.id.usernameSubmit);
             EditText password = findViewById(R.id.passwordSubmit);
-            Intent i=new Intent(this, Loading.class);
-            System.out.println(username.getText());
-            i.putExtra("username", username.getText().toString());
-            startActivity(i);
+
+            TokensAPI tokensAPI=new TokensAPI();
+            String token=tokensAPI.post(username.getText().toString(), password.getText().toString());
+            System.out.println("token");
+            System.out.println(token);
+            if(token!=null){
+                Intent i=new Intent(this, Loading.class);
+                System.out.println(username.getText());
+                i.putExtra("token", token);
+                startActivity(i);
+            }
+            else
+            {
+                username.setText("");
+                password.setText("");
+            }
         });
     }
 }

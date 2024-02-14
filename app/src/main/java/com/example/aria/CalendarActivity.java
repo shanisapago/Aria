@@ -1,10 +1,12 @@
 package com.example.aria;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
@@ -12,6 +14,7 @@ import java.util.Date;
 
 public class CalendarActivity extends AppCompatActivity {
 
+    @SuppressLint({"ResourceAsColor", "ResourceType"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,16 @@ public class CalendarActivity extends AppCompatActivity {
             Intent intent=new Intent(this,AddAriaActivity.class);
             startActivity(intent);
         });
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
+                Intent intent=new Intent(CalendarActivity.this, Day.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 }

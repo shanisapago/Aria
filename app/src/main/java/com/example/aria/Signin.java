@@ -3,8 +3,11 @@ package com.example.aria;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,26 +37,71 @@ public class Signin extends AppCompatActivity {
 
             Boolean phoneFlag=false;
             Boolean passFlag=false;
+            Boolean confirmFlag=false;
             Boolean usernameFlag=false;
 
             if(username.length()!=0){
                 usernameFlag=true;
             }
 
-            if(confirmPass.equals(password)){
+            if(password.length()>7){
                 passFlag=true;
+            }
+
+            if(confirmPass.equals(password)){
+                confirmFlag=true;
             }
             if((phone.length()==10)&&(phone.charAt(0)=='0')&&(phone.charAt(1)=='5')){
                 //System.out.println("naama");
                 phoneFlag=true;
             }
-            if(passFlag&&phoneFlag&&usernameFlag){
+            if(passFlag&&phoneFlag&&usernameFlag&&confirmFlag){
 
                 UsersAPI usersAPI=new UsersAPI();
                 usersAPI.post(username, password, phone);
 
                 Intent i=new Intent(this, Login.class);
                 startActivity(i);
+            }
+            else {
+                if(passFlag==false) {
+                    ImageView errorIcon = findViewById(R.id.wrongPass);
+                    LinearLayout errorText = findViewById(R.id.wrongPass2);
+                    errorIcon.setVisibility(View.VISIBLE);
+                    errorText.setVisibility(View.VISIBLE);
+                }
+                else{
+                    ImageView errorIcon = findViewById(R.id.wrongPass);
+                    LinearLayout errorText = findViewById(R.id.wrongPass2);
+                    errorIcon.setVisibility(View.GONE);
+                    errorText.setVisibility(View.GONE);
+                }
+                if(confirmFlag==false) {
+                    ImageView errorIcon = findViewById(R.id.wrongConfirm);
+                    LinearLayout errorText = findViewById(R.id.wrongConfirm2);
+                    errorIcon.setVisibility(View.VISIBLE);
+                    errorText.setVisibility(View.VISIBLE);
+                }
+                else{
+                    ImageView errorIcon = findViewById(R.id.wrongConfirm);
+                    LinearLayout errorText = findViewById(R.id.wrongConfirm2);
+                    errorIcon.setVisibility(View.GONE);
+                    errorText.setVisibility(View.GONE);
+                }
+                if(phoneFlag==false) {
+                    ImageView errorIcon = findViewById(R.id.wrongPhone);
+                    LinearLayout errorText = findViewById(R.id.wrongPhone2);
+                    errorIcon.setVisibility(View.VISIBLE);
+                    errorText.setVisibility(View.VISIBLE);
+                }
+                else{
+                    ImageView errorIcon = findViewById(R.id.wrongPhone);
+                    LinearLayout errorText = findViewById(R.id.wrongPhone2);
+                    errorIcon.setVisibility(View.GONE);
+                    errorText.setVisibility(View.GONE);
+                }
+
+
             }
         });
 
