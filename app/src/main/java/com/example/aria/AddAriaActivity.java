@@ -26,7 +26,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.aria.adapters.MeetingTimeAdapter;
 
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -36,12 +40,33 @@ public class AddAriaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_aria);
+        System.out.println("time check");
+        SimpleDateFormat ft
+                = new SimpleDateFormat("dd/MM/yyyy");
+
+        String str = ft.format(new Date());
+
+        LocalTime localTime = LocalTime.now();
+        int hour = localTime.getHour();
+        int minute = localTime.getMinute();
+
+        TextView timeText=findViewById(R.id.time);
+        TextView dateText=findViewById(R.id.date);
+        dateText.setText(str);
+        timeText.setText(hour+":"+minute);
+
+
+
+
+
+
 
         ImageButton btnClose=findViewById(R.id.btnClose);
         btnClose.setOnClickListener(view->{
             Intent intent=new Intent(this,CalendarActivity.class);
             startActivity(intent);
         });
+
 
         ImageButton btnDone=findViewById(R.id.btnDone);
         btnDone.setOnClickListener(view->{
@@ -108,33 +133,44 @@ public class AddAriaActivity extends AppCompatActivity {
 
         //setlayoutmanager
 
+
+
+
+
         List<TimeMeeting> meetingTimeList=new ArrayList<>();
-        TimeMeeting t1=new TimeMeeting("12/01/2024","13:00");
-        TimeMeeting t2=new TimeMeeting("12/01/2024","16:00");
-        TimeMeeting t3=new TimeMeeting("13/01/2024","17:00");
-        TimeMeeting t4=new TimeMeeting("22/01/2024","19:00");
-        meetingTimeList.add(t1);
-        meetingTimeList.add(t2);
-        meetingTimeList.add(t3);
-        meetingTimeList.add(t4);
         MeetingTimeAdapter adapter=new MeetingTimeAdapter(meetingTimeList);
 
         lstTimeMeeting.setAdapter(adapter);
 
-        ImageButton addDate = findViewById(R.id.addDate);
+
+
+
+
+          ImageButton addDate = findViewById(R.id.addDate);
+
         TimePicker time = findViewById(R.id.hourMin);
         DatePicker date = findViewById(R.id.DatePicker);
         time.setIs24HourView(true);
-        TextView chooseDate = findViewById(R.id.chooseDate);
+        LinearLayout chooseDate = findViewById(R.id.chooseDate);
         LinearLayout timePicker = findViewById(R.id.timePicker);
         chooseDate.setOnClickListener(v -> {
             timePicker.setVisibility(View.VISIBLE);
         });
 
+
         time.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                chooseDate.setText(hourOfDay+":"+minute);
+                //chooseDate.setText(hourOfDay+":"+minute);
+
+                String minute_string=Integer.toString(minute);
+                if (minute<10){
+                    System.out.println("less than 10");
+                    minute_string="0"+minute_string;
+
+                }
+                timeText.setText(hourOfDay+":"+minute_string);
+
             }
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -142,12 +178,25 @@ public class AddAriaActivity extends AppCompatActivity {
                 @Override
                 public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     int month = monthOfYear+1;
-                    chooseDate.setText(dayOfMonth+"/"+month+"/"+year);
+                    //chooseDate.setText(dayOfMonth+"/"+month+"/"+year);
+
+                    dateText.setText(dayOfMonth+"/"+month+"/"+year);
                 }
             });
         }
         addDate.setOnClickListener(v -> {
             timePicker.setVisibility(View.GONE);
+            System.out.println("in addddddddddddd");
+            TextView date2=findViewById(R.id.date);
+            TextView time2=findViewById(R.id.time);
+
+            System.out.println(date2);
+            TimeMeeting t1=new TimeMeeting(date2.getText().toString(),time2.getText().toString());
+            meetingTimeList.add(t1);
+            System.out.println("plusssssss");
+            adapter.notifyDataSetChanged();
+
+
         });
 
     }

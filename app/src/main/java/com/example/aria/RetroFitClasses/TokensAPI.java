@@ -16,7 +16,7 @@ public class TokensAPI {
                 .create();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl("http://172.20.10.5:3000/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -31,6 +31,8 @@ public class TokensAPI {
                 token=call.execute().body();
             }
             catch (Exception e){
+                System.out.println("exception");
+                System.out.println(e);
             }
         }));
         t.start();
@@ -38,6 +40,7 @@ public class TokensAPI {
             t.join();
         }
         catch (Exception e){
+            System.out.println("exception2");
         }
         return token;
     }

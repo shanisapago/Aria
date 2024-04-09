@@ -41,24 +41,7 @@ public class Loading extends AppCompatActivity {
         //eventsAPI.updateDescription(4,"shanishanishani");
         //Alert a = new Alert("dani", "yes");
 
-        String[] users = {"nir"};
-        Alert a = new Alert("nir", "yes");
-        Alert[] alerts = {a};
 
-        String id = eventsAPI.addEvent(users, "kkkjjj", "mmmmmm","10:00", "12:00", alerts, "23/07/2023" );
-        String[] users2 = {"shani"};
-        Alert a2 = new Alert("shani", "no");
-        Alert[] alerts2 = {a2};
-        System.out.println("the integer id");
-        System.out.println(id);
-        System.out.println(Integer.parseInt(id));
-        eventsAPI.joinEvent(Integer.parseInt(id), users2, alerts2);
-        eventsAPI.updateDescription(Integer.parseInt(id),"ssss");
-        eventsAPI.updateStart(Integer.parseInt(id),"13:00");
-        eventsAPI.updateEnd(Integer.parseInt(id),"14:00");
-        eventsAPI.updateDate(Integer.parseInt(id),"24/07/2024");
-        eventsAPI.updateTitle(Integer.parseInt(id),"ssss");
-        eventsAPI.updateAlert(Integer.parseInt(id),"nir","sssss");
         //System.out.println(username);
         //String name = "dani";
         //eventsAPI.updateTitle(4,name);
@@ -79,6 +62,7 @@ public class Loading extends AppCompatActivity {
 
             public void onFinish() {
                 Intent i=new Intent(Loading.this, CalendarActivity.class);
+                i.putExtra("token",token);
                 startActivity(i);
             }
         }.start();

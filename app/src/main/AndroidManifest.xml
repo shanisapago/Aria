@@ -30,7 +30,6 @@
             android:exported="false" />
         <activity
             android:name=".Signin"
-            android:name=".CalendarActivity"
             android:exported="false" />
         <activity
             android:name=".AddAriaActivity"
@@ -45,10 +44,7 @@
             android:name=".CalendarActivity"
             android:exported="false" />
         <activity
-            android:name=".AddAriaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AddCalendarActivity"
+            android:name=".EditEvent"
             android:exported="false" />
     </application>
 

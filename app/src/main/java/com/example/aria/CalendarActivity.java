@@ -19,6 +19,8 @@ public class CalendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar);
+
+        String token = getIntent().getExtras().getString("token");
         CalendarView calendarView = findViewById(R.id.calendarView);
         Calendar calendar = Calendar.getInstance();
         Date today = calendar.getTime();
@@ -27,12 +29,14 @@ public class CalendarActivity extends AppCompatActivity {
         ImageButton btnExit=findViewById(R.id.btnExit);
         btnExit.setOnClickListener(view->{
             Intent intent=new Intent(this,Login.class);
+
             startActivity(intent);
         });
 
         ImageButton btnAria=findViewById(R.id.btnAria);
         btnAria.setOnClickListener(view->{
             Intent intent=new Intent(this,AddAriaActivity.class);
+            intent.putExtra("token",token);
             startActivity(intent);
         });
 
@@ -41,6 +45,7 @@ public class CalendarActivity extends AppCompatActivity {
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
 
                 Intent intent=new Intent(CalendarActivity.this, Day.class);
+                intent.putExtra("token",token);
                 startActivity(intent);
             }
         });

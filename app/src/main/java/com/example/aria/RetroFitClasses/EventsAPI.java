@@ -19,7 +19,7 @@ public class EventsAPI {
 
     public EventsAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl("http://172.20.10.5:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -158,6 +158,34 @@ public class EventsAPI {
         jsonObject.addProperty("alert", alert);
 
         Call<Void> call = webServiceAPI.updateAlert(id, jsonObject);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                System.out.println("onResponse");
+                System.out.println(response);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("fail");
+                System.out.println(t);
+                System.out.println(call);
+            }
+        });
+    }
+
+    public void updateAll(int id, String token,String title,String start,String end,String date,String alert,String description) {
+        //ConvertToJSON s=new ConvertToJSON();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token", token);
+        jsonObject.addProperty("title", title);
+        jsonObject.addProperty("start", start);
+        jsonObject.addProperty("end", end);
+        jsonObject.addProperty("date", date);
+        jsonObject.addProperty("alert", alert);
+        jsonObject.addProperty("description", description);
+
+        Call<Void> call = webServiceAPI.updateAll(id, jsonObject);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

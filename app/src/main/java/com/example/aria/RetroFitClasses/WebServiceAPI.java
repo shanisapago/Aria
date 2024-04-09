@@ -54,6 +54,9 @@ public interface WebServiceAPI {
         @PUT("Events/{id}/Alert")
         Call<Void> updateAlert(@Path("id") int id, @Body JsonObject Alert);
 
+        @PUT("Events/{id}/All")
+        Call<Void> updateAll(@Path("id") int id, @Body JsonObject All);
+
         @DELETE("Events/{id}/{username}/DeleteById")
         Call<Void> deleteEventById(@Path("id") int id, @Path("username") String username);
 

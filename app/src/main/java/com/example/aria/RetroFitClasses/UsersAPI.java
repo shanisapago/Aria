@@ -17,7 +17,7 @@ public class UsersAPI {
 
     public UsersAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl("http://172.20.10.5:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -29,10 +29,13 @@ public class UsersAPI {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                System.out.println("in response");
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println(t);
+                System.out.println("in on fail");
             }
         });
     }
