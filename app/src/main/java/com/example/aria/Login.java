@@ -39,6 +39,7 @@ public class Login extends AppCompatActivity {
                 Intent i=new Intent(this, Loading.class);
                 System.out.println(username.getText());
                 i.putExtra("token", token);
+                //i.putExtra("username", username.getText().toString());
                 startActivity(i);
             }
             else

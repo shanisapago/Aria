@@ -62,7 +62,8 @@ public class Loading extends AppCompatActivity {
 
             public void onFinish() {
                 Intent i=new Intent(Loading.this, CalendarActivity.class);
-                i.putExtra("token",token);
+                i.putExtra("token", token);
+
                 startActivity(i);
             }
         }.start();

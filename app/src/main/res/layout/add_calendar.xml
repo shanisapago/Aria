@@ -57,6 +57,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.025"></View>
             <EditText
+                android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/rectangle_field"
@@ -212,6 +213,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.025"></View>
             <EditText
+                android:id="@+id/des"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/rectangle_field"

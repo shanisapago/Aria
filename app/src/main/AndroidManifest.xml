@@ -46,6 +46,7 @@
         <activity
             android:name=".EditEvent"
             android:exported="false" />
+
     </application>
 
 </manifest>

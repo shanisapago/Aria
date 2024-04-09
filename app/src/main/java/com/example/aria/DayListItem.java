@@ -6,39 +6,16 @@ public class DayListItem {
     String description;
     String id;
     String end;
-    Alert alert;
+    String alertString;
 
-    public DayListItem(String time, String title, String description,String id,String end,Alert  alert) {
+
+    public DayListItem(String id, String time, String end, String title, String description, String alertString) {
         this.time = time;
         this.title = title;
         this.description = description;
-        this.id=id;
-        this.end=end;
-        this.alert=alert;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getEnd() {
-        return end;
-    }
-
-    public void setEnd(String end) {
         this.end = end;
-    }
-
-    public Alert getAlert() {
-        return alert;
-    }
-
-    public void setAlert(Alert alert) {
-        this.alert = alert;
+        this.alertString = alertString;
     }
 
     public String getTime() {
@@ -51,5 +28,17 @@ public class DayListItem {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public String getAlerts() {
+        return alertString;
     }
 }
