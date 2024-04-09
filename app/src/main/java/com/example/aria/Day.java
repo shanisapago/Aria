@@ -32,14 +32,15 @@ public class Day extends AppCompatActivity {
         List<DayListItem> l=new ArrayList<>();
         UsersAPI usersAPI=new UsersAPI();
         List<NewEvent> events = usersAPI.getEvents(token);
-
-        for(int i=0;i<events.size();i++){
-            if(date.equals(events.get(i).getDate())){
-                DayListItem d = new DayListItem(events.get(i).getId(), events.get(i).getStart(),events.get(i).getEnd(), events.get(i).getTitle(), events.get(i).getDescription(), events.get(i).getAlert());
-                l.add(d);
+        if(events!=null) {
+            for (int i = 0; i < events.size(); i++) {
+                if (date.equals(events.get(i).getDate())) {
+                    DayListItem d = new DayListItem(events.get(i).getId(), events.get(i).getStart(), events.get(i).getEnd(), events.get(i).getTitle(), events.get(i).getDescription(), events.get(i).getAlert());
+                    l.add(d);
+                }
             }
+            Collections.sort(l, new DayListComparator());
         }
-        Collections.sort(l, new DayListComparator());
        
 
         DayListAdapter adapter= new DayListAdapter(l);
@@ -71,9 +72,10 @@ public class Day extends AppCompatActivity {
                 i.putExtra("start",clickedDay.getTime());
                 i.putExtra("end",clickedDay.getEnd());
                 System.out.println("good");
-                i.putExtra("alert",clickedDay.getAlert().getAlert());
+                i.putExtra("alert",clickedDay.getAlerts());
                 System.out.println("good2");
                 i.putExtra("description",clickedDay.getDescription());
+                i.putExtra("date",date);
                 startActivity(i);
 
             }

@@ -186,20 +186,19 @@ public class EventsAPI {
         jsonObject.addProperty("description", description);
 
         Call<Void> call = webServiceAPI.updateAll(id, jsonObject);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                System.out.println("onResponse");
-                System.out.println(response);
+        Thread t=new Thread((() -> {
+            try{
+                call.execute();
             }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                System.out.println("fail");
-                System.out.println(t);
-                System.out.println(call);
+            catch (Exception e){
             }
-        });
+        }));
+        t.start();
+        try {
+            t.join();
+        }
+        catch (Exception e){
+        }
     }
 
     public void deleteEventById(int id, String username) {
@@ -209,19 +208,19 @@ public class EventsAPI {
 
 
         Call<Void> call = webServiceAPI.deleteEventById(id, username);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                System.out.println("onResponse");
-                System.out.println(response);
+        Thread t=new Thread((() -> {
+            try{
+                call.execute();
             }
+            catch (Exception e){
+            }
+        }));
+        t.start();
+        try {
+            t.join();
+        }
+        catch (Exception e){
+        }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                System.out.println("fail");
-                System.out.println(t);
-                System.out.println(call);
-            }
-        });
     }
 }

@@ -35,6 +35,7 @@ public class EditEvent extends AppCompatActivity {
         String token = getIntent().getExtras().getString("token");
         System.out.println("in edit");
         String id=getIntent().getExtras().getString("id");
+        String date_now=getIntent().getExtras().getString("date");
         String title=getIntent().getExtras().getString("title");
         String start=getIntent().getExtras().getString("start");
         String end=getIntent().getExtras().getString("end");
@@ -68,6 +69,7 @@ public class EditEvent extends AppCompatActivity {
 
         DatePicker date = findViewById(R.id.DatePicker);
         TextView dateText=findViewById(R.id.dateTextView);
+        dateText.setText(date_now);
         LinearLayout chooseDate = findViewById(R.id.chooseDate);
         LinearLayout timePicker = findViewById(R.id.timePicker);
 
@@ -79,10 +81,18 @@ public class EditEvent extends AppCompatActivity {
             date.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
                 @Override
                 public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    int month = monthOfYear+1;
                     //chooseDate.setText(dayOfMonth+"/"+month+"/"+year);
+                    String newDay = String.valueOf(dayOfMonth);
+                    int month=monthOfYear+1;
+                    String newMonth = String.valueOf(month);
+                    String date;
+                    if(dayOfMonth/10==0)
+                        newDay = "0".concat(String.valueOf(dayOfMonth));
+                    if(month/10==0)
+                        newMonth = "0".concat(String.valueOf(month));
+                    date = (((newDay.concat("/")).concat(newMonth)).concat("/")).concat(String.valueOf(year));
 
-                    dateText.setText(dayOfMonth+"/"+month+"/"+year);
+                    dateText.setText(date);
                 }
             });
         }
@@ -158,6 +168,8 @@ public class EditEvent extends AppCompatActivity {
             System.out.println("delete");
             Intent i=new Intent(this,Day.class);
             i.putExtra("token",token);
+            i.putExtra("date",dateText.getText().toString());
+
             startActivity(i);
 
         });
@@ -172,6 +184,7 @@ public class EditEvent extends AppCompatActivity {
 
             Intent i=new Intent(this,Day.class);
             i.putExtra("token",token);
+            i.putExtra("date",dateText.getText().toString());
             startActivity(i);
 
 
