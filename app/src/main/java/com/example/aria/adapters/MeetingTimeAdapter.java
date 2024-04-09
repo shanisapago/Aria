@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.aria.TimeMeeting;
 import com.example.aria.R;
+import com.example.aria.TimeMeeting;
 
 import java.util.List;
 
@@ -49,10 +49,10 @@ public class MeetingTimeAdapter extends BaseAdapter {
 
         }
 
-        TimeMeeting p = timeMeetingsList.get(position);
-        ViewHolder viewHolder=(ViewHolder) convertView.getTag();
-        viewHolder.date.setText(p.getDateMeeting());
-        viewHolder.time.setText(p.getTimeMeeting());
+            TimeMeeting p = timeMeetingsList.get(position);
+            ViewHolder viewHolder=(ViewHolder) convertView.getTag();
+            viewHolder.date.setText(p.getDateMeeting());
+            viewHolder.time.setText(p.getTimeMeeting());
 
         return convertView;
     }

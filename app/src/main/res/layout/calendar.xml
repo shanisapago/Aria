@@ -37,14 +37,16 @@
 
         </ImageButton>
     </LinearLayout>
-
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_weight="0.9"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_centerInParent="true"
-        android:firstDayOfWeek="1" />
+        android:firstDayOfWeek="1"
+        android:dateTextAppearance="@style/CalenderViewDateCustomText2"
+        android:theme="@style/CalenderViewDateCustomText1"
+        android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
 
 
 

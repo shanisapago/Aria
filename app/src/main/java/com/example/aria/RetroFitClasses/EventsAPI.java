@@ -25,8 +25,8 @@ public class EventsAPI {
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
-    public String addEvent(String[] users, String title, String description, String start, String end, Alert[] alert, String date) {
-        NewEvent event = new NewEvent(users, title, description, start, end, alert, date);
+    public String addEvent(String token, String title, String description, String start, String end, String alertString, String date) {
+        NewEvent event = new NewEvent("0", token, title, description, start, end, alertString, date);
         Call<IdClass> call = webServiceAPI.addEvent(event);
         Thread t=new Thread((() -> {
             try{

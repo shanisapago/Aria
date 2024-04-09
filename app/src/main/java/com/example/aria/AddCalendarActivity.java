@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.aria.RetroFitClasses.EventsAPI;
 
 public class AddCalendarActivity extends AppCompatActivity {
 
@@ -21,21 +24,36 @@ public class AddCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_calendar);
 
-
+        String token = getIntent().getExtras().getString("token");
+        String date = getIntent().getExtras().getString("date");
+        //String user = getIntent().getExtras().getString("username");
         ImageButton btnClose = findViewById(R.id.btnClose);
         btnClose.setOnClickListener(view -> {
             Intent intent = new Intent(this, CalendarActivity.class);
 
             startActivity(intent);
         });
-
+        Spinner spinner = findViewById(R.id.alert);
         ImageButton btnDone = findViewById(R.id.btnDone);
         btnDone.setOnClickListener(view -> {
             Intent intent = new Intent(this, CalendarActivity.class);
+            EditText editTitle = findViewById(R.id.title);
+            TextView startView = findViewById(R.id.startsTextView);
+            TextView endView = findViewById(R.id.endsTextView);
+            EditText editDes = findViewById(R.id.des);
+            String a = (String) spinner.getSelectedItem();
+            System.out.println("alert");
+            System.out.println(a);
+            String title = editTitle.getText().toString();
+            String des = editDes.getText().toString();
+            String start = startView.getText().toString();
+            String end = endView.getText().toString();
+            EventsAPI eventsAPI = new EventsAPI();
+            eventsAPI.addEvent(token, title, des, start, end, a, date);
+            intent.putExtra("token", token);
             startActivity(intent);
         });
 
-        Spinner spinner = findViewById(R.id.alert);
         String[] items = {"None", "hour before", "day before"};
         ArrayAdapter<String> AlertAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         AlertAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

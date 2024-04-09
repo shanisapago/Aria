@@ -3,21 +3,23 @@ package com.example.aria.RetroFitClasses;
 import com.example.aria.Alert;
 
 public class NewEvent {
-    private String[] users;
+    private String token;
     private String title;
     private String description;
     private String start;
     private String end;
     private String date;
-    private Alert[] alert;
+    private String id;
+    private String alertString;
 
-    public NewEvent(String[] users, String title, String description, String start, String end, Alert[] alert, String date) {
-        this.users = users;
+    public NewEvent(String id, String token, String title, String description, String start, String end, String alertString, String date) {
+        this.token = token;
+        this.id = id;
         this.title = title;
         this.description = description;
         this.start = start;
         this.end = end;
-        this.alert = alert;
+        this.alertString = alertString;
         this.date = date;
     }
 
@@ -29,12 +31,12 @@ public class NewEvent {
         this.date = date;
     }
 
-    public String[] getUsername() {
-        return users;
+    public String getUsername() {
+        return token;
     }
 
-    public void setUsername(String[] users) {
-        this.users = users;
+    public void setUsername(String token) {
+        this.token = token;
     }
 
     public String getTitle() {
@@ -69,11 +71,15 @@ public class NewEvent {
         this.end = end;
     }
 
-    public Alert[] getAlert() {
-        return alert;
+    public String getAlert() {
+        return alertString;
     }
 
-    public void setAlert(Alert[] alert) {
-        this.alert = alert;
+    public void setAlert(String alertString) {
+        this.alertString = alertString;
+    }
+
+    public String getId() {
+        return id;
     }
 }
