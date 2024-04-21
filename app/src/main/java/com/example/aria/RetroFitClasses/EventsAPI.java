@@ -1,10 +1,8 @@
 package com.example.aria.RetroFitClasses;
 
 import com.example.aria.Alert;
-import com.example.aria.IdClass;
 import com.example.aria.JoinEvent;
 import com.google.gson.JsonObject;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,7 +17,7 @@ public class EventsAPI {
 
     public EventsAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.20.10.5:3000/")
+                .baseUrl("http://10.0.2.2:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -27,10 +25,10 @@ public class EventsAPI {
 
     public String addEvent(String token, String title, String description, String start, String end, String alertString, String date) {
         NewEvent event = new NewEvent("0", token, title, description, start, end, alertString, date);
-        Call<IdClass> call = webServiceAPI.addEvent(event);
+        Call<String> call = webServiceAPI.addEvent(event);
         Thread t=new Thread((() -> {
             try{
-                id=call.execute().body().getId();
+                id=call.execute().body().toString();
             }
             catch (Exception e){
             }

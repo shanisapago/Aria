@@ -1,11 +1,7 @@
 package com.example.aria.RetroFitClasses;
-import com.example.aria.IdClass;
 import com.example.aria.JoinEvent;
-import com.example.aria.UserPass;
 import com.google.gson.JsonObject;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -19,16 +15,19 @@ public interface WebServiceAPI {
 
 
         @POST("Users")
-        Call<Void> addUser(@Body User user);
+        Call<Void> addUser(@Body JsonObject user);
+
+        @PUT("Users/Phones")
+        Call<PhoneUsers> checkUser(@Body PhoneArray phones);
 
         @POST("Tokens")
-        Call<String> createPost(@Body UserPass user);
+        Call<String> createPost(@Body JsonObject user);
 
         @GET("Users")
         Call<List<NewEvent>> getEvents(@Header("authorization") String token);
 
         @POST("Events")
-        Call<IdClass> addEvent(@Body NewEvent event);
+        Call<String> addEvent(@Body NewEvent event);
 
         @POST("Events/Join")
         Call<Void> joinEvent(@Body JoinEvent event);
@@ -59,5 +58,14 @@ public interface WebServiceAPI {
 
         @DELETE("Events/{id}/{username}/DeleteById")
         Call<Void> deleteEventById(@Path("id") int id, @Path("username") String username);
+
+        @POST("Chats/AddChat")
+        Call<Void> addChat(@Body JsonObject jsonObject);
+
+        @POST("Chats/AddMessage")
+        Call<JsonObject> addMessage(@Body JsonObject jsonobject);
+
+        @DELETE("Chats/{id}/{token}")
+        Call<Void> deleteChat(@Path("id") int id, @Path("token") String token);
 
 }

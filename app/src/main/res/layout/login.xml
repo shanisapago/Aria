@@ -205,4 +205,27 @@
 
     </LinearLayout>
 
+
+    <Button
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:fontFamily="@font/cinzel"
+        android:shadowColor="@color/white"
+        android:shadowDx="4"
+        android:shadowDy="1.5"
+        android:shadowRadius="1"
+        android:text="send1"
+        android:textColor="@color/blueText"
+        android:textColorHighlight="@color/white"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.084"
+        app:strokeColor="@color/blueText"
+        app:strokeWidth="4px" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

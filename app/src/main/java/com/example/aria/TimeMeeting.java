@@ -1,8 +1,8 @@
 package com.example.aria;
 
 public class TimeMeeting {
-    private String dateMeeting; //date
-    private String timeMeeting; //hours and minutes
+    private String dateMeeting;
+    private String timeMeeting;
 
     public TimeMeeting(String dateMeeting, String timeMeeting) {
         this.timeMeeting = timeMeeting;
@@ -23,5 +23,13 @@ public class TimeMeeting {
 
     public void setTimeMeeting(String timeMeeting) {
         this.timeMeeting = timeMeeting;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        TimeMeeting obj1 = (TimeMeeting) obj;
+        return this.dateMeeting==obj1.dateMeeting&&this.timeMeeting==obj1.timeMeeting;
     }
 }

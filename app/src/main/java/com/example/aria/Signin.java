@@ -1,7 +1,5 @@
 package com.example.aria;
-
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,9 +7,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.aria.RetroFitClasses.UsersAPI;
 
 public class Signin extends AppCompatActivity {
@@ -21,7 +17,6 @@ public class Signin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin);
 
-        System.out.println("hiiiii");
         Button register = findViewById(R.id.buttonRegister);
         register.setOnClickListener(v->{
 
@@ -52,7 +47,6 @@ public class Signin extends AppCompatActivity {
                 confirmFlag=true;
             }
             if((phone.length()==10)&&(phone.charAt(0)=='0')&&(phone.charAt(1)=='5')){
-                //System.out.println("naama");
                 phoneFlag=true;
             }
             if(passFlag&&phoneFlag&&usernameFlag&&confirmFlag){
@@ -110,9 +104,5 @@ public class Signin extends AppCompatActivity {
             Intent i=new Intent(this, Login.class);
             startActivity(i);
         });
-
-
-        //Intent i=new Intent(this, Day.class);
-        //startActivity(i);
     }
 }
