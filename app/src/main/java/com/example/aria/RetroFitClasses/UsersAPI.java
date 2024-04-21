@@ -17,7 +17,7 @@ public class UsersAPI {
 
     public UsersAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.20.10.5:3000/")
+                .baseUrl("http://192.168.1.197:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);

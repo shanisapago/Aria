@@ -5,6 +5,9 @@ import com.example.aria.IdClass;
 import com.example.aria.JoinEvent;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,14 +22,15 @@ public class EventsAPI {
 
     public EventsAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.20.10.5:3000/")
+                .baseUrl("http://192.168.1.197:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
     public String addEvent(String token, String title, String description, String start, String end, String alertString, String date) {
-        NewEvent event = new NewEvent("0", token, title, description, start, end, alertString, date);
+        List<String>phoneNumbers=new ArrayList<>();
+        NewEvent event = new NewEvent("0", token, title, description, start, end, alertString, date,phoneNumbers);
         Call<IdClass> call = webServiceAPI.addEvent(event);
         Thread t=new Thread((() -> {
             try{
@@ -200,7 +204,29 @@ public class EventsAPI {
         catch (Exception e){
         }
     }
+    public void updateAriaResult(int id, String start,String end,String date) {
+        //ConvertToJSON s=new ConvertToJSON();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("start", start);
+        jsonObject.addProperty("end", end);
+        jsonObject.addProperty("date", date);
 
+        Call<Void> call = webServiceAPI.updateAriaResult(id, jsonObject);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                System.out.println("onResponse");
+                System.out.println(response);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("fail");
+                System.out.println(t);
+                System.out.println(call);
+            }
+        });
+    }
     public void deleteEventById(int id, String username) {
         //ConvertToJSON s=new ConvertToJSON();
         JsonObject jsonObject = new JsonObject();

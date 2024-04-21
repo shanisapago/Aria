@@ -32,9 +32,21 @@ public class Day extends AppCompatActivity {
         List<DayListItem> l=new ArrayList<>();
         UsersAPI usersAPI=new UsersAPI();
         List<NewEvent> events = usersAPI.getEvents(token);
+        System.out.println("check get events");
+
         if(events!=null) {
+
+
             for (int i = 0; i < events.size(); i++) {
+                System.out.println("event "+i);
+                for(int j=0;j<events.get(i).getPhoneNumbers().size();j++)
+                {
+                    System.out.println(events.get(i).getPhoneNumbers().get(j));
+                }
+
+
                 if (date.equals(events.get(i).getDate())) {
+
                     DayListItem d = new DayListItem(events.get(i).getId(), events.get(i).getStart(), events.get(i).getEnd(), events.get(i).getTitle(), events.get(i).getDescription(), events.get(i).getAlert());
                     l.add(d);
                 }

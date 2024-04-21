@@ -2,6 +2,8 @@ package com.example.aria.RetroFitClasses;
 
 import com.example.aria.Alert;
 
+import java.util.List;
+
 public class NewEvent {
     private String token;
     private String title;
@@ -11,8 +13,9 @@ public class NewEvent {
     private String date;
     private String id;
     private String alertString;
+    private List<String> phoneNumbers;
 
-    public NewEvent(String id, String token, String title, String description, String start, String end, String alertString, String date) {
+    public NewEvent(String id, String token, String title, String description, String start, String end, String alertString, String date,List<String>phoneNumbers) {
         this.token = token;
         this.id = id;
         this.title = title;
@@ -21,6 +24,15 @@ public class NewEvent {
         this.end = end;
         this.alertString = alertString;
         this.date = date;
+        this.phoneNumbers=phoneNumbers;
+    }
+
+    public List<String> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(List<String> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
     }
 
     public String getDate() {

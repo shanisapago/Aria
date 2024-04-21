@@ -24,4 +24,11 @@ public class TimeMeeting {
     public void setTimeMeeting(String timeMeeting) {
         this.timeMeeting = timeMeeting;
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        TimeMeeting obj1 = (TimeMeeting) obj;
+        return this.dateMeeting==obj1.dateMeeting&&this.timeMeeting==obj1.timeMeeting;
+    }
 }
