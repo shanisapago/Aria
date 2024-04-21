@@ -1,14 +1,14 @@
-package com.example.aria;
-
+package com.example.aria.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
+import com.example.aria.R;
+import com.example.aria.TimeMeeting;
 import java.util.List;
 
-public class meetingTimeAdapter extends BaseAdapter {
+public class MeetingTimeAdapter extends BaseAdapter {
 
     List<TimeMeeting> timeMeetingsList;
     private class ViewHolder{
@@ -17,7 +17,7 @@ public class meetingTimeAdapter extends BaseAdapter {
 
     }
 
-    public meetingTimeAdapter(List<TimeMeeting> timeMeetings) {
+    public MeetingTimeAdapter(List<TimeMeeting> timeMeetings) {
         this.timeMeetingsList=timeMeetings;
     }
 

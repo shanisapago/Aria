@@ -2,7 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
+        android:name=".RetroFitClasses.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -11,9 +24,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Aria"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Signin"
+            android:name=".PermissionRequestActivity"
+            android:exported="false"
+            android:label="@string/title_activity_permission_request"
+            android:theme="@style/Theme.Aria" />
+        <activity
+            android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,11 +44,31 @@
             android:name=".Day"
             android:exported="false" />
         <activity
+            android:name=".Signin"
+            android:exported="false" />
+        <activity
+            android:name=".AddAriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddCalendarActivity"
+            android:exported="false" />
+        <activity
             android:name=".Loading"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".CalendarActivity"
             android:exported="false" />
+        <activity
+            android:name=".EditEvent"
+            android:exported="false" />
+
+        <receiver android:name=".ReceiveSms"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".NotificationBroadcast"/>
     </application>
 
 </manifest>

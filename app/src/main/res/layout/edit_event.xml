@@ -13,11 +13,11 @@
         android:background="@color/lightBlue"
         android:orientation="horizontal">
         <ImageButton
-            android:id="@+id/btnClose"
+            android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/close"></ImageButton>
+            android:background="@drawable/btndelete"></ImageButton>
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -46,7 +46,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.05"></View>
+            android:layout_weight="0.1"></View>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -79,7 +79,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.05"></View>
+            android:layout_weight="0.1"></View>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -158,12 +158,72 @@
                 android:layout_weight="0.375"></View>
 
         </LinearLayout>
-
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.05"></View>
+            android:layout_weight="0.01"></View>
+
+
+        <LinearLayout
+            android:id="@+id/chooseDate"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.025"></View>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:text="Date"
+                android:textSize="27dp"
+                android:fontFamily="@font/poppins">
+
+            </TextView>
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@drawable/rectangle_field"
+                android:text="11/11/11"
+                android:textStyle="bold"
+                android:textSize="27dp"
+                android:gravity="center">
+
+            </TextView>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.375"></View>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timePicker"
+            android:visibility="gone"
+            android:orientation="horizontal">
+        <DatePicker
+            android:id="@+id/DatePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.01"></View>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.01"></View>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -201,7 +261,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.05"></View>
+            android:layout_weight="0.1"></View>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -213,7 +273,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.025"></View>
             <EditText
-                android:id="@+id/des"
+                android:id="@+id/description"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/rectangle_field"
@@ -234,83 +294,14 @@
                 android:layout_weight="0.025"></View>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.05"></View>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="members"
-                android:textSize="27dp"
-                android:layout_weight="0.05">
-            </TextView>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/rectangle_field"
-                android:layout_weight="0.5">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="0.5">
-
-                    <EditText
-                        android:id="@+id/phoneNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="phone number"
-                        android:textSize="20dp"
-                        android:fontFamily="@font/poppins"
-                        android:textColor="@color/gray">
-
-                    </EditText>
-
-                    <EditText
-                        android:id="@+id/name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="name"
-                        android:textSize="20dp"
-                        android:fontFamily="@font/poppins"
-                        android:textColor="@color/gray">
-
-                    </EditText>
-                </LinearLayout>
-                <ImageButton
-                    android:id="@+id/addMember"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/add"
-                    android:layout_gravity="center"
-                    android:visibility="visible"
-                    android:clickable="true"
-                    >
-
-                </ImageButton>
-            </LinearLayout>
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.056"></View>
-        <ListView
-            android:id="@+id/lstMembers"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.24">
-
-        </ListView>
+            android:layout_weight="0.1"></View>
 
     </LinearLayout>
 

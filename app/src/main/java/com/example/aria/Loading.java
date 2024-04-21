@@ -1,9 +1,8 @@
 package com.example.aria;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
@@ -27,20 +26,20 @@ public class Loading extends AppCompatActivity {
         point2.startAnimation(animation);
         point3.startAnimation(animation);
 
-        Intent i=new Intent(this, Day.class);
-        startActivity(i);
-       /* new android.os.Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                point2.startAnimation(animation);
+        String token = getIntent().getExtras().getString("token");
+
+        new CountDownTimer(5000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
             }
-        },600);
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                point3.startAnimation(animation);
+
+            public void onFinish() {
+                Intent i=new Intent(Loading.this, CalendarActivity.class);
+                i.putExtra("token", token);
+
+                startActivity(i);
             }
-        },1600);*/
+        }.start();
 
 
     }
