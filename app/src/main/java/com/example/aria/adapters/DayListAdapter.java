@@ -1,20 +1,12 @@
 package com.example.aria.adapters;
-
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.aria.DayListItem;
 import com.example.aria.R;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class DayListAdapter extends BaseAdapter {
 

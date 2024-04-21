@@ -57,6 +57,7 @@
                 android:layout_weight="0.025"></View>
 
             <EditText
+                android:id="@+id/titleAria"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/rectangle_field"
@@ -101,9 +102,7 @@
                 android:textColor="@color/gray"
                 android:textSize="30dp"
                 android:layout_weight="0.95"
-                android:maxLength="10"
-
-                >
+                android:maxLength="10">
 
             </EditText>
             <View
@@ -131,6 +130,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.025"></View>
             <EditText
+                android:id="@+id/desAria"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/rectangle_field"
@@ -173,7 +173,7 @@
 
             </TextView>
             <Spinner
-                android:id="@+id/alert"
+                android:id="@+id/alertAria"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.3"

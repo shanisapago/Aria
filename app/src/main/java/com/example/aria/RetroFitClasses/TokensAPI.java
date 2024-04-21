@@ -1,10 +1,11 @@
 package com.example.aria.RetroFitClasses;
-import com.example.aria.UserPass;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
 public class TokensAPI {
 
     private Retrofit retrofit;
@@ -16,16 +17,18 @@ public class TokensAPI {
                 .create();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.20.10.5:3000/")
+                .baseUrl("http://10.0.2.2:3000/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
     public String post(String username, String password) {
-        UserPass user=new UserPass(username, password);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("username", username);
+        jsonObject.addProperty("password", password);
 
-        Call<String> call = webServiceAPI.createPost(user);
+        Call<String> call = webServiceAPI.createPost(jsonObject);
         Thread t=new Thread((() -> {
             try{
                 token=call.execute().body();
