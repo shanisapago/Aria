@@ -1,7 +1,5 @@
 package com.example.aria;
 
-import com.example.aria.Alert;
-
 public class JoinEvent {
     private int id;
     private String[] users;

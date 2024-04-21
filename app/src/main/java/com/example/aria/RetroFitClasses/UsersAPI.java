@@ -1,7 +1,7 @@
 package com.example.aria.RetroFitClasses;
+import com.google.gson.JsonObject;
 
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -12,20 +12,23 @@ public class UsersAPI {
 
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
-    User user;
     List<NewEvent> events;
+    PhoneUsers pu;
 
     public UsersAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.197:3000/")
+                .baseUrl("http://10.0.2.2:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
     public void post(String username, String password, String phoneNumber) {
-        user=new User(username, password, phoneNumber);
-        Call<Void> call = webServiceAPI.addUser(user);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("username", username);
+        jsonObject.addProperty("password", password);
+        jsonObject.addProperty("phoneNumber", phoneNumber);
+        Call<Void> call = webServiceAPI.addUser(jsonObject);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -56,5 +59,23 @@ public class UsersAPI {
         catch (Exception e){
         }
         return events;
+    }
+
+    public PhoneUsers checkUser(PhoneArray phones) {
+        Call<PhoneUsers> call = webServiceAPI.checkUser(phones);
+        Thread t=new Thread((() -> {
+            try{
+                pu=call.execute().body();
+            }
+            catch (Exception e){
+            }
+        }));
+        t.start();
+        try {
+            t.join();
+        }
+        catch (Exception e){
+        }
+        return pu;
     }
 }

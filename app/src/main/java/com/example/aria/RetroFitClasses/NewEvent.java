@@ -1,9 +1,5 @@
 package com.example.aria.RetroFitClasses;
-
-import com.example.aria.Alert;
-
 import java.util.List;
-
 public class NewEvent {
     private String token;
     private String title;
