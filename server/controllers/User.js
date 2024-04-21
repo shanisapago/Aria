@@ -10,7 +10,7 @@ async function addUser(req,res){
 }
 
 async function getEvents (req,res){
-    //console.log("in controllers get events")
+    console.log("in controllers get events")
     //console.log(req)
     //console.log("////////////////////////////////////////////////////////")
     //console.log(req.params.id)
@@ -32,8 +32,20 @@ async function getEvents (req,res){
         res.end(JSON.stringify(result));
     }
 }
+async function userCheck(req, res) {
+    console.log("in controllers check user")
+    const result = await UserModel.checkUser(req.body.phones);
+    if (!result) {
+        res.status(409);
+    }
+    console.log("controller result")
+    console.log(result)
+    console.log(JSON.stringify(result))
+    res.end(JSON.stringify(result));
+}
 
 export{
     addUser,
-    getEvents
+    getEvents,
+    userCheck
 }
