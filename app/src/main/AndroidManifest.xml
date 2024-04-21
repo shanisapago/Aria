@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
-        android:usesCleartextTraffic="true"
         android:name=".RetroFitClasses.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,7 +24,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Aria"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".PermissionRequestActivity"
+            android:exported="false"
+            android:label="@string/title_activity_permission_request"
+            android:theme="@style/Theme.Aria" />
         <activity
             android:name=".Login"
             android:exported="true">
@@ -64,7 +69,6 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".NotificationBroadcast"/>
-
     </application>
 
 </manifest>

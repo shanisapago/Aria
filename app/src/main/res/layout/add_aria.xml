@@ -109,6 +109,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.025"></View>
+
         </LinearLayout>
         <TextView
             android:id="@+id/wrongPhoneNumber"
@@ -184,13 +185,58 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.375"></View>
+                android:layout_weight="0.35"></View>
+            <EditText
+                android:id="@+id/treatment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/rectangle_field"
+                android:hint="treatment"
+                android:fontFamily="@font/poppins"
+
+                android:textColor="@color/gray"
+                android:textSize="20dp"
+                android:layout_weight="0.5"
+                android:maxLength="10">
+
+            </EditText>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.025"></View>
 
         </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.05"></View>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:orientation="horizontal">
+        <Switch
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textOff="No"
+            android:textOn="Yes"/>
+        <EditText
+            android:id="@+id/treatmentTime"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:visibility="gone"
+            android:hint="time in seconds">
+
+        </EditText>
+    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"></View>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -230,30 +276,30 @@
 
 
 
-                    <TextView
-                        android:id="@+id/time"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="20dp"
-                        android:fontFamily="@font/poppins"
+                        <TextView
+                            android:id="@+id/time"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20dp"
+                            android:fontFamily="@font/poppins"
 
-                        android:text="time"
-                        >
+                            android:text="time"
+                            >
 
-                    </TextView>
+                        </TextView>
 
-                    <TextView
-                        android:id="@+id/date"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="20dp"
-                        android:fontFamily="@font/poppins"
+                        <TextView
+                            android:id="@+id/date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20dp"
+                            android:fontFamily="@font/poppins"
 
-                        android:text="date">
+                            android:text="date">
 
-                    </TextView>
+                        </TextView>
                         <ImageButton
                             android:id="@+id/addDate"
                             android:layout_width="wrap_content"

@@ -55,9 +55,17 @@ public interface WebServiceAPI {
 
         @PUT("Events/{id}/All")
         Call<Void> updateAll(@Path("id") int id, @Body JsonObject All);
+        @PUT("Events/{id}/AriaResult")
+        Call<Void> updateAriaResult(@Path("id") int id, @Body JsonObject AriaResult);
 
         @DELETE("Events/{id}/{username}/DeleteById")
         Call<Void> deleteEventById(@Path("id") int id, @Path("username") String username);
+        @POST("Chats/AddChat")
+        Call<Void> addChat(@Body JsonObject jsonObject);
+        @POST("Chats/AddMessage")
+        Call<JsonObject> addMessage(@Body JsonObject jsonobject);
+        @DELETE("Chats/{id}/{token}")
+        Call<Void> deleteChat(@Path("id") int id, @Path("token") String token);
 
         @POST("Chats/AddChat")
         Call<Void> addChat(@Body JsonObject jsonObject);

@@ -4,15 +4,18 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import androidx.annotation.NonNull;
@@ -76,6 +79,28 @@ public class AddAriaActivity extends AppCompatActivity {
         dateText.setText(str);
         timeText.setText(hour_string+":"+minutes_string);
 
+        Switch toggleButton=findViewById(R.id.toggleButton);
+        EditText treatmentTime=findViewById(R.id.treatmentTime);
+
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Toggle button is switched to "Yes"
+                    treatmentTime.setVisibility(View.VISIBLE);
+                } else {
+                    // Toggle button is switched to "No"
+                    treatmentTime.setText("");
+                    treatmentTime.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+
+
+        Spinner spinner = findViewById(R.id.alertAria);
+
         Spinner spinner = findViewById(R.id.alertAria);
 
         ImageButton btnClose=findViewById(R.id.btnClose);
@@ -98,6 +123,8 @@ public class AddAriaActivity extends AppCompatActivity {
                 }
                 if(flag==true)
                 {
+                    EditText treatment=findViewById(R.id.treatment);
+                    String treatmentStr=treatment.getText().toString();
                     EditText title = findViewById(R.id.titleAria);
                     EditText description = findViewById(R.id.desAria);
                     String titleStr = title.getText().toString();
@@ -105,16 +132,29 @@ public class AddAriaActivity extends AppCompatActivity {
                     Spinner alert = findViewById(R.id.alertAria);
                     String alertStr = (String) alert.getSelectedItem();
 
-                    msg = "hi, i need you to chat with me where you will be the client and i will represent a business.\n you need to talk only like the client.\n"
-                            +"when the conversion is over always finish with 'goodbye'\n"
-                            +"you want to set an appointment in one of the next dates:\n";
+                    msg = "I want you to act as you are client and want to set a ";
+                    msg=msg+treatmentStr+" in on of specific dates and time i will give you.\n"+
+                            "you start to chat with the service provider right now.\n"+
+                            "you need to chat and answer only like the client,don't answer me the service provider response, you will get it later\n"+
+                            "do not write 'Client:' in your response\n" +
+                            "for example, you can start the chat with the service provider like: 'Hello! I would like to schedule an appointment for a ";
+                    msg=msg+treatmentStr+" i'm available on ... at...'\n"+
+                            "you will provided the service provider's answer and your task is to set a ";
+                    msg=msg+treatmentStr+" in one of the next dates:\n";
+
                     for(int i=0;i<meetingTimeList.size();i++){
                         int j = i+1;
                         msg = msg + j + ". " + meetingTimeList.get(i).getDateMeeting() + " " + meetingTimeList.get(i).getTimeMeeting() + "\n";
                         System.out.println(meetingTimeList.get(i).getDateMeeting());
                         System.out.println(meetingTimeList.get(i).getTimeMeeting());
                     }
-                    msg = msg + "if none of this dates is available, tell me: 'thank you, i will think about it'\n and finish the conversion";
+                    msg = msg + " ensure you check with the service provider all of those dates.\n"
+
+                            +"If none of the above dates are available for the service provider,write \"Thank you, I will think about it. goodbye'\"\n" +
+                            "if you succeed to set the appointment, write \"thank you, i will come. goodbye\"\n"
+                            +"If the service provider give you options for a ";
+                    msg=msg+" time, make sure it is one of the above dates and time, if it is not, ask for the dates and time above\n";
+
                     System.out.println("msg");
                     System.out.println(msg);
                     String token = getIntent().getExtras().getString("token");
@@ -123,7 +163,7 @@ public class AddAriaActivity extends AppCompatActivity {
                     id = Integer.valueOf(idEvent);
 
                     phone = phoneNumber.getText().toString();
-                    callChatGptApi(msg);
+                    callChatGptApi(msg,"+972549409957");
                     Intent intent = new Intent(this, CalendarActivity.class);
                     intent.putExtra("token",token);
                     startActivity(intent);
@@ -157,9 +197,7 @@ public class AddAriaActivity extends AppCompatActivity {
         ListView lstTimeMeeting=findViewById(R.id.lstTimeMeeting);
         MeetingTimeAdapter adapter=new MeetingTimeAdapter(meetingTimeList);
         lstTimeMeeting.setAdapter(adapter);
-
-          ImageButton addDate = findViewById(R.id.addDate);
-
+        ImageButton addDate = findViewById(R.id.addDate);
         TimePicker time = findViewById(R.id.hourMin);
         DatePicker date = findViewById(R.id.DatePicker);
         time.setIs24HourView(true);
@@ -300,5 +338,102 @@ public class AddAriaActivity extends AppCompatActivity {
             }
         });
     }
-}
 
+    void callChatGptApi(String question,String sender){
+        JSONArray list_messages=new JSONArray();
+        JSONObject json_message=new JSONObject();
+
+
+        try {
+            json_message.put("role","user");
+            json_message.put("content",question);
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        list_messages.put(json_message);
+        JSONObject jsonBody=new JSONObject();
+        try{
+            jsonBody.put("model","gpt-3.5-turbo-16k");
+            //jsonBody.put("prompt",question);
+            jsonBody.put("messages",list_messages);
+            //jsonBody.put("max_tokens",4000);
+            //jsonBody.put("temperature",0);
+        }
+        catch (JSONException e){
+            System.out.println("shani");
+            e.printStackTrace();
+        }
+        RequestBody body=RequestBody.create(jsonBody.toString(),JSON);
+        Request request = new Request.Builder()
+                .url("https://api.openai.com/v1/chat/completions")
+                .header("Authorization","Bearer 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")
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                System.out.println("shani");
+                System.out.println("failed "+e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    JSONObject jsonObject=null;
+                    try{
+                        jsonObject=new JSONObject(response.body().string());
+                        JSONArray jsonArray=jsonObject.getJSONArray("choices");
+                        JSONObject json_array=jsonArray.getJSONObject(0);
+                        JSONObject json_msg=json_array.getJSONObject("message");
+                        String result=json_msg.getString("content");
+                        String response_chatgpt=result.trim();
+                        System.out.println(response_chatgpt);
+
+                        ChatsAPI chatsAPI = new ChatsAPI();
+                        String token = getIntent().getExtras().getString("token");
+
+                        LocalTime currentTime = null;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            currentTime = LocalTime.now();
+                        }
+
+                        // Extract hour and minute components
+                        int hour = 0;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            hour = currentTime.getHour();
+                        }
+                        int minute = 0;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            minute = currentTime.getMinute();
+                        }
+                        String hour_string = Integer.toString(hour);
+                        String minutes_string = Integer.toString(minute);
+                        if (hour < 10)
+                            hour_string = "0" + hour_string;
+                        if (minute < 10)
+                            minutes_string = "0" + minutes_string;
+                        String time = hour_string + ":" + minutes_string;
+
+                        chatsAPI.addChat(id, phone, time, msg, result.trim(), token);
+
+                        System.out.println("shani");
+                        System.out.println("result");
+                        //SmsManager smsManager = SmsManager.getDefault();
+                        //smsManager.sendTextMessage("+972549409957", null, response_chatgpt, null, null);
+                    }catch (JSONException e){
+                        System.out.println("shani");
+                        System.out.println("failed 3 "+e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    System.out.println("shani");
+                    System.out.println("failed 2 "+response.body().toString());
+                    System.out.println(response.body().string());
+                }
+
+            }
+        });
+    }
+}

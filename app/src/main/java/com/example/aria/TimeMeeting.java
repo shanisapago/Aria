@@ -24,7 +24,6 @@ public class TimeMeeting {
     public void setTimeMeeting(String timeMeeting) {
         this.timeMeeting = timeMeeting;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
