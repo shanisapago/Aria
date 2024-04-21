@@ -1,8 +1,8 @@
 package com.example.aria;
 
 public class TimeMeeting {
-    private String dateMeeting; //date
-    private String timeMeeting; //hours and minutes
+    private String dateMeeting;
+    private String timeMeeting;
 
     public TimeMeeting(String dateMeeting, String timeMeeting) {
         this.timeMeeting = timeMeeting;

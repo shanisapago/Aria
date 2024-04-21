@@ -1,14 +1,11 @@
 package com.example.aria;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.ImageButton;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -56,7 +53,5 @@ public class CalendarActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 }

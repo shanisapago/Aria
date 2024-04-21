@@ -1,7 +1,5 @@
 package com.example.aria;
 
-import android.util.SparseIntArray;
-
 public class DayListComparator implements java.util.Comparator<DayListItem> {
 
     @Override
