@@ -4,6 +4,7 @@ import http from 'http';
 import routerUser from './routes/User.js'
 import routerEvent from './routes/Event.js'
 import routerToken from './routes/Tokens.js'
+import routerChat from './routes/Chats.js'
 import cors from 'cors'
 //import { Server } from "socket.io";
 
@@ -14,6 +15,7 @@ console.log("in server")
 server.use('/Events', routerEvent);
 server.use('/Users', routerUser);
 server.use('/Tokens', routerToken);
+server.use('/Chats', routerChat);
 server.use(cors());
 server.listen(3000);
 

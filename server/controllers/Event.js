@@ -161,6 +161,20 @@ async function updateAll(req, res) {
     }
 
 }
+async function updateAriaResult(req, res) {
+    //const result = await EventModel.addEvent(req.params.id, req.headers.authorization.split(" ")[1], req.body.title, req.body.description, req.body.date, req.body.username, req.body.start, req.body.end, req.body.alert);
+    console.log("in controllers updateAll")
+    const result = await EventModel.updateAriaResult(req.params.id, req.body.start, req.body.end, req.body.date);
+    if (!result) {
+        res.status(401)
+        res.end();
+    }
+    else {
+
+        res.end();
+    }
+
+}
 
 
 
@@ -188,5 +202,6 @@ export{
     updateEnd,
     deleteEventById,
     updateAlert,
-    updateAll
+    updateAll,
+    updateAriaResult
 }

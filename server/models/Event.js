@@ -15,37 +15,15 @@ async function addEvent(title, description, date, token, start, end, alertString
             //console.log(username)
             const userArray = [username.username];
             const alertWuser = [{ alert: alertString, username: username.username }]
-            //console.log(alertWuser)
-            //console.log("2")
-            //const key = "secret key"
-            //const username = jwt.verify(token, key);
-            //const key = "secret key"
-            //const data = jwt.verify(token, key);
-            /*let event = await events.find({id:idNum}).toArray();
-            if (event.length == 1)  {
-
-                await events.updateOne(
-                    { id: idNum },
-                     {$push:{ users: username[0] } }
-                );
-                await events.updateOne(
-                    { id: idNum },
-                    { $push: { alert: alert[0] } }
-                );
-            }*/
-            //else{
             let event = await events.find({}).toArray();
             var eventPlace = parseInt(event.length);
             var eventId = eventPlace + 1;
-            //console.log("eventId")
-            //console.log(eventId)
-            //console.log(username[0])
-            //console.log(userArray[0].username)
-            await events.insertOne({ id: eventId, title: title, description: description, date: date, users: userArray, start: start, end: end, alert: alertWuser });
-            const id = {
-                id: eventId
-            }
-            return JSON.stringify(id);
+            var id = eventId.toString();
+            await events.insertOne({ id: eventId, title: title, description: description, date: date, users: userArray, start: start, end: end, alert: alertWuser, chat: "" });
+            //const id = {
+            //    id: eventId
+            // }
+            return id;
             //}
 
         }
@@ -195,6 +173,9 @@ async function updateDescription(id,description ) {
     }
 }
 async function updateDate(id, date) {
+    console.log("date")
+    console.log(date)
+
     var idNum = parseInt(id);
     const client = new MongoClient("mongodb://127.0.0.1:27017");
     try {
@@ -311,12 +292,12 @@ async function updateAlert(id, token, alert) {
         try {
             const key = "secret key"
             const username = jwt.verify(token, key);
-            console.log(idNum)
+            
             let event = await events.find({ id: idNum }).toArray();
             if (event.length == 1) {
                 console.log("there is a event in this id")
                 await events.updateOne(
-                    { "id": idNum, "alert.username": username },
+                    { "id": idNum, "alert.username": username.username },
                     {
                         $set: {
                             "alert.$.alert": alert
@@ -355,10 +336,20 @@ async function deleteEventById(id, token) {
         const db = client.db('Aria');
         const events = db.collection('Events');
         var event = await events.find({ id: idNum }).toArray()
+        const open_events = db.collection('OpenChats')
+        var open_event = await open_events.find({ id: idNum }).toArray()
         console.log(id)
         console.log("event len")
         console.log(event.length)
+        console.log(open_event.length)
         console.log(username)
+
+        if (open_event.length == 1) {
+            console.log("delete from open")
+            await open_events.deleteOne({ id: idNum })
+        }
+
+
         //there is event in this id
         if (event.length == 1) {
             console.log("find event")
@@ -374,12 +365,12 @@ async function deleteEventById(id, token) {
                 console.log(username)
                 await events.updateOne(
                     { "id": idNum },
-                    { $pull: { "users": username } }
+                    { $pull: { "users": username.username } }
                 )
 
                 await events.updateOne(
                     { "id": idNum },
-                    { $pull: { "alert": { "username": username } } }
+                    { $pull: { "alert": { "username": username.username } } }
                 )
 
                
@@ -408,6 +399,29 @@ async function updateAll(id, token, title, start, end, date, alert, description)
     updateEnd(id, end)
     updateAlert(id, token, alert)
 }
+async function updateAriaResult(id, start, end, date) {
+    const client = new MongoClient("mongodb://127.0.0.1:27017");
+    try {
+        var idNum = parseInt(id);
+        const db = client.db('Aria');
+        const open_events = db.collection('OpenChats')
+        var open_event = await open_events.find({ id: idNum }).toArray()
+        console.log(open_event.length)
+        console.log(idNum)
+        console.log(id)
+        if (open_event.length == 1) {
+            console.log("delete from open")
+            await open_events.deleteOne({ id: idNum })
+        }
+        updateDate(id, date)
+        updateStart(id, start)
+        updateEnd(id, end)
+    }
+    finally {
+
+        await client.close();
+    }
+}
 
 export default {
     addEvent,
@@ -420,5 +434,6 @@ export default {
     updateEnd,
     deleteEventById,
     updateAlert,
-    updateAll
+    updateAll,
+    updateAriaResult
 }
