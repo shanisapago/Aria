@@ -2,13 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="whiteBackground">#99FFFFFF</color>
     <color name="blueText">#151374</color>
     <color name="lightBlue">#97CCE2</color>
     <color name="backgroung">#294C6AB8</color>
     <color name="gray">#7D7878</color>
     <color name="RedWarning">#ea0000</color>
-    <color name="grayRectangleField">#264c6ab8</color>
     <color name="btnDone">#9ECAE7</color>
     <color name="btnAddMembers">#BDDBED</color>
-    <color name="whiteBackground">#99FFFFFF</color>
+    <color name="grayRectangleField">#144C6AB8</color>
+    <color name="button">#809ECAE7</color>
+    <color name="invisible">#0097CCE2</color>
+    <color name="hint">#848383</color>
 </resources>

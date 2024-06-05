@@ -95,6 +95,9 @@ public class CalendarActivity extends AppCompatActivity {
                 if(month/10==0)
                     newMonth = "0".concat(String.valueOf(month));
                 date = (((newDay.concat("/")).concat(newMonth)).concat("/")).concat(String.valueOf(year));
+                intent.putExtra("year", String.valueOf(year));
+                intent.putExtra("month", String.valueOf(month));
+                intent.putExtra("day", String.valueOf(dayOfMonth));
                 intent.putExtra("token", token);
                 intent.putExtra("date", date);
                 intent.putExtra("username",username);

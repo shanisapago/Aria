@@ -30,7 +30,7 @@ public class EventsAPI {
         Call<String> call = webServiceAPI.addEvent(event);
         Thread t=new Thread((() -> {
             try{
-                id=call.execute().body().toString();
+                id=call.execute().body();
             }
             catch (Exception e){
             }

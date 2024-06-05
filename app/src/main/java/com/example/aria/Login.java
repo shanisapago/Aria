@@ -26,7 +26,7 @@ public class Login extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("shp", Context.MODE_PRIVATE);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.login2);
         TextView clickHere = findViewById(R.id.clickHereLogin);
         clickHere.setOnClickListener(v -> {
             Intent i = new Intent(this, Signin.class);
@@ -90,4 +90,5 @@ public class Login extends AppCompatActivity {
             }, 1000);
         }*/
 
-}
+
+    }
