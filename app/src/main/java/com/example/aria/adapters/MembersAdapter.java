@@ -3,6 +3,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.aria.MemberListItem;
 import com.example.aria.R;
@@ -14,6 +15,8 @@ public class MembersAdapter extends BaseAdapter {
         private class ViewHolder {
             TextView name;
             TextView phone;
+
+            ImageView minus;
         }
 
         public MembersAdapter(List<MemberListItem> membersList) {
@@ -43,6 +46,7 @@ public class MembersAdapter extends BaseAdapter {
                 com.example.aria.adapters.MembersAdapter.ViewHolder viewHolder=new com.example.aria.adapters.MembersAdapter.ViewHolder();
                 viewHolder.name=convertView.findViewById(R.id.name);
                 viewHolder.phone=convertView.findViewById(R.id.phone);
+                viewHolder.minus=convertView.findViewById(R.id.minus);
                 convertView.setTag(viewHolder);
             }
 

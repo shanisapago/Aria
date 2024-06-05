@@ -297,9 +297,6 @@ public class AddAriaActivity extends AppCompatActivity {
         });
 
     }
-
-
-
     void callChatGptApi(String question,String sender){
         JSONArray list_messages=new JSONArray();
         JSONObject json_message=new JSONObject();
