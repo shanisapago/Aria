@@ -27,10 +27,10 @@ public class EventsAPI {
     public String addEvent(String token, String title, String description, String start, String end, String alertString, String date) {
         List<String>phoneNumbers=new ArrayList<>();
         NewEvent event = new NewEvent("0", token, title, description, start, end, alertString, date,phoneNumbers);
-        Call<IdClass> call = webServiceAPI.addEvent(event);
+        Call<String> call = webServiceAPI.addEvent(event);
         Thread t=new Thread((() -> {
             try{
-                id=call.execute().body().toString();
+                id=call.execute().body();
             }
             catch (Exception e){
             }

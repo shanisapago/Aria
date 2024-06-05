@@ -2,15 +2,18 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/backgroung">
-
+        android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="10dp"
+    android:background="@color/invisible">
 
     <TextView
         android:id="@+id/time"
@@ -54,6 +57,7 @@
 
         </TextView>
     </LinearLayout>
+</LinearLayout>
 </LinearLayout>
 
     </RelativeLayout>

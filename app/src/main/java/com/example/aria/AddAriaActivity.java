@@ -101,8 +101,6 @@ public class AddAriaActivity extends AppCompatActivity {
 
         Spinner spinner = findViewById(R.id.alertAria);
 
-        Spinner spinner = findViewById(R.id.alertAria);
-
         ImageButton btnClose=findViewById(R.id.btnClose);
         btnClose.setOnClickListener(view->{
             Intent intent=new Intent(this,CalendarActivity.class);
@@ -259,84 +257,6 @@ public class AddAriaActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    void callChatGptApi(String question){
-        JSONArray list_messages=new JSONArray();
-        JSONObject json_message=new JSONObject();
-
-        try {
-            json_message.put("role","user");
-            json_message.put("content",question);
-
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        list_messages.put(json_message);
-        JSONObject jsonBody=new JSONObject();
-        try{
-            jsonBody.put("model","gpt-3.5-turbo-16k");
-            jsonBody.put("messages",list_messages);
-        }
-        catch (JSONException e){
-            e.printStackTrace();
-        }
-        RequestBody body=RequestBody.create(jsonBody.toString(),JSON);
-        Request request = new Request.Builder()
-                .url("https://api.openai.com/v1/chat/completions")
-                .header("Authorization","Bearer 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")
-                .post(body)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                System.out.println("failed "+e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.isSuccessful()){
-                    JSONObject jsonObject=null;
-                    try{
-                        jsonObject=new JSONObject(response.body().string());
-                        JSONArray jsonArray=jsonObject.getJSONArray("choices");
-                        JSONObject json_array=jsonArray.getJSONObject(0);
-                        JSONObject json_msg=json_array.getJSONObject("message");
-                        String result=json_msg.getString("content");
-                        System.out.println(result.trim());
-
-                        ChatsAPI chatsAPI = new ChatsAPI();
-                        String token = getIntent().getExtras().getString("token");
-
-                        LocalTime currentTime = null;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            currentTime = LocalTime.now();
-                        }
-
-                        int hour = 0;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            hour = currentTime.getHour();
-                        }
-                        int minute = 0;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            minute = currentTime.getMinute();
-                        }
-                        String time = hour + ":" + minute;
-
-                        chatsAPI.addChat(id, phone, time, msg, result.trim(), token);
-
-                    }catch (JSONException e){
-                        System.out.println("failed "+e.getMessage());
-                        e.printStackTrace();
-                    }
-                }
-                else{
-                    System.out.println("failed "+response.body().toString());
-                    System.out.println(response.body().string());
-                }
-
-            }
-        });
     }
 
     void callChatGptApi(String question,String sender){
