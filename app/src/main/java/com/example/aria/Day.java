@@ -2,10 +2,14 @@ package com.example.aria;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.aria.RetroFitClasses.NewEvent;
 import com.example.aria.RetroFitClasses.UsersAPI;
@@ -32,7 +36,6 @@ public class Day extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String username = getIntent().getExtras().getString("username");
         setContentView(R.layout.day2);
 
         String date = getIntent().getExtras().getString("date");
@@ -41,7 +44,15 @@ public class Day extends AppCompatActivity {
         calendarTitle = findViewById(R.id.calendar_title);
         ImageView prevWeekButton = findViewById(R.id.prev_week);
         ImageView nextWeekButton = findViewById(R.id.next_week);
+        ImageView backBtn = findViewById(R.id.back);
         String givenDate = date;
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         currentCalendar = Calendar.getInstance();
 
@@ -200,8 +211,6 @@ public class Day extends AppCompatActivity {
             }
             showEvents(chosenDate);
             dateView.setOnClickListener(v -> {
-                System.out.println("nssms");
-                System.out.println((String)dateView.getText());
                 updateCalendar(Integer.parseInt((String)dateView.getText()));
             });
         }
@@ -209,18 +218,17 @@ public class Day extends AppCompatActivity {
     private void showEvents(String date){
 
         String token = getIntent().getExtras().getString("token");
+        String username = getIntent().getExtras().getString("username");
         //String date = getIntent().getExtras().getString("date");
         dayList=findViewById(R.id.dayList);
         List<DayListItem> l=new ArrayList<>();
         UsersAPI usersAPI=new UsersAPI();
         List<NewEvent> events = usersAPI.getEvents(token);
-        System.out.println("check get events");
 
         if(events!=null) {
 
 
             for (int i = 0; i < events.size(); i++) {
-                System.out.println("event "+i);
                 //for(int j=0;j<events.get(i).getPhoneNumbers().size();j++)
                 //{
                 //    System.out.println(events.get(i).getPhoneNumbers().get(j));

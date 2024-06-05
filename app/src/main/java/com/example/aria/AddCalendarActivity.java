@@ -64,10 +64,7 @@ public class AddCalendarActivity extends AppCompatActivity {
         date = getIntent().getExtras().getString("date");
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(view -> {
-            Intent intent = new Intent(this, CalendarActivity.class);
-            intent.putExtra("token",token);
-            intent.putExtra("username",username);
-            startActivity(intent);
+            onBackPressed();
         });
         ImageButton btnAria = findViewById(R.id.btnAria);
         btnAria.setOnClickListener(view -> {

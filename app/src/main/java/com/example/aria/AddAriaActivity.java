@@ -65,6 +65,8 @@ public class AddAriaActivity extends AppCompatActivity {
         //header = (ViewGroup) inflater.inflate(R.layout.header, lstTimeMeeting, false);
 
 
+
+
         LayoutInflater inflater = getLayoutInflater();
         ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header, lstTimeMeeting, false);
         lstTimeMeeting.addHeaderView(header, null, false);
@@ -134,8 +136,7 @@ public class AddAriaActivity extends AppCompatActivity {
 
         ImageButton btnClose=findViewById(R.id.btnBack);
         btnClose.setOnClickListener(view->{
-            Intent intent=new Intent(this,CalendarActivity.class);
-            startActivity(intent);
+            onBackPressed();
         });
 
         ImageButton btnDone=findViewById(R.id.btnDone);
@@ -190,9 +191,10 @@ public class AddAriaActivity extends AppCompatActivity {
                     String idEvent = eventsAPI.addEvent(token, titleStr, descriptionStr, "00:01", "00:02", alertStr, "01/01/2024");
 
                     id = Integer.valueOf(idEvent);
+                    phone="+972"+phoneNumber.getText().toString();
 
-                    phone = phoneNumber.getText().toString();
-                    callChatGptApi(msg,"+972549409957");
+
+                    callChatGptApi(msg,phone);
                     Intent intent = new Intent(this, CalendarActivity.class);
                     intent.putExtra("token",token);
                     startActivity(intent);
