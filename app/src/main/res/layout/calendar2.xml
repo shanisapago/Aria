@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnExit"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleX="-1"
+                android:padding="16dp"
+
+                android:background="@drawable/exit">
+
+            </ImageButton>
+            <TextView
+                android:id="@+id/text"
+                android:layout_weight="0.25"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/inter"
+                android:text="Hello Naama \n good morning"
+                android:textColor="@color/blueText"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:shadowColor="#80000000"
+                android:shadowDx="2"
+                android:shadowDy="7"
+                android:shadowRadius="3"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.75"
+            android:background="@drawable/white_background"
+            android:backgroundTint="@color/whiteBackground"
+            android:orientation="vertical">
+
+            <CalendarView
+
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true"
+                android:layout_weight="0.95"
+                android:dateTextAppearance="@style/CalenderViewDateCustomText2"
+                android:firstDayOfWeek="1"
+                android:theme="@style/CalenderViewDateCustomText1"
+                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="0.05"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25">
+
+                </View>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/homebtngrey"
+                    android:layout_gravity="bottom">
+
+                </ImageButton>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.12">
+
+                </View>
+                <ImageButton
+                android:id="@+id/ariabtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ariabtn"
+                    android:layout_gravity="bottom">
+            </ImageButton>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.12">
+
+                </View>
+                <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/listbtn"
+                    android:layout_gravity="bottom">
+                </ImageButton>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25">
+
+                </View>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:layout_weight="0.007">
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

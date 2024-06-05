@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -31,44 +32,55 @@ import java.util.List;
 public class AddCalendarActivity extends AppCompatActivity {
 
     private EventsAPI eventsAPI = new EventsAPI();
-    private String title, des, token, start, end, a, date="";
+    private String username,title, des, token, start, end, a, date="";
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_calendar);
+        setContentView(R.layout.add_calendar2);
         List<MemberListItem> membersList = new ArrayList<>();
+        username=getIntent().getExtras().getString("username");
 
-        ListView lstMembers=findViewById(R.id.lstMembers);
-        MembersAdapter adapter=new MembersAdapter(membersList);
-        lstMembers.setAdapter(adapter);
-
-        ImageButton addMember = findViewById(R.id.addMember);
-        addMember.setOnClickListener(v -> {
-            EditText phone2=findViewById(R.id.phoneNumber);
-            EditText name2=findViewById(R.id.name);
-            MemberListItem m1=new MemberListItem(phone2.getText().toString(),name2.getText().toString());
-
-            if(!membersList.contains(m1)) {
-                membersList.add(m1);
-                adapter.notifyDataSetChanged();
-            }
-        });
+//        ListView lstMembers=findViewById(R.id.lstMembers);
+//        MembersAdapter adapter=new MembersAdapter(membersList);
+//        lstMembers.setAdapter(adapter);
+//
+//        ImageButton addMember = findViewById(R.id.addMember);
+//        addMember.setOnClickListener(v -> {
+//            EditText phone2=findViewById(R.id.phoneNumber);
+//            EditText name2=findViewById(R.id.name);
+//            MemberListItem m1=new MemberListItem(phone2.getText().toString(),name2.getText().toString());
+//
+//            if(!membersList.contains(m1)) {
+//                membersList.add(m1);
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
         createNotificationChannel();
         token = getIntent().getExtras().getString("token");
+
         date = getIntent().getExtras().getString("date");
-        ImageButton btnClose = findViewById(R.id.btnClose);
-        btnClose.setOnClickListener(view -> {
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(view -> {
             Intent intent = new Intent(this, CalendarActivity.class);
             intent.putExtra("token",token);
+            intent.putExtra("username",username);
+            startActivity(intent);
+        });
+        ImageButton btnAria = findViewById(R.id.btnAria);
+        btnAria.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AddAriaActivity.class);
+            intent.putExtra("token",token);
+            intent.putExtra("username",username);
             startActivity(intent);
         });
 
         Spinner spinner = findViewById(R.id.alert);
-        ImageButton btnDone = findViewById(R.id.btnDone);
+        Button btnDone = findViewById(R.id.btnDone);
         btnDone.setOnClickListener(view -> {
+            System.out.println("done btn");
             EditText editTitle = findViewById(R.id.title);
             TextView startView = findViewById(R.id.startsTextView);
             TextView endView = findViewById(R.id.endsTextView);
@@ -145,6 +157,7 @@ public class AddCalendarActivity extends AppCompatActivity {
 
                 eventsAPI.addEvent(token, title, des, start, end, a, date);
                 intent.putExtra("token", token);
+                intent.putExtra("username",username);
                 startActivity(intent);
             }
         });
@@ -293,6 +306,7 @@ public class AddCalendarActivity extends AppCompatActivity {
                 }
                 eventsAPI.addEvent(token, title, des, start, end, a, date);
                 intent.putExtra("token", token);
+                intent.putExtra("username",username);
                 startActivity(intent);
             } else {
                 // Permission is denied

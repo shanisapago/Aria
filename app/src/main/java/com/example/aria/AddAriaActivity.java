@@ -4,25 +4,25 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.telephony.SmsManager;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.aria.RetroFitClasses.ChatsAPI;
 import com.example.aria.RetroFitClasses.EventsAPI;
 import com.example.aria.adapters.MeetingTimeAdapter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +52,36 @@ public class AddAriaActivity extends AppCompatActivity {
         List<TimeMeeting> meetingTimeList=new ArrayList<>();
         EventsAPI eventsAPI = new EventsAPI();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_aria);
+        setContentView(R.layout.add_aria3);
+
+        String username = getIntent().getExtras().getString("username");
+
+        ListView lstTimeMeeting=findViewById(R.id.lstTimeMeeting);
+        MeetingTimeAdapter adapter=new MeetingTimeAdapter(meetingTimeList);
+        //MeetingTimeAdapter2 adapter=new MeetingTimeAdapter2(meetingTimeList);
+        //lstTimeMeeting.setLayoutManager(new LinearLayoutManager(this));
+
+        //LayoutInflater inflater = getLayoutInflater();
+        //header = (ViewGroup) inflater.inflate(R.layout.header, lstTimeMeeting, false);
+
+
+        LayoutInflater inflater = getLayoutInflater();
+        ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header, lstTimeMeeting, false);
+        lstTimeMeeting.addHeaderView(header, null, false);
+
+
+
+
+
+        lstTimeMeeting.setAdapter(adapter);
+
+        ImageButton btnhome=findViewById(R.id.btnhome);
+        btnhome.setOnClickListener(view->{
+            Intent intent=new Intent(this,CalendarActivity.class);
+            intent.putExtra("username",username);
+            startActivity(intent);
+        });
+
         SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy");
         String str = ft.format(new Date());
         LocalTime localTime = null;
@@ -74,12 +103,14 @@ public class AddAriaActivity extends AppCompatActivity {
         if(minute<10)
             minutes_string="0"+minutes_string;
 
-        TextView timeText=findViewById(R.id.time);
-        TextView dateText=findViewById(R.id.date);
+        TextView timeText=header.findViewById(R.id.time);
+        TextView dateText=header.findViewById(R.id.date);
         dateText.setText(str);
         timeText.setText(hour_string+":"+minutes_string);
 
-        Switch toggleButton=findViewById(R.id.toggleButton);
+
+
+        /*Switch toggleButton=findViewById(R.id.toggleButton);
         EditText treatmentTime=findViewById(R.id.treatmentTime);
 
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -95,13 +126,13 @@ public class AddAriaActivity extends AppCompatActivity {
                 }
             }
         });
+*/
 
 
+        Spinner spinner = header.findViewById(R.id.alertAria);
 
 
-        Spinner spinner = findViewById(R.id.alertAria);
-
-        ImageButton btnClose=findViewById(R.id.btnClose);
+        ImageButton btnClose=findViewById(R.id.btnBack);
         btnClose.setOnClickListener(view->{
             Intent intent=new Intent(this,CalendarActivity.class);
             startActivity(intent);
@@ -110,7 +141,7 @@ public class AddAriaActivity extends AppCompatActivity {
         ImageButton btnDone=findViewById(R.id.btnDone);
         btnDone.setOnClickListener(view->{
 
-            EditText phoneNumber=findViewById(R.id.phoneNumber);
+            EditText phoneNumber=header.findViewById(R.id.phoneNumber);
             boolean flag=true;
             if(phoneNumber.getText().length()==10) {
                 for(int i=0;i<phoneNumber.getText().length();i++)
@@ -121,13 +152,13 @@ public class AddAriaActivity extends AppCompatActivity {
                 }
                 if(flag==true)
                 {
-                    EditText treatment=findViewById(R.id.treatment);
+                    EditText treatment=header.findViewById(R.id.treatment);
                     String treatmentStr=treatment.getText().toString();
-                    EditText title = findViewById(R.id.titleAria);
-                    EditText description = findViewById(R.id.desAria);
+                    EditText title = header.findViewById(R.id.titleAria);
+                    EditText description = header.findViewById(R.id.desAria);
                     String titleStr = title.getText().toString();
                     String descriptionStr = description.getText().toString();
-                    Spinner alert = findViewById(R.id.alertAria);
+                    Spinner alert = header.findViewById(R.id.alertAria);
                     String alertStr = (String) alert.getSelectedItem();
 
                     msg = "I want you to act as you are client and want to set a ";
@@ -192,15 +223,23 @@ public class AddAriaActivity extends AppCompatActivity {
         AlertAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(AlertAdapter);
 
-        ListView lstTimeMeeting=findViewById(R.id.lstTimeMeeting);
-        MeetingTimeAdapter adapter=new MeetingTimeAdapter(meetingTimeList);
-        lstTimeMeeting.setAdapter(adapter);
-        ImageButton addDate = findViewById(R.id.addDate);
-        TimePicker time = findViewById(R.id.hourMin);
-        DatePicker date = findViewById(R.id.DatePicker);
+
+        //RecyclerView lstTimeMeeting=findViewById(R.id.lstTimeMeeting);
+//        MeetingTimeAdapter adapter=new MeetingTimeAdapter(meetingTimeList);
+//        //MeetingTimeAdapter2 adapter=new MeetingTimeAdapter2(meetingTimeList);
+//        //lstTimeMeeting.setLayoutManager(new LinearLayoutManager(this));
+//        lstTimeMeeting.setAdapter(adapter);
+//        //LayoutInflater inflater = getLayoutInflater();
+//        header = (ViewGroup) inflater.inflate(R.layout.header, lstTimeMeeting, false);
+//        lstTimeMeeting.addHeaderView(header, null, false);
+
+
+        ImageButton addDate = header.findViewById(R.id.addDate);
+        TimePicker time = header.findViewById(R.id.hourMin);
+        DatePicker date = header.findViewById(R.id.DatePicker);
         time.setIs24HourView(true);
-        LinearLayout chooseDate = findViewById(R.id.chooseDate);
-        LinearLayout timePicker = findViewById(R.id.timePicker);
+        LinearLayout chooseDate = header.findViewById(R.id.chooseDate);
+        LinearLayout timePicker = header.findViewById(R.id.timePicker);
         chooseDate.setOnClickListener(v -> {
             timePicker.setVisibility(View.VISIBLE);
         });
@@ -230,7 +269,7 @@ public class AddAriaActivity extends AppCompatActivity {
                     int month = monthOfYear+1;
                     String month_string=Integer.toString(month);
                     String day_string=Integer.toString(dayOfMonth);
-                    if(monthOfYear<10)
+                    if(month<10)
                     {
                         month_string="0"+month_string;
                     }
@@ -258,7 +297,6 @@ public class AddAriaActivity extends AppCompatActivity {
         });
 
     }
-
     void callChatGptApi(String question,String sender){
         JSONArray list_messages=new JSONArray();
         JSONObject json_message=new JSONObject();
@@ -355,5 +393,7 @@ public class AddAriaActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 }

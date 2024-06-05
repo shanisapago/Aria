@@ -27,6 +27,7 @@ public class Loading extends AppCompatActivity {
         point3.startAnimation(animation);
 
         String token = getIntent().getExtras().getString("token");
+        String username=getIntent().getExtras().getString("username");
 
         new CountDownTimer(5000, 1000) {
 
@@ -36,6 +37,7 @@ public class Loading extends AppCompatActivity {
             public void onFinish() {
                 Intent i=new Intent(Loading.this, CalendarActivity.class);
                 i.putExtra("token", token);
+                i.putExtra("username",username);
 
                 startActivity(i);
             }

@@ -32,6 +32,7 @@ public class Day extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String username = getIntent().getExtras().getString("username");
         setContentView(R.layout.day2);
 
         String date = getIntent().getExtras().getString("date");
@@ -240,6 +241,7 @@ public class Day extends AppCompatActivity {
         add.setOnClickListener(v->{
             Intent i=new Intent(this, AddCalendarActivity.class);
             i.putExtra("token", token);
+            i.putExtra("username",username);
             i.putExtra("date", date);
             startActivity(i);
         });
@@ -250,6 +252,7 @@ public class Day extends AppCompatActivity {
                 DayListItem clickedDay = l.get(position);
                 Intent i=new Intent(getApplicationContext(), EditEvent.class);
                 i.putExtra("token",token);
+                i.putExtra("username",username);
                 i.putExtra("id",clickedDay.getId());
                 i.putExtra("title",clickedDay.getTitle());
                 i.putExtra("start",clickedDay.getTime());

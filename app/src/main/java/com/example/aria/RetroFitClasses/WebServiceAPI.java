@@ -60,7 +60,6 @@ public interface WebServiceAPI {
 
         @DELETE("Events/{id}/{username}/DeleteById")
         Call<Void> deleteEventById(@Path("id") int id, @Path("username") String username);
-
         @POST("Chats/AddChat")
         Call<Void> addChat(@Body JsonObject jsonObject);
 

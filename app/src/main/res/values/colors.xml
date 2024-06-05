@@ -8,6 +8,8 @@
     <color name="backgroung">#294C6AB8</color>
     <color name="gray">#7D7878</color>
     <color name="RedWarning">#ea0000</color>
+    <color name="btnDone">#9ECAE7</color>
+    <color name="btnAddMembers">#BDDBED</color>
     <color name="grayRectangleField">#144C6AB8</color>
     <color name="button">#809ECAE7</color>
     <color name="invisible">#0097CCE2</color>

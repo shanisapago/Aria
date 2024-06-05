@@ -11,7 +11,7 @@
     </style>
 
     <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
-        <item name="android:textColor">@color/RedWarning</item>
+        <item name="android:textColor">@color/blueText</item>
         <item name="android:textSize">20dp</item>
     </style>
 </resources>

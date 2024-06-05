@@ -3,6 +3,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import com.example.aria.R;
 import com.example.aria.TimeMeeting;
@@ -14,6 +15,7 @@ public class MeetingTimeAdapter extends BaseAdapter {
     private class ViewHolder{
         TextView date;
         TextView time;
+        ImageButton minus;
 
     }
 
@@ -42,6 +44,7 @@ public class MeetingTimeAdapter extends BaseAdapter {
             ViewHolder viewHolder=new ViewHolder();
             viewHolder.date=convertView.findViewById(R.id.date);
             viewHolder.time=convertView.findViewById(R.id.time);
+            viewHolder.minus=convertView.findViewById(R.id.minus);
             convertView.setTag(viewHolder);
 
         }
@@ -50,6 +53,7 @@ public class MeetingTimeAdapter extends BaseAdapter {
             ViewHolder viewHolder=(ViewHolder) convertView.getTag();
             viewHolder.date.setText(p.getDateMeeting());
             viewHolder.time.setText(p.getTimeMeeting());
+
 
         return convertView;
     }

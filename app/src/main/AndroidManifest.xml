@@ -48,7 +48,8 @@
             android:exported="false" />
         <activity
             android:name=".AddAriaActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".AddCalendarActivity"
             android:exported="false" />
