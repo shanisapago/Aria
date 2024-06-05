@@ -21,6 +21,7 @@ public class Day extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.day);
         String token = getIntent().getExtras().getString("token");
+        String username = getIntent().getExtras().getString("username");
         String date = getIntent().getExtras().getString("date");
         dayList=findViewById(R.id.dayList);
         List<DayListItem> l=new ArrayList<>();
@@ -53,6 +54,7 @@ public class Day extends AppCompatActivity {
         add.setOnClickListener(v->{
             Intent i=new Intent(this, AddCalendarActivity.class);
             i.putExtra("token", token);
+            i.putExtra("username",username);
             i.putExtra("date", date);
             startActivity(i);
         });
@@ -63,6 +65,7 @@ public class Day extends AppCompatActivity {
                 DayListItem clickedDay = l.get(position);
                 Intent i=new Intent(getApplicationContext(), EditEvent.class);
                 i.putExtra("token",token);
+                i.putExtra("username",username);
                 i.putExtra("id",clickedDay.getId());
                 i.putExtra("title",clickedDay.getTitle());
                 i.putExtra("start",clickedDay.getTime());

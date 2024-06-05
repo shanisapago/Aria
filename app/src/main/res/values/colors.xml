@@ -8,4 +8,7 @@
     <color name="gray">#7D7878</color>
     <color name="RedWarning">#ea0000</color>
     <color name="grayRectangleField">#264c6ab8</color>
+    <color name="btnDone">#9ECAE7</color>
+    <color name="btnAddMembers">#BDDBED</color>
+    <color name="whiteBackground">#99FFFFFF</color>
 </resources>

@@ -43,6 +43,7 @@ public class Login extends AppCompatActivity {
             if (token != null) {
                 Intent i = new Intent(this, Loading.class);
                 i.putExtra("token", token);
+                i.putExtra("username",username.getText().toString());
                 SharedPreferences.Editor edit = sharedPreferences.edit();
                 edit.putString("token", token);
                 edit.apply();

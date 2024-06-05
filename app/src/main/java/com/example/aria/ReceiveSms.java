@@ -80,6 +80,8 @@ public class ReceiveSms extends BroadcastReceiver {
                     ChatsAPI chatsAPI = new ChatsAPI();
                     JsonObject result = chatsAPI.addMessage(sender, token, response_of_sms_json, hour_string + ":" + minutes_string); //before if....
                     String id = result.get("id").getAsString();
+                    System.out.println("idddd");
+                    System.out.println(id);
                     int id_int = Integer.parseInt(id);
                     if (id_int != -1) {
                     JsonElement array = result.get("array");
