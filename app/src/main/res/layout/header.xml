@@ -62,25 +62,48 @@
 
         <Spinner
             android:id="@+id/alertAria"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:paddingLeft="15dp"/>
+            android:paddingLeft="15dp"
+            android:layout_marginRight="30dp"/>
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/phoneNumber"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_field"
-        android:fontFamily="@font/poppins"
-        android:hint="Phone Number"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="30dp"
-        android:paddingLeft="10dp"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="26dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+972  "
+            android:fontFamily="@font/poppins"
+            android:gravity="right"
+            android:background="@drawable/rectangle_filed_left"
+            android:layout_gravity="top"
+            android:textSize="18sp"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="10dp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_filed_right"
+            android:fontFamily="@font/poppins"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="30dp"
+            android:paddingLeft="10dp"
+            android:maxLength="9"/>
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/treatment"
@@ -94,7 +117,8 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="30dp"
-        android:paddingLeft="10dp"/>
+        android:paddingLeft="10dp"
+        />
 
     <LinearLayout
         android:id="@+id/linearLayout2"

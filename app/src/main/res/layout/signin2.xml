@@ -219,16 +219,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.1"
-                android:paddingLeft="15dp">
+                android:paddingLeft="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.15"
+                    android:layout_height="wrap_content"
+                    android:text="+972"
+                    android:fontFamily="@font/poppins"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    android:textSize="14dp"
+                    android:layout_marginLeft="15dp"
+                    android:paddingBottom="30dp">
+                </TextView>
                 <EditText
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
                     android:importantForAutofill="no"
                     android:textColor="@color/black"
                     android:id="@+id/phoneSubmit"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="30dp"/>
 
             </LinearLayout>
