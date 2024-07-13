@@ -1,9 +1,5 @@
 import express from 'express';
-<<<<<<< HEAD
 import { addEvent, deleteByDate, updateTitle, updateDescription, updateDate, updateStart, updateEnd, joinEvent, updateAlert, deleteEventById, updateAll, updateAriaResult, checkPhones, delete_members_invitation, getMembersNotifications, addGoogleEvent, idGoogle, deleteGoogleEvent } from '../controllers/Event.js';
-=======
-import { addEvent, deleteByDate, updateTitle, updateDescription, updateDate, updateStart, updateEnd, joinEvent, updateAlert, deleteEventById, updateAll, updateAriaResult } from '../controllers/Event.js';
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 const router = express.Router();
 console.log("inRoutes events")
 router.post('/', addEvent);
