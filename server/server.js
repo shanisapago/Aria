@@ -5,10 +5,7 @@ import routerUser from './routes/User.js'
 import routerEvent from './routes/Event.js'
 import routerToken from './routes/Tokens.js'
 import routerChat from './routes/Chats.js'
-<<<<<<< HEAD
 import routerFirebase from './routes/Firebase.js'
-=======
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 import cors from 'cors'
 //import { Server } from "socket.io";
 
@@ -20,10 +17,7 @@ server.use('/Events', routerEvent);
 server.use('/Users', routerUser);
 server.use('/Tokens', routerToken);
 server.use('/Chats', routerChat);
-<<<<<<< HEAD
 server.use('/Firebase', routerFirebase);
-=======
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 server.use(cors());
 server.listen(3000);
 
