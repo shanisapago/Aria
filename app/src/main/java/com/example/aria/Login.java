@@ -5,6 +5,12 @@ import android.telephony.SmsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +33,15 @@ public class Login extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("shp", Context.MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login2);
+
+        TextView textView = findViewById(R.id.clickHereLogin);
+        String text = "Sign in";
+        SpannableString content = new SpannableString(text);
+        content.setSpan(new UnderlineSpan(), 0, text.length(), 0);
+        textView.setText(content);
+
+
+
         TextView clickHere = findViewById(R.id.clickHereLogin);
         clickHere.setOnClickListener(v -> {
             Intent i = new Intent(this, Signin.class);
@@ -56,8 +71,16 @@ public class Login extends AppCompatActivity {
 
                 startActivity(i);
             } else {
+                LinearLayout errorText = findViewById(R.id.error);
+                errorText.setVisibility(View.VISIBLE);
+                ImageView errorpass = findViewById(R.id.wrongPassword);
+                ImageView errorusername = findViewById(R.id.wrongUsername);
+
+                errorpass.setVisibility(View.VISIBLE);
+                errorusername.setVisibility(View.VISIBLE);
                 username.setText("");
                 password.setText("");
+                System.out.println("there is not user like this");
             }
         });
 
@@ -91,4 +114,4 @@ public class Login extends AppCompatActivity {
         }*/
 
 
-    }
+}

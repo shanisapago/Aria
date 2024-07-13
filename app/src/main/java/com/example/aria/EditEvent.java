@@ -1,11 +1,14 @@
 package com.example.aria;
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -14,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintSet;
+
 import com.example.aria.RetroFitClasses.EventsAPI;
 
 public class EditEvent extends AppCompatActivity {
@@ -22,7 +27,7 @@ public class EditEvent extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_event);
+        setContentView(R.layout.edit_event2);
 
         String token = getIntent().getExtras().getString("token");
         String id=getIntent().getExtras().getString("id");
@@ -35,11 +40,23 @@ public class EditEvent extends AppCompatActivity {
         EditText title_edittext=findViewById(R.id.title);
         TextView start_textview=findViewById(R.id.startsTextView);
         TextView end_textview=findViewById(R.id.endsTextView);
-        EditText description_edittext=findViewById(R.id.description);
+        EditText description_edittext=findViewById(R.id.des);
+        TextView date_textview = findViewById(R.id.date);
         title_edittext.setText(title);
         start_textview.setText(start);
         end_textview.setText(end);
         description_edittext.setText(description);
+        date_textview.setText(date_now);
+
+        String day=date_now.substring(0,2);
+        String month=date_now.substring(3,5);
+        String year=date_now.substring(6);
+        System.out.println("day");
+        System.out.println(date_now.substring(0,2));
+        System.out.println("month");
+        System.out.println(date_now.substring(3,5));
+        System.out.println("year");
+        System.out.println(date_now.substring(6));
 
         Spinner spinner = findViewById(R.id.alert);
         String[] items = {"None", "hour before", "day before"};
@@ -53,15 +70,29 @@ public class EditEvent extends AppCompatActivity {
             spinner.setSelection(2);
         }
 
-        DatePicker date = findViewById(R.id.DatePicker);
-        TextView dateText=findViewById(R.id.dateTextView);
-        dateText.setText(date_now);
-        LinearLayout chooseDate = findViewById(R.id.chooseDate);
-        LinearLayout timePicker = findViewById(R.id.timePicker);
-
-        chooseDate.setOnClickListener(v -> {
-            timePicker.setVisibility(View.VISIBLE);
+        date_textview.setOnClickListener(v -> {
+            DatePicker date = findViewById(R.id.DatePicker);
+            LinearLayout date_layout = findViewById(R.id.date_layout);
+            if(date.getVisibility()==View.GONE){
+                date.setVisibility(View.VISIBLE);
+                date_layout.setVisibility(View.VISIBLE);
+            }
+            else if(date.getVisibility()==View.VISIBLE){
+                date.setVisibility(View.GONE);
+                date_layout.setVisibility(View.GONE);
+            }
         });
+
+
+        DatePicker date = findViewById(R.id.DatePicker);
+        // TextView dateText=findViewById(R.id.dateTextView);
+        // dateText.setText(date_now);
+        // LinearLayout chooseDate = findViewById(R.id.chooseDate);
+        // LinearLayout timePicker = findViewById(R.id.timePicker);
+
+        //  chooseDate.setOnClickListener(v -> {
+        //      timePicker.setVisibility(View.VISIBLE);
+        //  });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             date.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
@@ -77,7 +108,7 @@ public class EditEvent extends AppCompatActivity {
                         newMonth = "0".concat(String.valueOf(month));
                     date = (((newDay.concat("/")).concat(newMonth)).concat("/")).concat(String.valueOf(year));
 
-                    dateText.setText(date);
+                    date_textview.setText(date);
                 }
             });
         }
@@ -132,17 +163,23 @@ public class EditEvent extends AppCompatActivity {
             eventsAPI.deleteEventById(Integer.parseInt(id),token);
             Intent i=new Intent(this,Day.class);
             i.putExtra("token",token);
-            i.putExtra("date",dateText.getText().toString());
+            i.putExtra("day",day);
+            i.putExtra("month",month);
+            i.putExtra("year",year);
+            i.putExtra("date",date_now);
             startActivity(i);
         });
 
-        ImageButton btnDone=findViewById(R.id.btnDone);
+        Button btnDone=findViewById(R.id.btnDone);
         btnDone.setOnClickListener(view->{
             EventsAPI eventsAPI=new EventsAPI();
-            eventsAPI.updateAll(Integer.parseInt(id),token,title_edittext.getText().toString(),start_textview.getText().toString(),end_textview.getText().toString(),dateText.getText().toString(),(String) spinner.getSelectedItem(),description_edittext.getText().toString());
+            eventsAPI.updateAll(Integer.parseInt(id),token,title_edittext.getText().toString(),start_textview.getText().toString(),end_textview.getText().toString(),date_textview.getText().toString(),(String) spinner.getSelectedItem(),description_edittext.getText().toString());
             Intent i=new Intent(this,Day.class);
             i.putExtra("token",token);
-            i.putExtra("date",dateText.getText().toString());
+            i.putExtra("day",day);
+            i.putExtra("month",month);
+            i.putExtra("year",year);
+            i.putExtra("date",date_now);
             startActivity(i);
         });
     }

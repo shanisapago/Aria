@@ -1,4 +1,5 @@
 package com.example.aria.RetroFitClasses;
+import com.example.aria.AriaEventsItems;
 import com.example.aria.JoinEvent;
 import com.google.gson.JsonObject;
 import java.util.List;
@@ -16,6 +17,8 @@ public interface WebServiceAPI {
 
         @POST("Users")
         Call<Void> addUser(@Body JsonObject user);
+        @GET("Users/CheckUsername")
+        Call<Void> checkUsername(@Header("username") String username);
 
         @PUT("Users/Phones")
         Call<PhoneUsers> checkUser(@Body PhoneArray phones);
@@ -27,10 +30,10 @@ public interface WebServiceAPI {
         Call<List<NewEvent>> getEvents(@Header("authorization") String token);
 
         @POST("Events")
-        Call<String> addEvent(@Body NewEvent event);
+        Call<String> addEvent(@Body NewAddEvent event);
 
         @POST("Events/Join")
-        Call<Void> joinEvent(@Body JoinEvent event);
+        Call<NewEvent2> joinEvent(@Body JoinEvent event);
 
         @PUT("Events/{id}/Title")
         Call<Void> updateTitle(@Path("id") int id, @Body JsonObject title);
@@ -69,4 +72,25 @@ public interface WebServiceAPI {
         @DELETE("Chats/{id}/{token}")
         Call<Void> deleteChat(@Path("id") int id, @Path("token") String token);
 
+        @POST("Events/AddGoogleEvent")
+        Call<Void> addGoogleEvent(@Body JsonObject idEvent);
+
+        @PUT("Events/GoogleEvent")
+        Call<String> idGoogle(@Body JsonObject idEvent);
+
+        @DELETE("Events/GoogleEvent/{id}/{username}")
+        Call<Void> deleteGoogle(@Path("id") int id, @Path("username") String username);
+
+        @DELETE("Events/{id}/{username}/DeleteInvitation")
+        Call<Void> deleteInvitation(@Path("id") int id, @Path("username") String username);
+        @GET("Events/getMembersNotifications")
+        Call<List<MembersNotificationsMsg>> getMembersNotifications(@Header("authorization") String token);
+        @POST("Events/checkPhones")
+        Call<List<PhoneUsers2>> checkPhones(@Body NewEvent event);
+
+        @POST("Firebase")
+        Call<Void> sendMessage(@Body JsonObject jsonObject);
+
+        @GET("Chats/GetAriaList")
+        Call<List<List<AriaEventsItems>>> getAriaList(@Header("authorization") String token);
 }

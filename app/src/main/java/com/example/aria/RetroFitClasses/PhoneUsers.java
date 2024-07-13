@@ -1,6 +1,7 @@
 package com.example.aria.RetroFitClasses;
 
 public class PhoneUsers {
+
     private String[] users;
     private String[] notUsers;
 

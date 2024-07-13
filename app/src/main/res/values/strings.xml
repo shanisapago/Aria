@@ -5,4 +5,5 @@
     <string name="not_registered">Not registered?</string>
     <string name="BaseUrl">http://10.0.2.2:3000/</string>
     <string name="title_activity_permission_request">PermissionRequestActivity</string>
+    <string name="title_activity_aria_list_events">AriaListEventsActivity</string>
 </resources>

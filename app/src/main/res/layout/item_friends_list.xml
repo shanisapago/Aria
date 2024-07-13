@@ -61,6 +61,16 @@
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/minus" />
+                <ImageView
+                    android:id="@+id/errorIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wrong"
+                    android:layout_marginRight="10dp"
+                    android:visibility="invisible"
+                    android:layout_gravity="center"
+                    >
+                </ImageView>
 
             </LinearLayout>
 

@@ -1,5 +1,9 @@
 package com.example.aria.RetroFitClasses;
+import com.example.aria.AriaEventsItems;
 import com.google.gson.JsonObject;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -9,10 +13,11 @@ public class ChatsAPI {
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
     JsonObject ja;
+    List<List<AriaEventsItems>> events;
 
     public ChatsAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl("http://192.168.1.197:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -77,5 +82,22 @@ public class ChatsAPI {
         catch (Exception e){
         }
         return ja;
+    }
+    public List<List<AriaEventsItems>> getAriaList(String username) {
+        Call<List<List<AriaEventsItems>>> call = webServiceAPI.getAriaList(username);
+        Thread t=new Thread((() -> {
+            try{
+                events=call.execute().body();
+            }
+            catch (Exception e){
+            }
+        }));
+        t.start();
+        try {
+            t.join();
+        }
+        catch (Exception e){
+        }
+        return events;
     }
 }

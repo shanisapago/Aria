@@ -14,13 +14,32 @@ public class UsersAPI {
     WebServiceAPI webServiceAPI;
     List<NewEvent> events;
     PhoneUsers pu;
+    private Boolean successful=false;
 
     public UsersAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl("http://192.168.1.197:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
+    }
+    public Boolean checkUsername(String username) {
+
+
+        Call<Void> call = webServiceAPI.checkUsername(username);
+        Thread t = new Thread((() -> {
+            try {
+                if(call.execute().code()==200)
+                    successful=true;
+            } catch (Exception e) {
+            }
+        }));
+        t.start();
+        try {
+            t.join();
+        } catch (Exception e) {
+        }
+        return successful;
     }
 
     public void post(String username, String password, String phoneNumber) {
@@ -33,6 +52,7 @@ public class UsersAPI {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 System.out.println("in response");
+
             }
 
             @Override
