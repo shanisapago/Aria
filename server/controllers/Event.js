@@ -216,24 +216,15 @@ async function updateAll(req, res) {
 async function updateAriaResult(req, res) {
     //const result = await EventModel.addEvent(req.params.id, req.headers.authorization.split(" ")[1], req.body.title, req.body.description, req.body.date, req.body.username, req.body.start, req.body.end, req.body.alert);
     console.log("in controllers updateAll")
-<<<<<<< HEAD
     const result = await EventModel.updateAriaResult(req.params.id, req.body.start, req.body.date,req.body.token);
     console.log(result)
-=======
-    const result = await EventModel.updateAriaResult(req.params.id, req.body.start, req.body.end, req.body.date);
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
     if (!result) {
         res.status(401)
         res.end();
     }
     else {
-<<<<<<< HEAD
         console.log(result)
         res.end(result);
-=======
-
-        res.end();
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
     }
 
 }
@@ -305,7 +296,6 @@ export{
     deleteEventById,
     updateAlert,
     updateAll,
-<<<<<<< HEAD
     updateAriaResult,
     checkPhones,
     delete_members_invitation,
@@ -313,7 +303,4 @@ export{
     addGoogleEvent,
     idGoogle,
     deleteGoogleEvent
-=======
-    updateAriaResult
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 }
