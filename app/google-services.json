@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "533546793651",
+    "project_id": "aria-69b15",
+    "storage_bucket": "aria-69b15.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533546793651:android:56638853dd43fbf46b8ec6",
+        "android_client_info": {
+          "package_name": "com.example.aria"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxcI6nshCL6ZrzFVLYJYkI0Q6U5vyIpls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

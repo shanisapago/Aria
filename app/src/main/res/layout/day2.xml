@@ -356,7 +356,6 @@
                 <ImageButton
                     android:id="@+id/btnhome"
                     android:layout_width="wrap_content"
-
                     android:layout_height="wrap_content"
                     android:background="@drawable/btnhome"
                     android:layout_gravity="bottom">
@@ -382,6 +381,7 @@
 
                 </View>
                 <ImageButton
+                    android:id="@+id/arialstbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/listbtn"

@@ -14,6 +14,7 @@ public class UsersAPI {
     WebServiceAPI webServiceAPI;
     List<NewEvent> events;
     PhoneUsers pu;
+    private Boolean successful=false;
 
     public UsersAPI() {
         retrofit = new Retrofit.Builder()
@@ -22,17 +23,39 @@ public class UsersAPI {
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
+    public Boolean checkUsername(String username) {
 
-    public void post(String username, String password, String phoneNumber) {
+
+        Call<Void> call = webServiceAPI.checkUsername(username);
+        Thread t = new Thread((() -> {
+            try {
+                if(call.execute().code()==200)
+                    successful=true;
+            } catch (Exception e) {
+            }
+        }));
+        t.start();
+        try {
+            t.join();
+        } catch (Exception e) {
+        }
+        return successful;
+    }
+
+    public void post(String username, String password, String phoneNumber, String token) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("username", username);
         jsonObject.addProperty("password", password);
         jsonObject.addProperty("phoneNumber", phoneNumber);
+        jsonObject.addProperty("token", token);
+        System.out.println("inUserAPI");
+        System.out.println(token);
         Call<Void> call = webServiceAPI.addUser(jsonObject);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 System.out.println("in response");
+
             }
 
             @Override
