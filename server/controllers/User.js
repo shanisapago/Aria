@@ -56,10 +56,6 @@ async function userCheck(req, res) {
 export{
     addUser,
     getEvents,
-<<<<<<< HEAD
     userCheck,
     checkUsername
-=======
-    userCheck
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 }
