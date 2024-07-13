@@ -1,9 +1,6 @@
 import { MongoClient } from 'mongodb';
 import jwt from 'jsonwebtoken';
-<<<<<<< HEAD
 import e from 'express';
-=======
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 async function addChat(id, phone, time, msg1, msg2, token) {
     console.log("in add chat");
     var idNum = parseInt(id);
@@ -59,11 +56,6 @@ async function deleteChat(id, token) {
         await client.close();
     }
 }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 async function addMessage(phone, token, message1, timemsg) {
     //var idNum=parseInt(id);
     console.log("in model add message")
@@ -83,31 +75,18 @@ async function addMessage(phone, token, message1, timemsg) {
             // const username="naama"
             console.log("username")
             console.log(username)
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
             let my_open_events = await openchats.find({ username: username.username }).toArray();
             console.log("before function")
             try {
                 let result;
                 for (const item of my_open_events) {
                     result = await item_function(item);
-<<<<<<< HEAD
                     if (result) { 
                         break; 
                     }
                 }
                 if(!result)
                 {
-=======
-                    if (result) {
-                        break;
-                    }
-                }
-                if (!result) {
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
                     const array = {
                         id: -1,
                         array: []
@@ -116,7 +95,6 @@ async function addMessage(phone, token, message1, timemsg) {
                     return JSON.stringify(array);
 
                 }
-<<<<<<< HEAD
                 else{
                 console.log("print the result");
                 console.log(result);
@@ -127,31 +105,11 @@ async function addMessage(phone, token, message1, timemsg) {
                 await client.close();
                 return JSON.stringify(array);
             }
-=======
-                else {
-                    console.log("print the result");
-                    console.log(result);
-                    const array = {
-                        id: result.id,
-                        array: result.chat
-                    }
-                    await client.close();
-                    return JSON.stringify(array);
-                }
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
             } catch (error) {
                 console.log("return");
                 await client.close();
                 return JSON.stringify("error");
             }
-
-<<<<<<< HEAD
-            
-            
-=======
-
-
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 
             async function item_function(item) {
                 console.log("in function")
@@ -182,30 +140,16 @@ async function addMessage(phone, token, message1, timemsg) {
                     let result = await events.findOne({ id: item.id });
                     let chat_result = result.chat.chat
                     console.log(JSON.stringify(chat_result))
-<<<<<<< HEAD
                     const final_result={
                         id:item.id,
                         chat:chat_result
-=======
-                    const final_result = {
-                        id: item.id,
-                        chat: chat_result
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
                     }
                     return (final_result);
 
                 }
-<<<<<<< HEAD
               
             }
 
-           
-=======
-
-            }
-
-
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 
         }
         catch (err) {
@@ -214,7 +158,6 @@ async function addMessage(phone, token, message1, timemsg) {
         }
     }
     finally {
-<<<<<<< HEAD
        //await client.close();
     }
 }
@@ -281,19 +224,12 @@ async function getOpenClosedLst(token) {
     }
     finally {
         await client.close();
-=======
-        //await client.close();
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
     }
 }
 
 export default {
     addMessage,
     addChat,
-<<<<<<< HEAD
     deleteChat,
     getOpenClosedLst
-=======
-    deleteChat
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 }
