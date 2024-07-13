@@ -9,10 +9,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="20dp"
-        android:fontFamily="@font/poppins"
 
-        android:text="date">
+        android:fontFamily="@font/poppins"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="30dp"
+        android:paddingLeft="10dp"
+        android:text="08/06/2024">
 
     </TextView>
     <TextView
@@ -20,10 +22,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="20dp"
+
         android:fontFamily="@font/poppins"
 
-        android:text="time"
+        android:text="00:00"
+        >
+
+    </TextView>
+    <TextView
+        android:id="@+id/time2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+
+        android:fontFamily="@font/poppins"
+
+        android:text="00:00"
         >
 
     </TextView>
@@ -35,6 +49,22 @@
         android:layout_marginTop="1dp">
 
     </ImageButton>
+    <ImageView
+        android:id="@+id/errorIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/wrong"
+        android:layout_marginRight="10dp"
+        android:visibility="invisible"
+
+        >
+    </ImageView>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25">
+
+    </View>
 
 
 

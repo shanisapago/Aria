@@ -7,6 +7,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.example.aria.RetroFitClasses.ChatsAPI;
+import com.example.aria.RetroFitClasses.EventsAPI;
+import com.example.aria.RetroFitClasses.NewEvent;
+
 public class Loading extends AppCompatActivity {
 
     TextView point1;
@@ -28,6 +32,16 @@ public class Loading extends AppCompatActivity {
 
         String token = getIntent().getExtras().getString("token");
         String username=getIntent().getExtras().getString("username");
+
+        EventsAPI eventsAPI = new EventsAPI();
+        NewEvent newEvent = eventsAPI.updateAriaResult(42,"11:30","08/08/2024",token);
+        System.out.println("New Event");
+        System.out.println(newEvent.getFlag());
+        System.out.println(newEvent.getTitle());
+        System.out.println(newEvent.getDescription());
+        System.out.println(newEvent.getEnd());
+        System.out.println(newEvent.getStart());
+
 
         new CountDownTimer(5000, 1000) {
 

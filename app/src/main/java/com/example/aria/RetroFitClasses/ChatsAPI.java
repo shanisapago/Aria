@@ -1,5 +1,9 @@
 package com.example.aria.RetroFitClasses;
+import com.example.aria.AriaEventsItems;
 import com.google.gson.JsonObject;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -9,6 +13,7 @@ public class ChatsAPI {
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
     JsonObject ja;
+    List<List<AriaEventsItems>>  events;
 
     public ChatsAPI() {
         retrofit = new Retrofit.Builder()
@@ -77,5 +82,23 @@ public class ChatsAPI {
         catch (Exception e){
         }
         return ja;
+    }
+
+    public List<List<AriaEventsItems>> getAriaList(String username) {
+        Call<List<List<AriaEventsItems>>> call = webServiceAPI.getAriaList(username);
+        Thread t=new Thread((() -> {
+            try{
+                events=call.execute().body();
+            }
+            catch (Exception e){
+            }
+        }));
+        t.start();
+        try {
+            t.join();
+        }
+        catch (Exception e){
+        }
+        return events;
     }
 }

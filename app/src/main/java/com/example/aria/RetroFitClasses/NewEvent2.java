@@ -1,8 +1,6 @@
 package com.example.aria.RetroFitClasses;
-import com.example.aria.MemberListItem;
-
 import java.util.List;
-public class NewEvent {
+public class NewEvent2 {
     private String token;
     private String title;
     private String description;
@@ -11,12 +9,9 @@ public class NewEvent {
     private String date;
     private String id;
     private String alertString;
-    private List<MemberListItem> phones;
-    //private List<String> appTokens
-    private String tok;
-    private String flag;
+    private List<String> phoneNumbers;
 
-    public NewEvent(String id, String token, String title, String description, String start, String end, String alertString, String date,List<MemberListItem>phones, String senderToken, String flag) {
+    public NewEvent2(String id, String token, String title, String description, String start, String end, String alertString, String date, List<String>phoneNumbers) {
         this.token = token;
         this.id = id;
         this.title = title;
@@ -25,17 +20,15 @@ public class NewEvent {
         this.end = end;
         this.alertString = alertString;
         this.date = date;
-        this.phones=phones;
-        this.tok = senderToken;
-        this.flag = flag;
+        this.phoneNumbers=phoneNumbers;
     }
 
-    public List<MemberListItem> getPhones() {
-        return phones;
+    public List<String> getPhoneNumbers() {
+        return phoneNumbers;
     }
 
-    public void setPhoneNumbers(List<MemberListItem> phones) {
-        this.phones = phones;
+    public void setPhoneNumbers(List<String> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
     }
 
     public String getDate() {
@@ -96,54 +89,5 @@ public class NewEvent {
 
     public String getId() {
         return id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getAlertString() {
-        return alertString;
-    }
-
-    public void setAlertString(String alertString) {
-        this.alertString = alertString;
-    }
-
-
-    public String getSenderToken() {
-        return this.tok;
-    }
-
-    public void setSenderToken(String senderToken) {
-        this.tok = senderToken;
-    }
-
-    public void setPhones(List<MemberListItem> phones) {
-        this.phones = phones;
-    }
-
-    public String getTok() {
-        return tok;
-    }
-
-    public void setTok(String tok) {
-        this.tok = tok;
-    }
-
-    public String getFlag() {
-        return flag;
-    }
-
-    public void setFlag(String flag) {
-        this.flag = flag;
     }
 }

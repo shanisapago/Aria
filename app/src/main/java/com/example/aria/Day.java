@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -52,6 +53,19 @@ public class Day extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
+        });
+
+
+        String token = getIntent().getExtras().getString("token");
+        String username = getIntent().getExtras().getString("username");
+
+        ImageButton btnAriaList=findViewById(R.id.arialstbtn);
+        btnAriaList.setOnClickListener(view->{
+
+            Intent intent=new Intent(this, AriaListEventsActivity.class);
+            intent.putExtra("username",username);
+            intent.putExtra("token",token);
+            startActivity(intent);
         });
 
         currentCalendar = Calendar.getInstance();
@@ -221,6 +235,8 @@ public class Day extends AppCompatActivity {
         String username = getIntent().getExtras().getString("username");
         //String date = getIntent().getExtras().getString("date");
         dayList=findViewById(R.id.dayList);
+        ImageView ariaBtn = findViewById(R.id.btnAria);
+        ImageView homeBtn = findViewById(R.id.btnhome);
         List<DayListItem> l=new ArrayList<>();
         UsersAPI usersAPI=new UsersAPI();
         List<NewEvent> events = usersAPI.getEvents(token);
@@ -253,6 +269,21 @@ public class Day extends AppCompatActivity {
             i.putExtra("date", date);
             startActivity(i);
         });
+
+        homeBtn.setOnClickListener(v ->  {
+                Intent intent=new Intent(this, CalendarActivity.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
+        });
+
+        ariaBtn.setOnClickListener(v ->  {
+                Intent intent = new Intent(this, AddAriaActivity.class);
+                intent.putExtra("token",token);
+                intent.putExtra("username",username);
+                startActivity(intent);
+        });
+
+
         ListView listview=findViewById(R.id.dayList);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

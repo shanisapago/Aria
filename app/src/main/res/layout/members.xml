@@ -55,18 +55,19 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/addBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     app:srcCompat="@drawable/add"
                     android:layout_marginRight="10dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.06"
+                android:layout_weight="0.05"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
+
 
                 <EditText
                     android:id="@+id/name"
@@ -77,42 +78,121 @@
                     android:paddingLeft="10dp"
                     android:fontFamily="@font/poppins"
                     android:textColor="@color/hint"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"
-                    android:layout_weight="0.95">
+                    android:layout_weight="0.95"
+                    android:layout_marginRight="11dp">
                 </EditText>
 
+                <ImageView
+                    android:id="@+id/wrongNameIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wrong"
+                    android:visibility="invisible"
+                    android:layout_gravity="center"
+
+                    >
+                </ImageView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/wrongName"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="50dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="enter a name"
+                    android:paddingLeft="15dp"
+                    android:gravity="center"
+                    android:textColor="@color/RedWarning">
+                </TextView>
             </LinearLayout>
 
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.02">
 
-            </LinearLayout>
+            </View>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.06"
+                android:layout_weight="0.05"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="+972  "
+                    android:fontFamily="@font/poppins"
+                    android:gravity="center"
+                    android:background="@drawable/rectangle_filed_left"
+                    android:layout_gravity="top"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:paddingLeft="10dp">
+                </TextView>
 
                 <EditText
                     android:id="@+id/phone"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/rectangle_field"
+                    android:background="@drawable/rectangle_filed_right"
                     android:hint="Phone Number"
                     android:paddingLeft="10dp"
                     android:fontFamily="@font/poppins"
                     android:textColor="@color/hint"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:layout_weight="0.95">
-                </EditText>
+                    android:layout_weight="0.95"
+                    android:layout_marginRight="10dp"/>
+
+                <ImageView
+                    android:id="@+id/wrongPhoneIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wrong"
+                    android:visibility="invisible"
+                    android:layout_gravity="center">
+                </ImageView>
+
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/wrongPhone"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="50dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="please check the phone format"
+                    android:paddingLeft="15dp"
+                    android:gravity="center"
+                    android:textColor="@color/RedWarning">
+                </TextView>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
+            </View>
 
             <View
                 android:layout_width="match_parent"
@@ -127,9 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.3"
-                android:gravity="center"
                 android:orientation="vertical"
-                android:paddingTop="15dp"
                 android:paddingLeft="15dp">
 
                 <ListView
@@ -146,7 +224,6 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <View
@@ -185,6 +262,7 @@
 
                 </View>
                 <ImageButton
+                    android:id="@+id/arialstbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/listbtn"
@@ -198,13 +276,13 @@
                 </View>
 
             </LinearLayout>
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="vertical"
                 android:layout_weight="0.007">
 
-            </LinearLayout>
+            </View>
         </LinearLayout>
 
     </LinearLayout>
@@ -230,6 +308,7 @@
 
 
                 <ImageView
+                    android:id="@+id/btnBack"
                     android:layout_width="30dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="15dp"
