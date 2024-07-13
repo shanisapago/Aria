@@ -134,13 +134,6 @@ async function getEvents(token) {
                         for (var j = 0; j < result[i].alert.length; j++) {
                             //console.log("in if")
                             if (result[i].alert[j].username == data.username) {
-<<<<<<< HEAD
-                                //console.log("in");
-                                //console.log(result[i].alert[j]);
-=======
-                                console.log("in");
-                                console.log(result[i].alert[j]);
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
                                 for (var k = 0; k < resultChat.length; k++) {
                                     if (resultChat[k].id == result[i].id) {
                                         flagChat = false;
@@ -228,10 +221,6 @@ async function checkUser(phones) {
 export default {
     addUser,
     getEvents,
-<<<<<<< HEAD
     checkUser,
     checkUsername
-=======
-    checkUser
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 }
