@@ -22,7 +22,6 @@ async function addEvent(title, description, date, token, start, end, alertString
             var eventPlace = parseInt(event.length);
             var eventId = eventPlace + 1;
             var id = eventId.toString();
-<<<<<<< HEAD
             await events.insertOne({ id: eventId, title: title, description: description, date: date, users: userArray, start: start, end: end, alert: alertWuser, chat: "" , flag: flag});
             //const id = {
             //    id: eventId
@@ -39,12 +38,6 @@ async function addEvent(title, description, date, token, start, end, alertString
             
             console.log("finish")
             console.log(id)
-=======
-            await events.insertOne({ id: eventId, title: title, description: description, date: date, users: userArray, start: start, end: end, alert: alertWuser, chat: "" });
-            //const id = {
-            //    id: eventId
-            // }
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
             return id;
             //}
 
@@ -601,10 +594,6 @@ async function deleteEventById(id, token) {
         const events = db.collection('Events');
         var event = await events.find({ id: idNum }).toArray()
         const open_events = db.collection('OpenChats')
-<<<<<<< HEAD
-        
-=======
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
         var open_event = await open_events.find({ id: idNum }).toArray()
         console.log(id)
         console.log("event len")
@@ -615,12 +604,7 @@ async function deleteEventById(id, token) {
         if (open_event.length == 1) {
             console.log("delete from open")
             await open_events.deleteOne({ id: idNum })
-<<<<<<< HEAD
-            
 
-
-=======
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
         }
 
 
@@ -673,7 +657,6 @@ async function updateAll(id, token, title, start, end, date, alert, description)
     updateEnd(id, end)
     updateAlert(id, token, alert)
 }
-<<<<<<< HEAD
 async function updateAriaResult(id, start, date,token) {
     const client = new MongoClient("mongodb://127.0.0.1:27017");
     try {
@@ -684,21 +667,12 @@ async function updateAriaResult(id, start, date,token) {
         const open_events = db.collection('OpenChats')
         const closed_events = db.collection('ClosedChats');
         const events = db.collection('Events')
-=======
-async function updateAriaResult(id, start, end, date) {
-    const client = new MongoClient("mongodb://127.0.0.1:27017");
-    try {
-        var idNum = parseInt(id);
-        const db = client.db('Aria');
-        const open_events = db.collection('OpenChats')
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
         var open_event = await open_events.find({ id: idNum }).toArray()
         console.log(open_event.length)
         console.log(idNum)
         console.log(id)
         if (open_event.length == 1) {
             console.log("delete from open")
-<<<<<<< HEAD
             await closed_events.insertOne({ id: idNum, username: username.username });
             await open_events.deleteOne({ id: idNum })
             
@@ -838,13 +812,6 @@ async function deleteGoogleEvent(id, token) {
         else {
             return false;
         }
-=======
-            await open_events.deleteOne({ id: idNum })
-        }
-        updateDate(id, date)
-        updateStart(id, start)
-        updateEnd(id, end)
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
     }
     finally {
 
@@ -864,7 +831,6 @@ export default {
     deleteEventById,
     updateAlert,
     updateAll,
-<<<<<<< HEAD
     updateAriaResult,
     checkPhones,
     delete_members_invitation,
@@ -873,7 +839,3 @@ export default {
     idGoogle,
     deleteGoogleEvent
 }
-=======
-    updateAriaResult
-}
->>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
