@@ -4,7 +4,7 @@ import EventModel from '../models/Event.js'
 async function addEvent(req, res) {
     //console.log("in controllers add event")
     //const result = await EventModel.addEvent(req.params.id, req.headers.authorization.split(" ")[1], req.body.title, req.body.description, req.body.date, req.body.username, req.body.start, req.body.end, req.body.alert);
-    const result = await EventModel.addEvent(req.body.title, req.body.description, req.body.date, req.body.token, req.body.start, req.body.end, req.body.alertString);
+    const result = await EventModel.addEvent(req.body.title, req.body.description, req.body.date, req.body.token, req.body.start, req.body.end, req.body.alertString, req.body.flag);
     if (!result) {
         res.status(401)
         res.end();
@@ -16,9 +16,61 @@ async function addEvent(req, res) {
     }
 
 }
+async function checkPhones(req, res) {
+    console.log("in controllers checkPhones")
+    //const result = await EventModel.addEvent(req.params.id, req.headers.authorization.split(" ")[1], req.body.title, req.body.description, req.body.date, req.body.username, req.body.start, req.body.end, req.body.alert);
+    const result = await EventModel.checkPhones(req.body.title, req.body.description, req.body.date, req.body.token, req.body.start, req.body.end, req.body.alertString, req.body.phones, req.body.tok, req.body.flag);
+    if (!result) {
+        res.status(401)
+        res.end();
+    }
+    else {
+        console.log("in else check phones")
+        console.log(JSON.stringify(result))
+        res.end(JSON.stringify(result));
+    }
 
-async function joinEvent(req,res){
+}
+async function getMembersNotifications(req, res) {
+    console.log("in controllers get members notifications")
+    //console.log(req)
+    //console.log("////////////////////////////////////////////////////////")
+    //console.log(req.params.id)
+    const result = await EventModel.getMembersNotifications(req.headers.authorization);
+    //console.log("result:")
+    //console.log(result)
+    //const result = await UserModel.getEvents(req.headers.authorization.split(" ")[1], req.params.id);
+    if (result == 0) {
+        console.log("return null")
+        res.status(401);
+        res.end();
+    }
+    else {
+
+        //res.end("shani");
+        //console.log("result:")
+        //console.log(result)
+        console.log("////////////////////////////////////////////////////////")
+        //console.log(JSON.stringify(result))
+        res.end(JSON.stringify(result));
+    }
+}
+async function delete_members_invitation(req, res) {
+    console.log("in delete controllers")
+    var id = req.params.id
+    console.log(id)
+    const resDelete = await EventModel.delete_members_invitation(id, req.params.username)
+    if (!resDelete)
+        res.status(404)
+    else
+        res.status(204)
+    res.end()
+}
+
+async function joinEvent(req, res) {
     console.log("in controllers join event")
+    console.log(req.body.users)
+    console.log(req.body.users[0])
     //const result = await EventModel.addEvent(req.params.id, req.headers.authorization.split(" ")[1], req.body.title, req.body.description, req.body.date, req.body.username, req.body.start, req.body.end, req.body.alert);
     const result = await EventModel.joinEvent(req.body.id, req.body.users, req.body.alert);
     if (!result) {
@@ -27,10 +79,10 @@ async function joinEvent(req,res){
     }
     else {
         //console.log("in else")
-        //console.log(result)
-        res.end();
+        console.log(result)
+        res.end(result);
     }
-    
+
 }
 
 async function deleteByDate(req,res){
@@ -164,14 +216,24 @@ async function updateAll(req, res) {
 async function updateAriaResult(req, res) {
     //const result = await EventModel.addEvent(req.params.id, req.headers.authorization.split(" ")[1], req.body.title, req.body.description, req.body.date, req.body.username, req.body.start, req.body.end, req.body.alert);
     console.log("in controllers updateAll")
+<<<<<<< HEAD
+    const result = await EventModel.updateAriaResult(req.params.id, req.body.start, req.body.date,req.body.token);
+    console.log(result)
+=======
     const result = await EventModel.updateAriaResult(req.params.id, req.body.start, req.body.end, req.body.date);
+>>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
     if (!result) {
         res.status(401)
         res.end();
     }
     else {
+<<<<<<< HEAD
+        console.log(result)
+        res.end(result);
+=======
 
         res.end();
+>>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
     }
 
 }
@@ -189,7 +251,47 @@ async function deleteEventById(req, res) {
     else
         res.status(204)
     res.end()
+
 }
+async function addGoogleEvent(req, res) {
+    //console.log("in controllers add event")
+    //const result = await EventModel.addEvent(req.params.id, req.headers.authorization.split(" ")[1], req.body.title, req.body.description, req.body.date, req.body.username, req.body.start, req.body.end, req.body.alert);
+    const result = await EventModel.addGoogleEvent(req.body.idEvent, req.body.idGoogleEvent, req.body.token);
+    if (!result) {
+        res.status(401)
+        res.end();
+    }
+    else {
+        //console.log("in else")
+        //console.log(result)
+        res.end();
+    }
+
+}
+
+async function idGoogle(req, res) {
+    console.log("in controllers idGoogle")
+    const result = await EventModel.idGoogle(req.body.idEvent, req.body.token);
+    /*if (result == -1) {
+        //console.log("there is user in this username")
+        res.status(409);
+    }*/
+    res.end(result);
+}
+
+async function deleteGoogleEvent(req, res) {
+    console.log("in delete google event controllers")
+    var id = req.params.id
+    console.log(id)
+    const resDelete = await EventModel.deleteGoogleEvent(id, req.params.username)
+    if (!resDelete)
+        res.status(404)
+    else
+        res.status(204)
+    res.end()
+}
+
+
 
 export{
     addEvent,
@@ -203,5 +305,15 @@ export{
     deleteEventById,
     updateAlert,
     updateAll,
+<<<<<<< HEAD
+    updateAriaResult,
+    checkPhones,
+    delete_members_invitation,
+    getMembersNotifications,
+    addGoogleEvent,
+    idGoogle,
+    deleteGoogleEvent
+=======
     updateAriaResult
+>>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 }
