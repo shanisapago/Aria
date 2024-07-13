@@ -1,9 +1,18 @@
 import UserModel from '../models/User.js'
-
+async function checkUsername(req, res) {
+    console.log("in controllers check")
+    const result = await UserModel.checkUsername(req.headers.username);
+    if (!result) {
+        console.log("there is user in this username")
+        res.status(409);
+    }
+    res.end();
+}
 async function addUser(req,res){
     console.log("in controllers")
-    const result = await UserModel.addUser(req.body.username,req.body.password, req.body.phoneNumber);
-    if (!result){
+    const result = await UserModel.addUser(req.body.username,req.body.password, req.body.phoneNumber, req.body.token);
+    if (!result) {
+        console.log("there is user in this username")
         res.status(409);
     }
     res.end();
@@ -47,5 +56,10 @@ async function userCheck(req, res) {
 export{
     addUser,
     getEvents,
+<<<<<<< HEAD
+    userCheck,
+    checkUsername
+=======
     userCheck
+>>>>>>> 848f7af15d969dd6a2d6c7bb7d69ce781767d6bb
 }
