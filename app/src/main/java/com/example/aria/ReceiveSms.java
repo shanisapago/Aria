@@ -7,22 +7,30 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.aria.RetroFitClasses.ChatsAPI;
 import com.example.aria.RetroFitClasses.EventsAPI;
+import com.example.aria.RetroFitClasses.NewEvent;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -36,6 +44,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.TimeZone;
 
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -48,8 +57,9 @@ import okhttp3.Response;
 public class ReceiveSms extends BroadcastReceiver {
     OkHttpClient client = new OkHttpClient();
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 123;
+    private static final int PERMISSIONS_REQUEST_CODE_CALENDAR = 100;
     private static final int NOTIFICATION_ID = 1;
-    String sender;
+    String sender, token;
     String response_chatgpt;
 
 
@@ -59,7 +69,7 @@ public class ReceiveSms extends BroadcastReceiver {
         System.out.println("new sms");
         sendNotification(context, sender, "title");
         SharedPreferences sharedPreferences = context.getSharedPreferences("shp", Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", "");
+        token = sharedPreferences.getString("token", "");
         //System.out.println("token");
         //System.out.println(token);
         //System.out.println("New SMS");
@@ -223,7 +233,22 @@ public class ReceiveSms extends BroadcastReceiver {
 
 
                                                                 EventsAPI eventsAPI = new EventsAPI();
-                                                                eventsAPI.updateAriaResult(id_int,start_time,date,token);
+                                                                NewEvent ariaEvent = eventsAPI.updateAriaResult(id_int,start_time,date,token);
+                                                                if (ariaEvent.getFlag().equals("1")){
+                                                                    int h1 = Integer.parseInt(start_time.substring(0, start_time.indexOf(':')));
+                                                                    int m1 = Integer.parseInt(start_time.substring(start_time.indexOf(':') + 1, start_time.length()));
+                                                                    int h2 = Integer.parseInt(ariaEvent.getEnd().substring(0, ariaEvent.getEnd().indexOf(':')));
+                                                                    int m2 = Integer.parseInt(ariaEvent.getEnd().substring(ariaEvent.getEnd().indexOf(':') + 1, ariaEvent.getEnd().length()));
+                                                                    int index_first_slash2 = date.indexOf("/");
+                                                                    String day = date.substring(index_first_slash2 - 2, index_first_slash2);
+                                                                    String month = date.substring(index_first_slash2 + 1, index_first_slash2 + 3);
+                                                                    String year = date.substring(index_first_slash2 + 4, date.length());
+                                                                    int dayInt = Integer.valueOf(day);
+                                                                    int monthInt = Integer.valueOf(month);
+                                                                    int yearInt = Integer.valueOf(year);
+                                                                    monthInt = monthInt - 1;
+                                                                    addEventToCalendar(context, id, ariaEvent.getTitle(), ariaEvent.getDescription(), start_time, ariaEvent.getEnd(), monthInt, yearInt, dayInt, h1, m1, h2, m2);
+                                                                }
 
 
                                                             } else {
@@ -312,4 +337,71 @@ public class ReceiveSms extends BroadcastReceiver {
 
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
+    private void addEventToCalendar(Context context, String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2) {
+        // Check again if permissions are granted
+        System.out.println("add event");
+
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+            System.out.println("permission");
+            java.util.Calendar startCal = java.util.Calendar.getInstance();
+            startCal.set(yearInt, monthInt, dayInt, h1, m1); // Year, month, day, hour, minute
+            long startTime = startCal.getTimeInMillis();
+            int numH = h2 - h1;
+            int numM = m2 - m1;
+            int timeInM = (numH * 60) + numM;
+            long endTime = startTime + timeInM * 60 * 1000;
+
+
+            System.out.println(startTime);
+            System.out.println(endTime);
+            System.out.println(title);
+            System.out.println(des);
+            ContentResolver cr = context.getContentResolver();
+            ContentValues values = new ContentValues();
+            values.put(CalendarContract.Events.DTSTART, startTime);
+            values.put(CalendarContract.Events.DTEND, endTime);
+            values.put(CalendarContract.Events.TITLE, title);
+            values.put(CalendarContract.Events.DESCRIPTION, des);
+            values.put(CalendarContract.Events.CALENDAR_ID, getPrimaryCalendarId(context));
+            values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+
+            Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+            long googleID = Long.parseLong(uri.getLastPathSegment());
+
+            EventsAPI eventsAPI = new EventsAPI();
+            eventsAPI.addGoogleEvent(Integer.parseInt(id),(int)googleID,token);
+            //System.out.println("Event added with ID:" + eventID);
+            //Log.d("CalendarSync", "Event added with ID: " + eventID);
+        } else {
+            // Request permissions if not granted
+            System.out.println("no permission calendar");
+            //requestCalendarPermissions(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, date);
+        }
+    }
+    private long getPrimaryCalendarId(Context context) {
+        String[] projection = new String[]{
+                CalendarContract.Calendars._ID,
+                CalendarContract.Calendars.IS_PRIMARY
+        };
+
+        Cursor cursor = context.getContentResolver().query(
+                CalendarContract.Calendars.CONTENT_URI,
+                projection,
+                CalendarContract.Calendars.IS_PRIMARY + " = 1",
+                null,
+                null
+        );
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                long calendarId = cursor.getLong(0);
+                cursor.close();
+                return calendarId;
+            }
+            cursor.close();
+        }
+
+        return -1; // Default to invalid ID if primary calendar is not found
+    }
+
 }

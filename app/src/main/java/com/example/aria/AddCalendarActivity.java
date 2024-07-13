@@ -377,7 +377,8 @@ public class AddCalendarActivity extends AppCompatActivity {
                 //Intent intent = new Intent(this, CalendarActivity.class);
                 List <MemberListItem> list2 = null;
                 String empty = "";
-                List<PhoneUsers2> pu = eventsAPI.checkPhones(token, title, des, start, end, a, date, list2, empty);
+                List<PhoneUsers2> pu = eventsAPI.checkPhones(token, title, des, start, end, a, date, list2, empty, "0");
+                System.out.println(pu);
                 System.out.println("id event");
                 //System.out.println(id);
                 //intent.putExtra("token", token);
@@ -563,7 +564,7 @@ public class AddCalendarActivity extends AppCompatActivity {
                 }
                 List <MemberListItem> list2 = null;
                 String empty = "";
-                eventsAPI.checkPhones(token, title, des, start, end, a, date, list2, empty);
+                eventsAPI.checkPhones(token, title, des, start, end, a, date, list2, empty, "0");
                 intent.putExtra("token", token);
                 intent.putExtra("username",username);
                 startActivity(intent);
@@ -644,7 +645,7 @@ public class AddCalendarActivity extends AppCompatActivity {
             long googleID = Long.parseLong(uri.getLastPathSegment());
 
             EventsAPI eventsAPI = new EventsAPI();
-            //eventsAPI.addGoogleEvent(Integer.parseInt(id),(int)googleID,token);
+            eventsAPI.addGoogleEvent(Integer.parseInt(id),(int)googleID,token);
             //System.out.println("Event added with ID:" + eventID);
             //Log.d("CalendarSync", "Event added with ID: " + eventID);
         } else {

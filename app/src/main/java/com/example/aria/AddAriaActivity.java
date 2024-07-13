@@ -1,8 +1,12 @@
 package com.example.aria;
 import static java.lang.Character.isDigit;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +26,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.aria.RetroFitClasses.ChatsAPI;
 import com.example.aria.RetroFitClasses.EventsAPI;
@@ -48,7 +54,7 @@ import okhttp3.Response;
 
 public class AddAriaActivity extends AppCompatActivity {
     public static final MediaType JSON = MediaType.get("application/json");
-
+    private static final int PERMISSIONS_REQUEST_CODE_CALENDAR = 100;
     OkHttpClient client = new OkHttpClient();
     int id;
     String phone;
@@ -244,18 +250,20 @@ public class AddAriaActivity extends AppCompatActivity {
                     String token = getIntent().getExtras().getString("token");
                     System.out.println("token");
                     System.out.println(token);
-                    String idEvent = eventsAPI.addEvent(token, titleStr, descriptionStr, "00:01", endTime, alertStr, "01/01/2024");
-                    System.out.println(idEvent);
-                    id = Integer.valueOf(idEvent);
-                    phone="+972"+phoneNumber.getText().toString();
-                    System.out.println("phone");
-                    System.out.println(phone);
+                    //String idEvent = eventsAPI.addEvent(token, titleStr, descriptionStr, "00:01", endTime, alertStr, "01/01/2024", "0");
+                    //System.out.println(idEvent);
+                    //id = Integer.valueOf(idEvent);
+                    //phone="+972"+phoneNumber.getText().toString();
+                    //System.out.println("phone");
+                    //System.out.println(phone);
+
+                    showCustomPermissionDialog(token, titleStr, descriptionStr, "00:01", endTime, alertStr, "01/01/2024", phoneNumber.getText().toString());
 
 
-                    callChatGptApi(msg,phone);
-                    Intent intent = new Intent(this, CalendarActivity.class);
-                    intent.putExtra("token",token);
-                    startActivity(intent);
+//                    callChatGptApi(msg,phone);
+//                    Intent intent = new Intent(this, CalendarActivity.class);
+//                    intent.putExtra("token",token);
+//                    startActivity(intent);
                 }
                 else {
                     phoneNumber.setText("");
@@ -458,12 +466,12 @@ public class AddAriaActivity extends AppCompatActivity {
                     wrongTime.setText("duration time need to be in the range of the start and the end time");
                 }
                 else{
-                errorText.setVisibility(View.INVISIBLE);
+                    errorText.setVisibility(View.INVISIBLE);
 
-                if (!meetingTimeList.contains(t1)) {
-                    meetingTimeList.add(t1);
-                    adapter.notifyDataSetChanged();
-                }
+                    if (!meetingTimeList.contains(t1)) {
+                        meetingTimeList.add(t1);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
             else{
@@ -580,10 +588,83 @@ public class AddAriaActivity extends AppCompatActivity {
 
 
     }
+    private void showCustomPermissionDialog(String token, String titleStr, String descriptionStr, String start, String end, String alertStr, String date, String phoneNumber) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.mini_message, null);
+        builder.setView(dialogView);
+
+        final AlertDialog dialog = builder.create();
+
+        TextView tvTitle = dialogView.findViewById(R.id.tvTitle);
+        TextView tvMessage = dialogView.findViewById(R.id.tvMessage);
+        Button btnPositive = dialogView.findViewById(R.id.btnPositive);
+        Button btnNegative = dialogView.findViewById(R.id.btnNegative);
+        //Intent intent = new Intent(this, CalendarActivity.class);
+        //intent.putExtra("token", token);
+        //intent.putExtra("username", username);
+        phone="+972"+phoneNumber;
+        Intent intent = new Intent(this, CalendarActivity.class);
+        intent.putExtra("token",token);
+        EventsAPI eventsAPI = new EventsAPI();
+        btnPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle Allow button click
+                dialog.dismiss();
+                String idEvent = eventsAPI.addEvent(token, titleStr, descriptionStr, start, end, alertStr, date, "1");
+                id = Integer.valueOf(idEvent);
+                callChatGptApi(msg,phone);
+                if (ContextCompat.checkSelfPermission(v.getContext(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED){
+                    startActivity(intent);
+                }else {
+                    requestCalendarPermissions(token);
+                }
+                //startActivity(intent);
+                // Perform action to grant permission or proceed
+            }
+        });
+
+        btnNegative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle Deny button click
+                dialog.dismiss();
+                String idEvent = eventsAPI.addEvent(token, titleStr, descriptionStr, start, end, alertStr, date, "0");
+                id = Integer.valueOf(idEvent);
+                callChatGptApi(msg,phone);
+                startActivity(intent);
+                //startActivity(intent);
+                // Perform action to deny permission or exit
+            }
+        });
+        dialog.show();
+    }
     private static Duration parseDuration(String durationString) {
         String[] parts = durationString.split(":");
         int hours = Integer.parseInt(parts[0]);
         int minutes = Integer.parseInt(parts[1]);
         return Duration.ofHours(hours).plusMinutes(minutes);
+    }
+    private void requestCalendarPermissions(String token) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR},
+                    PERMISSIONS_REQUEST_CODE_CALENDAR);
+            Intent intent = new Intent(this, CalendarActivity.class);
+            intent.putExtra("token", token);
+            startActivity(intent);
+        }
+        else{
+            System.out.println("in");
+            Intent intent = new Intent(this, CalendarActivity.class);
+            intent.putExtra("token", token);
+            startActivity(intent);
+            //ContentResolver contentResolver = getContentResolver();
+            //deleteEvent(contentResolver,8);
+            //updateEventTime(8);
+        }
     }
 }

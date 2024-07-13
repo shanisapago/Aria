@@ -404,7 +404,7 @@
                 <ImageButton
                     android:id="@+id/btnhome"
                     android:layout_width="wrap_content"
-
+                    android:id="@+id/btnhome"
                     android:layout_height="wrap_content"
                     android:background="@drawable/btnhome"
                     android:layout_gravity="bottom">

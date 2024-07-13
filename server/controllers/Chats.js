@@ -18,7 +18,7 @@ async function addChat(req, res) {
 }
 async function deleteChat(req, res) {
     //console.log("in controllers add event")
-    const result = await ChatModel.deleteChat(req.params.id, req.params.token);
+    const result = await ChatModel.deleteChat(req.params.id,  req.params.token);
     if (!result) {
         res.status(401)
         res.end();
@@ -49,8 +49,32 @@ async function addMessage(req, res) {
     }
 
 }
+async function getOpenClosedLst(req, res) {
+    console.log("in controllers get events")
+    //console.log(req)
+    //console.log("////////////////////////////////////////////////////////")
+    //console.log(req.params.id)
+    const result = await ChatModel.getOpenClosedLst(req.headers.authorization);
+    //console.log("result:")
+    //console.log(result)
+    //const result = await UserModel.getEvents(req.headers.authorization.split(" ")[1], req.params.id);
+    if (result == 0) {
+        res.status(401);
+        res.end();
+    }
+    else {
+
+        //res.end("shani");
+        //console.log("result:")
+        //console.log(result)
+        //console.log("////////////////////////////////////////////////////////")
+        //console.log(JSON.stringify(result))
+        res.end(JSON.stringify(result));
+    }
+}
 export {
     addMessage,
     addChat,
-    deleteChat
+    deleteChat,
+    getOpenClosedLst
 }

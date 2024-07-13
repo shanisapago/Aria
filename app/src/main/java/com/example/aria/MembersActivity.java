@@ -61,15 +61,15 @@ public class MembersActivity extends AppCompatActivity {
         lstMembers.setAdapter(members_adapter);
         lstMembers.setAdapter(members_adapter);
 
-        String token = getIntent().getExtras().getString("token");
+        token = getIntent().getExtras().getString("token");
         System.out.println("token");
         System.out.println(token);
-        String username = getIntent().getExtras().getString("username");
+        username = getIntent().getExtras().getString("username");
         String title = getIntent().getExtras().getString("title");
         String description = getIntent().getExtras().getString("description");
         String start = getIntent().getExtras().getString("start");
         String end = getIntent().getExtras().getString("end");
-        String date = getIntent().getExtras().getString("date");
+        date = getIntent().getExtras().getString("date");
         String alert = getIntent().getExtras().getString("alert");
         int monthInt = getIntent().getExtras().getInt("monthInt");
         int dayInt = getIntent().getExtras().getInt("dayInt");
@@ -88,6 +88,8 @@ public class MembersActivity extends AppCompatActivity {
 
         ImageView addBtn=findViewById(R.id.addBtn);
         addBtn.setOnClickListener(view->{
+            EditText phone = findViewById(R.id.phone);
+            EditText name = findViewById(R.id.name);
             System.out.println("click");
             boolean flagP=true;
             boolean flagN=true;
@@ -127,8 +129,6 @@ public class MembersActivity extends AppCompatActivity {
                 errorName.setVisibility(View.INVISIBLE);
             }
             if(flagP && flagN) {
-                EditText phone = findViewById(R.id.phone);
-                EditText name = findViewById(R.id.name);
                 String phoneString = phone.getText().toString();
                 String nameString = name.getText().toString();
                 MemberListItem member = new MemberListItem(phoneString, nameString);
@@ -139,6 +139,8 @@ public class MembersActivity extends AppCompatActivity {
                     //names.add(nameString);
                 }
             }
+            phone.setText("");
+            name.setText("");
         });
 
 
@@ -192,42 +194,43 @@ public class MembersActivity extends AppCompatActivity {
 
 
             EventsAPI eventsAPI=new EventsAPI();
-            //FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(MembersActivity.this, instanceIdResult -> {
-                String tok = "";
-                //String tok = instanceIdResult.getToken();
-                //System.out.println("phonesss");
-                //System.out.println(phones.size());
-                //for(int i=0;i<phones.size();i++){
-                //    System.out.println(phones.get(i));
-                //}
-                List<PhoneUsers2> pu=eventsAPI.checkPhones(token, title, description, start, end, alert, date, membersList, tok);
-                if (pu.get(0).getId().equals("-1")){
-                    System.out.println("-1");
-                    members_adapter.updateNotUsers(pu.get(0).getNotUsers());
-                    System.out.println("after");
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(MembersActivity.this, instanceIdResult -> {
+            //String tok = "";
+            String tok = instanceIdResult.getToken();
+            System.out.println("token shani");
+            System.out.println(tok);
+            //System.out.println("phonesss");
+            //System.out.println(phones.size());
+            //for(int i=0;i<phones.size();i++){
+            //    System.out.println(phones.get(i));
+            //}
+            List<PhoneUsers2> pu=eventsAPI.checkPhones(token, title, description, start, end, alert, date, membersList, tok, "0");
+            if (pu.get(0).getId().equals("-1")){
+                System.out.println("-1");
+                members_adapter.updateNotUsers(pu.get(0).getNotUsers());
+                System.out.println("after");
+            }
+            else{
+                System.out.println("++++++++++++++++++++++++++++++++++");
+                System.out.println(h1);
+                System.out.println(m1);
+                System.out.println(h2);
+                System.out.println(m2);
+                System.out.println(yearInt);
+                System.out.println(monthInt);
+                System.out.println(dayInt);
+                FirebaseAPI firebaseAPI = new FirebaseAPI();
+                for (int i=0; i<pu.size(); i++){
+                    String message = " you got new invitation from "+ pu.get(i).getSender();
+                    System.out.println("firebaseee");
+                    System.out.println(message);
+                    System.out.println(pu.get(i).getAppToken());
+                    firebaseAPI.sendMessage("new invitation!", message, pu.get(i).getAppToken());
                 }
-                else{
-                    System.out.println("++++++++++++++++++++++++++++++++++");
-                    System.out.println(h1);
-                    System.out.println(m1);
-                    System.out.println(h2);
-                    System.out.println(m2);
-                    System.out.println(yearInt);
-                    System.out.println(monthInt);
-                    System.out.println(dayInt);
-                    //FirebaseAPI firebaseAPI = new FirebaseAPI();
-                    for (int i=0; i<pu.size(); i++){
-                        String message = " you got new invitation from "+ pu.get(i).getSender();
-                        //firebaseAPI.sendMessage("new invitation!", message, pu.get(i).getAppToken());
-                    }
-                    showCustomPermissionDialog(pu.get(0).getId(), title, description, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, token);
-                    Intent intent=new Intent(this,CalendarActivity.class);
-                    intent.putExtra("token",token);
-                    intent.putExtra("username",username);
-                    startActivity(intent);
+                showCustomPermissionDialog(pu.get(0).getId(), title, description, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, token);
 
-                }
-            //});
+            }
+            });
         });
 
 

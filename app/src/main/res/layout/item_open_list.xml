@@ -7,37 +7,37 @@
 
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins"
-                    android:paddingLeft="15dp"
-                    android:text="Title"
-                    android:textSize="14dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:paddingLeft="15dp"
+            android:text="Title"
+            android:textSize="14dp"
+            android:textColor="@color/black"
+            android:textStyle="bold">
 
-                </TextView>
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="description"
-                    android:textSize="12dp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/poppins"
-                    android:paddingLeft="15dp">
+        </TextView>
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="description"
+            android:textSize="12dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
+            android:paddingLeft="15dp">
 
-                </TextView>
-            </LinearLayout>
+        </TextView>
+    </LinearLayout>
 
 
 

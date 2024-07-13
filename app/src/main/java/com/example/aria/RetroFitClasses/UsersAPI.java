@@ -18,7 +18,7 @@ public class UsersAPI {
 
     public UsersAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.197:3000/")
+                .baseUrl("http://10.0.2.2:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -42,11 +42,14 @@ public class UsersAPI {
         return successful;
     }
 
-    public void post(String username, String password, String phoneNumber) {
+    public void post(String username, String password, String phoneNumber, String token) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("username", username);
         jsonObject.addProperty("password", password);
         jsonObject.addProperty("phoneNumber", phoneNumber);
+        jsonObject.addProperty("token", token);
+        System.out.println("inUserAPI");
+        System.out.println(token);
         Call<Void> call = webServiceAPI.addUser(jsonObject);
         call.enqueue(new Callback<Void>() {
             @Override

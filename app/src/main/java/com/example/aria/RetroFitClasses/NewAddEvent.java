@@ -9,9 +9,10 @@ public class NewAddEvent {
     private String date;
     private String id;
     private String alertString;
+    private String flag;
 
 
-    public NewAddEvent(String id, String token, String title, String description, String start, String end, String alertString, String date) {
+    public NewAddEvent(String id, String token, String title, String description, String start, String end, String alertString, String date, String flag) {
         this.token = token;
         this.id = id;
         this.title = title;
@@ -20,6 +21,7 @@ public class NewAddEvent {
         this.end = end;
         this.alertString = alertString;
         this.date = date;
+        this.flag = flag;
     }
 
 
@@ -103,4 +105,11 @@ public class NewAddEvent {
         this.alertString = alertString;
     }
 
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
 }

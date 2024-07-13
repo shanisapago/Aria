@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.aria.RetroFitClasses.UsersAPI;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -75,12 +76,17 @@ public class Signin extends AppCompatActivity {
                 phoneFlag=true;
             }
             if(passFlag&&phoneFlag&&usernameFlag&&confirmFlag&&usernameUnique){
-
-                UsersAPI usersAPI=new UsersAPI();
-                usersAPI.post(username, password, phone);
+                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Signin.this, instanceIdResult -> {
+                    String newToken = "";
+                    newToken = instanceIdResult.getToken();
+                    System.out.println("the token");
+                    System.out.println(newToken);
+                    UsersAPI usersAPI=new UsersAPI();
+                    usersAPI.post(username, password, phone, newToken);
 //                if(code) {
-                Intent i = new Intent(this, Login.class);
-                startActivity(i);
+                    Intent i = new Intent(this, Login.class);
+                    startActivity(i);
+                });
 //                }
 //                else{
 //                    System.out.println("the username is not unique");
@@ -125,20 +131,35 @@ public class Signin extends AppCompatActivity {
                     errorIcon.setVisibility(View.INVISIBLE);
                     errorText.setVisibility(View.INVISIBLE);
                 }
-                if(usernameUnique==false || usernameFlag==false)
+                if(usernameFlag==false)
                 {
+                    System.out.println("not unique username");
+                    ImageView errorIcon = findViewById(R.id.wrongUsername);
+                    errorIcon.setVisibility(View.VISIBLE);
+                    LinearLayout errorText2 = findViewById(R.id.wrongUsername2);
+                    TextView usernameTextWrong=findViewById(R.id.usernameTextWrong);
+                    usernameTextWrong.setText("enter an username");
+                    errorText2.setVisibility(View.VISIBLE);
+
+                }
+                else if(usernameUnique==false){
                     System.out.println("not unique username");
                     ImageView errorIcon = findViewById(R.id.wrongUsername);
                     LinearLayout errorText = findViewById(R.id.wrongUsername2);
                     errorIcon.setVisibility(View.VISIBLE);
                     errorText.setVisibility(View.VISIBLE);
+                    TextView usernameTextWrong=findViewById(R.id.usernameTextWrong);
+                    usernameTextWrong.setText("your username already taken, enter new username");
+
                 }
-                else {
+                else
+                {
                     System.out.println("unique");
                     ImageView errorIcon = findViewById(R.id.wrongUsername);
                     LinearLayout errorText = findViewById(R.id.wrongUsername2);
                     errorIcon.setVisibility(View.INVISIBLE);
                     errorText.setVisibility(View.INVISIBLE);
+
                 }
 
 

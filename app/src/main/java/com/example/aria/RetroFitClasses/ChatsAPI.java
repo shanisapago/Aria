@@ -13,11 +13,11 @@ public class ChatsAPI {
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
     JsonObject ja;
-    List<List<AriaEventsItems>> events;
+    List<List<AriaEventsItems>>  events;
 
     public ChatsAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.197:3000/")
+                .baseUrl("http://10.0.2.2:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -83,6 +83,7 @@ public class ChatsAPI {
         }
         return ja;
     }
+
     public List<List<AriaEventsItems>> getAriaList(String username) {
         Call<List<List<AriaEventsItems>>> call = webServiceAPI.getAriaList(username);
         Thread t=new Thread((() -> {

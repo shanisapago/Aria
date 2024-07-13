@@ -1,7 +1,27 @@
 import {MongoClient} from 'mongodb';
 import jwt from 'jsonwebtoken';
-async function addUser(username, password, phoneNumber) {
+async function checkUsername(username) {
+    console.log("in check username models")
+    const client = new MongoClient("mongodb://127.0.0.1:27017");
+    try {
+        const db = client.db('Aria');
+        const user = db.collection('User');
+        let result = await user.find({ username: username }).toArray();
+        if (result.length === 1) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    finally {
+        await client.close();
+    }
+    return true;
+}
+async function addUser(username, password, phoneNumber, token) {
     console.log("in add user models")
+    console.log(token)
     const client = new MongoClient("mongodb://127.0.0.1:27017");
     try {
         const db = client.db('Aria');
@@ -10,7 +30,7 @@ async function addUser(username, password, phoneNumber) {
         if(result.length===1){
             return false;
         }
-        await user.insertOne({ username : username, password : password, phoneNumber : phoneNumber});
+        await user.insertOne({ username : username, password : password, phoneNumber : phoneNumber, appToken : token});
     }
     finally {
         await client.close();
@@ -114,8 +134,6 @@ async function getEvents(token) {
                         for (var j = 0; j < result[i].alert.length; j++) {
                             //console.log("in if")
                             if (result[i].alert[j].username == data.username) {
-                                console.log("in");
-                                console.log(result[i].alert[j]);
                                 for (var k = 0; k < resultChat.length; k++) {
                                     if (resultChat[k].id == result[i].id) {
                                         flagChat = false;
@@ -203,5 +221,6 @@ async function checkUser(phones) {
 export default {
     addUser,
     getEvents,
-    checkUser
+    checkUser,
+    checkUsername
 }

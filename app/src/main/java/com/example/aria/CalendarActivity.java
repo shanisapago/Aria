@@ -1,25 +1,25 @@
 package com.example.aria;
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -29,94 +29,56 @@ import com.example.aria.RetroFitClasses.FirebaseAPI;
 import com.example.aria.RetroFitClasses.MembersNotificationsMsg;
 import com.example.aria.RetroFitClasses.NewEvent2;
 
-import java.text.DateFormatSymbols;
+import java.lang.reflect.Field;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.TimeZone;
 
-public class CalendarActivity extends AppCompatActivity implements CustomCalendarView.OnMonthChangedListener  {
-    private GridView dotsGridView;
-    private HashSet<Integer> eventDays;
-    private int currentMonth;
-    private int currentYear;
-    //String username;
+public class CalendarActivity extends AppCompatActivity {
+
     private static final int PERMISSIONS_REQUEST_CODE_CALENDAR = 100;
     private String username,title, des, token, start, end, a, date="";
-
-
     @SuppressLint({"ResourceAsColor", "ResourceType"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar2);
-        CustomCalendarView calendarView = findViewById(R.id.calendarView);
+        CalendarView calendarView = findViewById(R.id.calendarView);
 
-        calendarView.setOnMonthChangedListener(this);
+
 
         Calendar calendar = Calendar.getInstance();
         Date today = calendar.getTime();
         calendarView.setDate(today.getTime());
-        String token = getIntent().getExtras().getString("token");
-        System.out.println("token in calendar" );
-        System.out.println(token);
-
+        token = getIntent().getExtras().getString("token");
         username=getIntent().getExtras().getString("username");
-
-        EventsAPI events=new EventsAPI();
-        List<String> phones=new ArrayList<>();
-
-        phones.add("0549409953");
-
-        phones.add("0549409955");
-
-        //PhoneUsers2 pu=events.checkPhones(token,"ccc","ccc","12:50","14:20","None","09/02/03",phones);
-        //events.deleteInvitation(40,"naama");
-        System.out.println("pu");
-        //System.out.println(pu.getId());
-        //System.out.println(Arrays.toString(pu.getNotUsers()));
-        //List<MembersNotificationsMsg> mn= events.getMembersNotificationMsg(token);
-        //for(int i=0;i<mn.size();i++)
-        //{
-         //   System.out.println(mn.get(i).getId());
-          //  System.out.println(mn.get(i).getMessage());
-        //}
-
+        TextView txt=findViewById(R.id.text);
         EventsAPI eventsAPI=new EventsAPI();
         List<MembersNotificationsMsg> lstMembersNotifications=eventsAPI.getMembersNotificationMsg(token);
-        if (lstMembersNotifications != null) {
+        if (lstMembersNotifications != null)
+        {
             System.out.println("shaniiiiiiiiiiiiiiiiiiiiiiiffffff");
             System.out.println(lstMembersNotifications);
-            for (int i = 0; i < lstMembersNotifications.size(); i++) {
-                showCustomPermissionDialog(lstMembersNotifications.get(i).getMessage(), lstMembersNotifications.get(i).getId(), lstMembersNotifications.get(i).getTokenSender(), lstMembersNotifications.get(i).getTitle(), lstMembersNotifications.get(i).getName(),token);
-                //showCustomPermissionDialog(lstMembersNotifications.get(i).getMessage(), lstMembersNotifications.get(i).getId());
+            for(int i=0; i<lstMembersNotifications.size(); i++){
+                showCustomPermissionDialog(lstMembersNotifications.get(i).getMessage(), lstMembersNotifications.get(i).getId(), lstMembersNotifications.get(i).getTokenSender(), lstMembersNotifications.get(i).getTitle(), lstMembersNotifications.get(i).getName());
             }
         }
+        System.out.println("shaniiiiiiiiiiiiiiiiiiiiiii");
+        System.out.println(lstMembersNotifications);
+
+        ImageButton btnAriaList=findViewById(R.id.arialstbtn);
+        btnAriaList.setOnClickListener(view->{
+
+            Intent intent=new Intent(this, AriaListEventsActivity.class);
+            intent.putExtra("username",username);
+            intent.putExtra("token",token);
+            startActivity(intent);
+        });
 
 
-        dotsGridView = findViewById(R.id.dotsGridView);
-
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.set(Calendar.YEAR, 2024); // Set year to 2024
-        calendar2.set(Calendar.MONTH, Calendar.JUNE);
-
-        eventDays = new HashSet<>();
-        eventDays.add(10);
-        eventDays.add(15);
-//        eventDays.add(15);
-//        eventDays.add(20);
-
-        updateDotsGridView();
-
-
-
-
-
-
-        TextView txt=findViewById(R.id.text);
         String new_txt="Hello "+username+"\n good ";
         LocalTime localTime = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -154,15 +116,6 @@ public class CalendarActivity extends AppCompatActivity implements CustomCalenda
         btnAria.setOnClickListener(view->{
             Intent intent=new Intent(this, AddAriaActivity.class);
             intent.putExtra("username",username);
-            intent.putExtra("token",token);
-            startActivity(intent);
-        });
-        ImageButton btnAriaList=findViewById(R.id.arialstbtn);
-        btnAriaList.setOnClickListener(view->{
-
-            Intent intent=new Intent(this, AriaListEventsActivity.class);
-            intent.putExtra("username",username);
-            intent.putExtra("token",token);
             startActivity(intent);
         });
 
@@ -179,7 +132,6 @@ public class CalendarActivity extends AppCompatActivity implements CustomCalenda
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                System.out.println("on selected day change");
 
                 Intent intent=new Intent(CalendarActivity.this, Day.class);
                 String newDay = String.valueOf(dayOfMonth);
@@ -201,219 +153,200 @@ public class CalendarActivity extends AppCompatActivity implements CustomCalenda
             }
         });
     }
-    public void onMonthChanged(int newMonth, int newYear) {
-        System.out.println("in onMonthChanged");
-        String monthName = getMonthName(newMonth);
-        Toast.makeText(CalendarActivity.this, "Month changed to: " + monthName + " " + newYear, Toast.LENGTH_SHORT).show();
-    }
+    private void showCustomPermissionDialog(String msg, String id, String senderToken, String title, String name) {
+            System.out.println("in mini message");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.mini_message, null);
+            builder.setView(dialogView);
 
-    private String getMonthName(int month) {
-        System.out.println("int getMonthName");
-        return new DateFormatSymbols().getMonths()[month];
-    }
+            final AlertDialog dialog = builder.create();
 
-    private void updateDotsGridView() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, currentYear);
-        calendar.set(Calendar.MONTH, currentMonth);
-        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            TextView tvTitle = dialogView.findViewById(R.id.tvTitle);
+            TextView tvMessage = dialogView.findViewById(R.id.tvMessage);
+            tvTitle.setText("you have new invitation");
+            tvMessage.setText(msg);
+            Button btnPositive = dialogView.findViewById(R.id.btnPositive);
+            Button btnNegative = dialogView.findViewById(R.id.btnNegative);
+            FirebaseAPI firebaseAPI = new FirebaseAPI();
+            btnPositive.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Handle Allow button click
+                    dialog.dismiss();
+                    EventsAPI eventsAPI = new EventsAPI();
+                    String [] user = new String [1];
+                    user[0] = username;
+                    System.out.println(username);
+                    Alert [] alert = new Alert[1];
+                    alert[0] = new Alert(username, "None");
+                    String message = name + " has confirmed your invitation to "+ title;
+                    firebaseAPI.sendMessage("invitation confirmed!", message, senderToken);
+                    System.out.println("after request");
+                    NewEvent2 j=eventsAPI.joinEvent(Integer.parseInt(id), user, alert);
+                    int index_first_slash = j.getDate().indexOf("/");
+                    String day = j.getDate().substring(index_first_slash - 2, index_first_slash);
+                    String month = j.getDate().substring(index_first_slash + 1, index_first_slash + 3);
+                    String year = j.getDate().substring(index_first_slash + 4, j.getDate().length());
+                    int dayInt = Integer.valueOf(day);
+                    int monthInt = Integer.valueOf(month);
+                    int yearInt = Integer.valueOf(year);
 
-        DotsAdapter adapter = new DotsAdapter(this, eventDays, daysInMonth);
-        dotsGridView.setAdapter(adapter);
-    }
-    private void showCustomPermissionDialog(String msg, String id, String senderToken, String title, String name,String token) {
-        System.out.println("in mini message");
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.mini_message, null);
-        builder.setView(dialogView);
+                    int h1 = Integer.parseInt(j.getStart().substring(0, j.getStart().indexOf(':')));
+                    int m1 = Integer.parseInt(j.getStart().substring(j.getStart().indexOf(':') + 1, j.getStart().length()));
+                    int h2 = Integer.parseInt(j.getEnd().substring(0, j.getEnd().indexOf(':')));
+                    int m2 = Integer.parseInt(j.getEnd().substring(j.getEnd().indexOf(':') + 1, j.getEnd().length()));
 
-        final AlertDialog dialog = builder.create();
+                    //monthInt =- 1;
+                    monthInt = monthInt -1;
 
-        TextView tvTitle = dialogView.findViewById(R.id.tvTitle);
-        TextView tvMessage = dialogView.findViewById(R.id.tvMessage);
-        tvTitle.setText("you have new invitation");
-        tvMessage.setText(msg);
-        Button btnPositive = dialogView.findViewById(R.id.btnPositive);
-        Button btnNegative = dialogView.findViewById(R.id.btnNegative);
-        FirebaseAPI firebaseAPI = new FirebaseAPI();
-        btnPositive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle Allow button click
-                dialog.dismiss();
-                EventsAPI eventsAPI = new EventsAPI();
-                String [] user = new String [1];
-                user[0] = username;
-                System.out.println(username);
-                Alert [] alert = new Alert[1];
-                alert[0] = new Alert(username, "None");
-                //String message = name + " has confirmed your invitation to "+ title;
-                //firebaseAPI.sendMessage("invitation confirmed!", message, senderToken);
-                System.out.println("after request");
-                NewEvent2 j=eventsAPI.joinEvent(Integer.parseInt(id), user, alert);
-                int index_first_slash = j.getDate().indexOf("/");
-                String day = j.getDate().substring(index_first_slash - 2, index_first_slash);
-                String month = j.getDate().substring(index_first_slash + 1, index_first_slash + 3);
-                String year = j.getDate().substring(index_first_slash + 4, j.getDate().length());
-                int dayInt = Integer.valueOf(day);
-                int monthInt = Integer.valueOf(month);
-                int yearInt = Integer.valueOf(year);
+                    showCustomPermissionDialogCalendar(j.getId(),j.getTitle(),j.getDescription(),j.getStart(),j.getEnd(),monthInt,yearInt,dayInt,h1,m1,h2,m2,token);
+                    // Perform action to grant permission or proceed
+                    eventsAPI.deleteInvitation(Integer.parseInt(id), username);
+                }
+            });
 
-                int h1 = Integer.parseInt(j.getStart().substring(0, j.getStart().indexOf(':')));
-                int m1 = Integer.parseInt(j.getStart().substring(j.getStart().indexOf(':') + 1, j.getStart().length()));
-                int h2 = Integer.parseInt(j.getEnd().substring(0, j.getEnd().indexOf(':')));
-                int m2 = Integer.parseInt(j.getEnd().substring(j.getEnd().indexOf(':') + 1, j.getEnd().length()));
+            btnNegative.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Handle Deny button click
+                    String message = name + " has rejected your invitation to "+ title;
+                    firebaseAPI.sendMessage("invitation rejected!", message, senderToken);
+                    dialog.dismiss();
+                    //התראה למי שהזמין
+                    // Perform action to deny permission or exit
+                    EventsAPI eventsAPI = new EventsAPI();
+                    eventsAPI.deleteInvitation(Integer.parseInt(id), username);
+                }
+            });
 
-                showCustomPermissionDialogCalendar(j.getId(),j.getTitle(),j.getDescription(),j.getStart(),j.getEnd(),monthInt,yearInt,dayInt,h1,m1,h2,m2,token);
-                // Perform action to grant permission or proceed
-                eventsAPI.deleteInvitation(Integer.parseInt(id), username);
-            }
-        });
-
-        btnNegative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle Deny button click
-                //String message = name + " has rejected your invitation to "+ title;
-                //firebaseAPI.sendMessage("invitation rejected!", message, senderToken);
-                dialog.dismiss();
-                //התראה למי שהזמין
-                // Perform action to deny permission or exit
-                EventsAPI eventsAPI = new EventsAPI();
-                eventsAPI.deleteInvitation(Integer.parseInt(id), username);
-            }
-        });
-
-        dialog.show();
-    }
-
-    private void showCustomPermissionDialogCalendar(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2, String token) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.mini_message, null);
-        builder.setView(dialogView);
-
-        final AlertDialog dialog = builder.create();
-
-        TextView tvTitle = dialogView.findViewById(R.id.tvTitle);
-        TextView tvMessage = dialogView.findViewById(R.id.tvMessage);
-        Button btnPositive = dialogView.findViewById(R.id.btnPositive);
-        Button btnNegative = dialogView.findViewById(R.id.btnNegative);
-        btnPositive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle Allow button click
-                dialog.dismiss();
-                //EventsAPI eventsAPI = new EventsAPI();
-                //String [] user = new String [1];
-                //user[0] = username;
-                //Alert [] alert = new Alert[1];
-                //alert[0] = new Alert(username, "None");
-                //eventsAPI.joinEvent(Integer.parseInt(id), user, alert);
-                //showCustomPermissionDialogCalendar(pu.getId(), title, description, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, token);
-                addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
-                //startActivity(intent);
-                // Perform action to grant permission or proceed
-            }
-        });
-
-        btnNegative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle Deny button click
-                dialog.dismiss();
-                //startActivity(intent);
-                // Perform action to deny permission or exit
-            }
-        });
-
-        dialog.show();
-    }
-    private void addEventToCalendar(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2) {
-        // Check again if permissions are granted
-        System.out.println("add event");
-
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-            System.out.println("permission");
-            java.util.Calendar startCal = java.util.Calendar.getInstance();
-            startCal.set(yearInt, monthInt, dayInt, h1, m1); // Year, month, day, hour, minute
-            long startTime = startCal.getTimeInMillis();
-            int numH = h2 - h1;
-            int numM = m2 - m1;
-            int timeInM = (numH * 60) + numM;
-            long endTime = startTime + timeInM * 60 * 1000;
-
-
-            System.out.println(startTime);
-            System.out.println(endTime);
-            System.out.println(title);
-            System.out.println(des);
-            ContentResolver cr = getContentResolver();
-            ContentValues values = new ContentValues();
-            values.put(CalendarContract.Events.DTSTART, startTime);
-            values.put(CalendarContract.Events.DTEND, endTime);
-            values.put(CalendarContract.Events.TITLE, title);
-            values.put(CalendarContract.Events.DESCRIPTION, des);
-            values.put(CalendarContract.Events.CALENDAR_ID, getPrimaryCalendarId());
-            values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
-
-            Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-            long googleID = Long.parseLong(uri.getLastPathSegment());
-
-            EventsAPI eventsAPI = new EventsAPI();
-            eventsAPI.addGoogleEvent(Integer.parseInt(id),(int)googleID,token);
-            //System.out.println("Event added with ID:" + eventID);
-            //Log.d("CalendarSync", "Event added with ID: " + eventID);
-        } else {
-            // Request permissions if not granted
-            System.out.println("no permission calendar");
-            requestCalendarPermissions(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, date);
+            dialog.show();
         }
-    }
 
-    private long getPrimaryCalendarId() {
-        String[] projection = new String[]{
-                CalendarContract.Calendars._ID,
-                CalendarContract.Calendars.IS_PRIMARY
-        };
+        private void showCustomPermissionDialogCalendar(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2, String token) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.mini_message, null);
+            builder.setView(dialogView);
 
-        Cursor cursor = getContentResolver().query(
-                CalendarContract.Calendars.CONTENT_URI,
-                projection,
-                CalendarContract.Calendars.IS_PRIMARY + " = 1",
-                null,
-                null
-        );
+            final AlertDialog dialog = builder.create();
 
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                long calendarId = cursor.getLong(0);
+            TextView tvTitle = dialogView.findViewById(R.id.tvTitle);
+            TextView tvMessage = dialogView.findViewById(R.id.tvMessage);
+            Button btnPositive = dialogView.findViewById(R.id.btnPositive);
+            Button btnNegative = dialogView.findViewById(R.id.btnNegative);
+            btnPositive.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Handle Allow button click
+                    dialog.dismiss();
+                    //EventsAPI eventsAPI = new EventsAPI();
+                    //String [] user = new String [1];
+                    //user[0] = username;
+                    //Alert [] alert = new Alert[1];
+                    //alert[0] = new Alert(username, "None");
+                    //eventsAPI.joinEvent(Integer.parseInt(id), user, alert);
+                    //showCustomPermissionDialogCalendar(pu.getId(), title, description, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, token);
+                    addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
+                    //startActivity(intent);
+                    // Perform action to grant permission or proceed
+                }
+            });
+
+            btnNegative.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Handle Deny button click
+                    dialog.dismiss();
+                    //startActivity(intent);
+                    // Perform action to deny permission or exit
+                }
+            });
+
+            dialog.show();
+        }
+        private void addEventToCalendar(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2) {
+            // Check again if permissions are granted
+            System.out.println("add event");
+
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+                System.out.println("permission");
+                java.util.Calendar startCal = java.util.Calendar.getInstance();
+                startCal.set(yearInt, monthInt, dayInt, h1, m1); // Year, month, day, hour, minute
+                long startTime = startCal.getTimeInMillis();
+                int numH = h2 - h1;
+                int numM = m2 - m1;
+                int timeInM = (numH * 60) + numM;
+                long endTime = startTime + timeInM * 60 * 1000;
+
+
+                System.out.println(startTime);
+                System.out.println(endTime);
+                System.out.println(title);
+                System.out.println(des);
+                ContentResolver cr = getContentResolver();
+                ContentValues values = new ContentValues();
+                values.put(CalendarContract.Events.DTSTART, startTime);
+                values.put(CalendarContract.Events.DTEND, endTime);
+                values.put(CalendarContract.Events.TITLE, title);
+                values.put(CalendarContract.Events.DESCRIPTION, des);
+                values.put(CalendarContract.Events.CALENDAR_ID, getPrimaryCalendarId());
+                values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+
+                Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+                long googleID = Long.parseLong(uri.getLastPathSegment());
+
+                EventsAPI eventsAPI = new EventsAPI();
+                eventsAPI.addGoogleEvent(Integer.parseInt(id),(int)googleID,token);
+                //System.out.println("Event added with ID:" + eventID);
+                //Log.d("CalendarSync", "Event added with ID: " + eventID);
+            } else {
+                // Request permissions if not granted
+                System.out.println("no permission calendar");
+                requestCalendarPermissions(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, date);
+            }
+        }
+
+        private long getPrimaryCalendarId() {
+            String[] projection = new String[]{
+                    CalendarContract.Calendars._ID,
+                    CalendarContract.Calendars.IS_PRIMARY
+            };
+
+            Cursor cursor = getContentResolver().query(
+                    CalendarContract.Calendars.CONTENT_URI,
+                    projection,
+                    CalendarContract.Calendars.IS_PRIMARY + " = 1",
+                    null,
+                    null
+            );
+
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    long calendarId = cursor.getLong(0);
+                    cursor.close();
+                    return calendarId;
+                }
                 cursor.close();
-                return calendarId;
             }
-            cursor.close();
+
+            return -1; // Default to invalid ID if primary calendar is not found
         }
 
-        return -1; // Default to invalid ID if primary calendar is not found
-    }
+        private void requestCalendarPermissions(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2, String date) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 
-    private void requestCalendarPermissions(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2, String date) {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR},
-                    PERMISSIONS_REQUEST_CODE_CALENDAR);
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR},
+                        PERMISSIONS_REQUEST_CODE_CALENDAR);
+            }
+            else{
+                System.out.println("in");
+                addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
+                //ContentResolver contentResolver = getContentResolver();
+                //deleteEvent(contentResolver,8);
+                //updateEventTime(8);
+            }
         }
-        else{
-            System.out.println("in");
-            addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
-            //ContentResolver contentResolver = getContentResolver();
-            //deleteEvent(contentResolver,8);
-            //updateEventTime(8);
-        }
-    }
 }
-
-

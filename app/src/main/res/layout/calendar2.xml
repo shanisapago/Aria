@@ -50,7 +50,6 @@
         </LinearLayout>
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.75"
@@ -58,43 +57,17 @@
             android:backgroundTint="@color/whiteBackground"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/calendar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.95"
-                android:orientation="vertical"
-                >
-                <GridView
-                    android:id="@+id/dotsGridView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignTop="@id/calendarView"
-                    android:layout_alignBottom="@id/calendarView"
-                    android:numColumns="7"
-                    android:verticalSpacing="30dp"
-                    android:horizontalSpacing="1dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-
-                    android:gravity="center"
-                    android:layout_marginTop="130dp"
-                    />
-                <com.example.aria.CustomCalendarView
-
+            <CalendarView
 
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_centerInParent="true"
-
-
+                android:layout_weight="0.95"
                 android:dateTextAppearance="@style/CalenderViewDateCustomText2"
                 android:firstDayOfWeek="1"
                 android:theme="@style/CalenderViewDateCustomText1"
                 android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
-
-            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -137,9 +110,9 @@
                 </View>
                 <ImageButton
                     android:id="@+id/arialstbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/listbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/listbtn"
                     android:layout_gravity="bottom">
                 </ImageButton>
                 <View

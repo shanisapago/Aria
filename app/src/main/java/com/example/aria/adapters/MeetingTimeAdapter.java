@@ -61,11 +61,11 @@ public class MeetingTimeAdapter extends BaseAdapter {
 
         }
 
-            TimeMeeting p = timeMeetingsList.get(position);
-            ViewHolder viewHolder=(ViewHolder) convertView.getTag();
-            viewHolder.date.setText(p.getDateMeeting());
-            viewHolder.time.setText(p.getTimeMeeting());
-            viewHolder.time2.setText(p.getTimeMeeting2());
+        TimeMeeting p = timeMeetingsList.get(position);
+        ViewHolder viewHolder=(ViewHolder) convertView.getTag();
+        viewHolder.date.setText(p.getDateMeeting());
+        viewHolder.time.setText(p.getTimeMeeting());
+        viewHolder.time2.setText(p.getTimeMeeting2());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime timeparse=LocalTime.parse(viewHolder.time.getText().toString(), formatter);
@@ -80,7 +80,7 @@ public class MeetingTimeAdapter extends BaseAdapter {
             viewHolder.errorIcon.setVisibility(View.INVISIBLE);
         }
 
-            viewHolder.minus.setOnClickListener(new View.OnClickListener() {
+        viewHolder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewHolder.errorIcon.setVisibility(View.INVISIBLE);
@@ -113,10 +113,3 @@ public class MeetingTimeAdapter extends BaseAdapter {
         return false;
     }
 }
-
-
-
-
-
-
-

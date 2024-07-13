@@ -2,23 +2,26 @@ package com.example.aria;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.aria.RetroFitClasses.NewEvent;
-import com.example.aria.RetroFitClasses.NewEvent2;
 import com.example.aria.RetroFitClasses.UsersAPI;
 import com.example.aria.adapters.DayListAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.os.Bundle;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import java.text.SimpleDateFormat;
@@ -53,6 +56,18 @@ public class Day extends AppCompatActivity {
         });
 
 
+        String token = getIntent().getExtras().getString("token");
+        String username = getIntent().getExtras().getString("username");
+
+        ImageButton btnAriaList=findViewById(R.id.arialstbtn);
+        btnAriaList.setOnClickListener(view->{
+
+            Intent intent=new Intent(this, AriaListEventsActivity.class);
+            intent.putExtra("username",username);
+            intent.putExtra("token",token);
+            startActivity(intent);
+        });
+
         currentCalendar = Calendar.getInstance();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -63,10 +78,10 @@ public class Day extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // Get current date
-        int year = Integer.parseInt(getIntent().getExtras().getString("year"));
-        int month = Integer.parseInt(getIntent().getExtras().getString("month"));
-        int day = Integer.parseInt(getIntent().getExtras().getString("day"));
+                // Get current date
+                int year = Integer.parseInt(getIntent().getExtras().getString("year"));
+                int month = Integer.parseInt(getIntent().getExtras().getString("month"));
+                int day = Integer.parseInt(getIntent().getExtras().getString("day"));
 
         currentCalendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY); // Ensure it starts on Sunday
         updateCalendar(day);
@@ -233,7 +248,7 @@ public class Day extends AppCompatActivity {
                 //for(int j=0;j<events.get(i).getPhoneNumbers().size();j++)
                 //{
                 //    System.out.println(events.get(i).getPhoneNumbers().get(j));
-                // }
+               // }
 
 
                 if (date.equals(events.get(i).getDate())) {
@@ -256,16 +271,16 @@ public class Day extends AppCompatActivity {
         });
 
         homeBtn.setOnClickListener(v ->  {
-            Intent intent=new Intent(this, CalendarActivity.class);
-            intent.putExtra("username",username);
-            startActivity(intent);
+                Intent intent=new Intent(this, CalendarActivity.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
         });
 
         ariaBtn.setOnClickListener(v ->  {
-            Intent intent = new Intent(this, AddAriaActivity.class);
-            intent.putExtra("token",token);
-            intent.putExtra("username",username);
-            startActivity(intent);
+                Intent intent = new Intent(this, AddAriaActivity.class);
+                intent.putExtra("token",token);
+                intent.putExtra("username",username);
+                startActivity(intent);
         });
 
 

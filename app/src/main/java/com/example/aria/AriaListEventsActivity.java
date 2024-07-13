@@ -2,12 +2,15 @@ package com.example.aria;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aria.RetroFitClasses.ChatsAPI;
+import com.example.aria.RetroFitClasses.EventsAPI;
 import com.example.aria.adapters.ClosedEventsAdapter;
 import com.example.aria.adapters.MeetingTimeAdapter;
 import com.example.aria.adapters.OpenEventsAdapter;
@@ -33,7 +36,13 @@ public class AriaListEventsActivity extends AppCompatActivity {
         ListView lstClosedEvents=findViewById(R.id.closedEventslst);
         ClosedEventsAdapter closed_adapter=new ClosedEventsAdapter(closedEventsList);
         lstClosedEvents.setAdapter(closed_adapter);
-
+        ImageView backBtn = findViewById(R.id.back);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
 
         ImageButton btnhome=findViewById(R.id.btnhome);

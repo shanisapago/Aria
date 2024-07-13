@@ -14,8 +14,9 @@ public class NewEvent {
     private List<MemberListItem> phones;
     //private List<String> appTokens
     private String tok;
+    private String flag;
 
-    public NewEvent(String id, String token, String title, String description, String start, String end, String alertString, String date,List<MemberListItem>phones, String senderToken) {
+    public NewEvent(String id, String token, String title, String description, String start, String end, String alertString, String date,List<MemberListItem>phones, String senderToken, String flag) {
         this.token = token;
         this.id = id;
         this.title = title;
@@ -26,6 +27,7 @@ public class NewEvent {
         this.date = date;
         this.phones=phones;
         this.tok = senderToken;
+        this.flag = flag;
     }
 
     public List<MemberListItem> getPhones() {
@@ -125,5 +127,23 @@ public class NewEvent {
         this.tok = senderToken;
     }
 
+    public void setPhones(List<MemberListItem> phones) {
+        this.phones = phones;
+    }
 
+    public String getTok() {
+        return tok;
+    }
+
+    public void setTok(String tok) {
+        this.tok = tok;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
 }

@@ -1,10 +1,18 @@
 package com.example.aria;
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,13 +24,19 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.aria.RetroFitClasses.EventsAPI;
 
-public class EditEvent extends AppCompatActivity {
+import java.util.Calendar;
 
+public class EditEvent extends AppCompatActivity {
+    private static final int PERMISSIONS_REQUEST_CODE_CALENDAR = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +61,7 @@ public class EditEvent extends AppCompatActivity {
         end_textview.setText(end);
         description_edittext.setText(description);
         date_textview.setText(date_now);
+
 
         String day=date_now.substring(0,2);
         String month=date_now.substring(3,5);
@@ -85,14 +100,14 @@ public class EditEvent extends AppCompatActivity {
 
 
         DatePicker date = findViewById(R.id.DatePicker);
-        // TextView dateText=findViewById(R.id.dateTextView);
-        // dateText.setText(date_now);
-        // LinearLayout chooseDate = findViewById(R.id.chooseDate);
-        // LinearLayout timePicker = findViewById(R.id.timePicker);
+       // TextView dateText=findViewById(R.id.dateTextView);
+       // dateText.setText(date_now);
+       // LinearLayout chooseDate = findViewById(R.id.chooseDate);
+       // LinearLayout timePicker = findViewById(R.id.timePicker);
 
-        //  chooseDate.setOnClickListener(v -> {
-        //      timePicker.setVisibility(View.VISIBLE);
-        //  });
+      //  chooseDate.setOnClickListener(v -> {
+      //      timePicker.setVisibility(View.VISIBLE);
+      //  });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             date.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
@@ -167,7 +182,17 @@ public class EditEvent extends AppCompatActivity {
             i.putExtra("month",month);
             i.putExtra("year",year);
             i.putExtra("date",date_now);
+            String googleId = eventsAPI.idGoogle(Integer.parseInt(id), token);
+            if (!googleId.equals("-1")){
+                long eventId = Integer.parseInt(googleId);
+                ContentResolver contentResolver = getContentResolver();
+                deleteEvent(contentResolver,eventId);
+                eventsAPI.deleteGoogle(Integer.parseInt(id),token);
+            }
+            Toast.makeText(this, "Event deleted", Toast.LENGTH_SHORT).show();
             startActivity(i);
+
+
         });
 
         Button btnDone=findViewById(R.id.btnDone);
@@ -181,6 +206,116 @@ public class EditEvent extends AppCompatActivity {
             i.putExtra("year",year);
             i.putExtra("date",date_now);
             startActivity(i);
+
+            String newStart = start_textview.getText().toString();
+            String newEnd = end_textview.getText().toString();
+            int h1 = Integer.parseInt(newStart.substring(0, newStart.indexOf(':')));
+            int m1 = Integer.parseInt(newStart.substring(newStart.indexOf(':') + 1, newStart.length()));
+            int h2 = Integer.parseInt(newEnd.substring(0, newEnd.indexOf(':')));
+            int m2 = Integer.parseInt(newEnd.substring(newEnd.indexOf(':') + 1, newEnd.length()));
+
+            String newDate = date_textview.getText().toString();
+            int index_first_slash = newDate.indexOf("/");
+            String newDay = newDate.substring(index_first_slash - 2, index_first_slash);
+            String newMonth = newDate.substring(index_first_slash + 1, index_first_slash + 3);
+            String newYear = newDate.substring(index_first_slash + 4, newDate.length());
+
+
+            String googleId = eventsAPI.idGoogle(Integer.parseInt(id), token);
+            System.out.println("googleId");
+            System.out.println(googleId);
+            if (!googleId.equals("-1")){
+                System.out.println("in different");
+                long eventId = Integer.parseInt(googleId);
+                updateEventTime(eventId, title_edittext.getText().toString(), description_edittext.getText().toString(), Integer.parseInt(newMonth) - 1, Integer.parseInt(newYear), Integer.parseInt(newDay), h1, m1, h2, m2);
+            }
+
+            Toast.makeText(this, "Event updated", Toast.LENGTH_SHORT).show();
+            //בדיקה אם הid נמצא בלוח שנה של הפלאפון
+            long eventId = 0;
+//            System.out.println("in update");
+//            System.out.println(title_edittext.getText().toString());
+//            System.out.println(description_edittext.getText().toString());
+//            System.out.println(date_textview.getText().toString());
+//            System.out.println(Integer.parseInt(newYear));
+//            System.out.println(Integer.parseInt(newMonth)-1);
+//            System.out.println(Integer.parseInt(newDay));
+//            System.out.println(h1);
+//            System.out.println(m1);
+//            System.out.println(h2);
+//            System.out.println(m2);
+            //updateEventTime(eventId, title_edittext.getText().toString(), description_edittext.getText().toString(), Integer.parseInt(newMonth) - 1, Integer.parseInt(newYear), Integer.parseInt(newDay), h1, m1, h2, m2);
+
         });
     }
+    private void updateEventTime(long id, String title, String des, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2) {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+            // Set the new start and end times for the event
+            System.out.println("in update");
+            Calendar startCal = Calendar.getInstance();
+            startCal.set(yearInt, monthInt, dayInt, h1, m1); // Year, month, day, hour, minute
+            long newStartTime = startCal.getTimeInMillis();
+
+            Calendar endCal = Calendar.getInstance();
+            endCal.set(yearInt, monthInt, dayInt, h2, m2); // Year, month, day, hour, minute
+            long newEndTime = endCal.getTimeInMillis();
+
+            ContentResolver cr = getContentResolver();
+            ContentValues values = new ContentValues();
+            values.put(CalendarContract.Events.DTSTART, newStartTime);
+            values.put(CalendarContract.Events.DTEND, newEndTime);
+            values.put(CalendarContract.Events.TITLE, title);
+            values.put(CalendarContract.Events.DESCRIPTION, des);
+
+            Uri updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id);
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+                //Log.d("CalendarSync", "Update URI: " + updateUri.toString());
+                System.out.println("CalendatSync Update URI:" + updateUri.toString());
+                try {
+                    int rows = cr.update(updateUri, values, null, null);
+                    //Log.d("CalendarSync", "Rows updated: " + rows);
+                    /*if (rows > 0) {
+                        Toast.makeText(this, "Event time updated", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Failed to update event", Toast.LENGTH_SHORT).show();
+                    }*/
+                } catch (Exception e) {
+                    //Log.e("CalendarSync", "Error updating event", e);
+                    Toast.makeText(this, "Error updating event: " + e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else {
+            // Request permissions if not granted
+            System.out.println("no permission");
+            requestCalendarPermissions(id, title, des, monthInt, yearInt, dayInt, h1, m1, h2, m2);
+        }
+    }
+    private void requestCalendarPermissions(long id, String title, String des, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR},
+                    PERMISSIONS_REQUEST_CODE_CALENDAR);
+        }
+        else{
+            System.out.println("in");
+            //addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, date);
+            //ContentResolver contentResolver = getContentResolver();
+            //deleteEvent(contentResolver,8);
+            //*********************************************************88
+            updateEventTime(id, title, des, monthInt, yearInt, dayInt, h1, m1, h2, m2);
+        }
+    }
+    public void deleteEvent(ContentResolver contentResolver, long eventID) {
+        Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);
+        int rows = contentResolver.delete(deleteUri, null, null);
+        if (rows > 0) {
+            //Toast.makeText(this, "Event deleted", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Error deleting event", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
