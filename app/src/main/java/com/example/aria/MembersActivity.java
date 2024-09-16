@@ -1,10 +1,9 @@
 package com.example.aria;
 import static java.lang.Character.isDigit;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -14,12 +13,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -27,30 +23,35 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.example.aria.RetroFitClasses.ChatsAPI;
-
+import android.widget.Toast;
 import com.example.aria.RetroFitClasses.EventsAPI;
 import com.example.aria.RetroFitClasses.FirebaseAPI;
 import com.example.aria.RetroFitClasses.NotUser;
 import com.example.aria.RetroFitClasses.PhoneUsers2;
 import com.example.aria.adapters.MembersAdapter;
-import com.example.aria.adapters.OpenEventsAdapter;
 import com.google.firebase.iid.FirebaseInstanceId;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
 public class MembersActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_CODE_CALENDAR = 100;
-    String username, token, date="";
+    private static final int PERMISSIONS_REQUEST_CODE_SMS = 1011;
+    private final int MINUTES=60;
+    private final String WITHOUT_GOOGLE_CALENDAR="0";
+    String username, token, date="",fullName;
+
+    String title,description,start,end;
+    int monthInt,yearInt,dayInt,h1,h2,m1,m2;
+    List<PhoneUsers2> pu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.members);
 
+        final int PHONE_DIGITS = 9;
+        final int EMPTY_LENGTH = 0;
 
         List<MemberListItem> membersList=new ArrayList<>();
         List<String>names = new ArrayList<String>();
@@ -62,22 +63,24 @@ public class MembersActivity extends AppCompatActivity {
         lstMembers.setAdapter(members_adapter);
 
         token = getIntent().getExtras().getString("token");
-        System.out.println("token");
-        System.out.println(token);
+
         username = getIntent().getExtras().getString("username");
-        String title = getIntent().getExtras().getString("title");
-        String description = getIntent().getExtras().getString("description");
-        String start = getIntent().getExtras().getString("start");
-        String end = getIntent().getExtras().getString("end");
+        fullName = getIntent().getExtras().getString("fullName");
+        title = getIntent().getExtras().getString("title");
+        description = getIntent().getExtras().getString("description");
+        start = getIntent().getExtras().getString("start");
+        end = getIntent().getExtras().getString("end");
         date = getIntent().getExtras().getString("date");
         String alert = getIntent().getExtras().getString("alert");
-        int monthInt = getIntent().getExtras().getInt("monthInt");
-        int dayInt = getIntent().getExtras().getInt("dayInt");
-        int yearInt = getIntent().getExtras().getInt("yearInt");
-        int h1 = getIntent().getExtras().getInt("h1");
-        int m1 = getIntent().getExtras().getInt("m1");
-        int h2 = getIntent().getExtras().getInt("h2");
-        int m2 = getIntent().getExtras().getInt("m2");
+        monthInt = getIntent().getExtras().getInt("monthInt");
+
+        dayInt = getIntent().getExtras().getInt("dayInt");
+        yearInt = getIntent().getExtras().getInt("yearInt");
+        h1 = getIntent().getExtras().getInt("h1");
+        m1 = getIntent().getExtras().getInt("m1");
+        h2 = getIntent().getExtras().getInt("h2");
+        m2 = getIntent().getExtras().getInt("m2");
+        int requestCode=getIntent().getExtras().getInt("code");
 
         EditText phoneNumber = findViewById(R.id.phone);
         EditText nameI = findViewById(R.id.name);
@@ -90,12 +93,11 @@ public class MembersActivity extends AppCompatActivity {
         addBtn.setOnClickListener(view->{
             EditText phone = findViewById(R.id.phone);
             EditText name = findViewById(R.id.name);
-            System.out.println("click");
+
             boolean flagP=true;
             boolean flagN=true;
-            System.out.println(phoneNumber.getText().length());
-            System.out.println(phoneNumber.getText().toString());
-            if(phoneNumber.getText().length()!=9){
+
+            if(phoneNumber.getText().length()!=PHONE_DIGITS ){
                 flagP = false;
                 errorPhone.setVisibility(View.VISIBLE);
                 iconPhone.setVisibility(View.VISIBLE);
@@ -112,7 +114,7 @@ public class MembersActivity extends AppCompatActivity {
                     }
                 }
             }
-            if(nameI.getText().toString().length()==0){
+            if(nameI.getText().toString().length()==EMPTY_LENGTH){
                 flagN = false;
                 errorName.setVisibility(View.VISIBLE);
                 iconName.setVisibility(View.VISIBLE);
@@ -123,24 +125,28 @@ public class MembersActivity extends AppCompatActivity {
                 iconPhone.setVisibility(View.INVISIBLE);
                 errorPhone.setVisibility(View.INVISIBLE);
             }
+            else{
+                phone.setText("");
+            }
             if(flagN){
                 errorName.setVisibility(View.INVISIBLE);
                 iconName.setVisibility(View.INVISIBLE);
                 errorName.setVisibility(View.INVISIBLE);
             }
             if(flagP && flagN) {
-                String phoneString = phone.getText().toString();
+                String phoneString = "+972"+phone.getText().toString();
                 String nameString = name.getText().toString();
                 MemberListItem member = new MemberListItem(phoneString, nameString);
                 if (!membersList.contains(member)) {
                     membersList.add(member);
-                    //phones.add(phoneString);
+
                     members_adapter.notifyDataSetChanged();
-                    //names.add(nameString);
+
+
                 }
+                phone.setText("");
+                name.setText("");
             }
-            phone.setText("");
-            name.setText("");
         });
 
 
@@ -152,10 +158,21 @@ public class MembersActivity extends AppCompatActivity {
 
         ImageButton btnAria = findViewById(R.id.btnAria);
         btnAria.setOnClickListener(view -> {
-            Intent intent = new Intent(this, AddAriaActivity.class);
-            intent.putExtra("token",token);
-            intent.putExtra("username",username);
-            startActivity(intent);
+            String[] permissions2 = {Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS};
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED ||  ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, permissions2, PERMISSIONS_REQUEST_CODE_SMS);
+
+            }
+            else {
+                Intent intent = new Intent(this, AddAriaActivity.class);
+                intent.putExtra("token",token);
+                intent.putExtra("username",username);
+                intent.putExtra("fullName",fullName);
+                startActivity(intent);
+
+            }
         });
         ImageButton btnAriaList=findViewById(R.id.arialstbtn);
         btnAriaList.setOnClickListener(view->{
@@ -163,6 +180,7 @@ public class MembersActivity extends AppCompatActivity {
             Intent intent=new Intent(this, AriaListEventsActivity.class);
             intent.putExtra("username",username);
             intent.putExtra("token",token);
+            intent.putExtra("fullName",fullName);
             startActivity(intent);
         });
 
@@ -171,23 +189,11 @@ public class MembersActivity extends AppCompatActivity {
             Intent intent=new Intent(this,CalendarActivity.class);
             intent.putExtra("username",username);
             intent.putExtra("token",token);
+            intent.putExtra("fullName",fullName);
             startActivity(intent);
         });
 
-        /*ImageView btnAdd=findViewById(R.id.addBtn);
-        btnAdd.setOnClickListener(view->{
-            EditText phone=findViewById(R.id.phone);
-            EditText name=findViewById(R.id.name);
-            String phoneString=phone.getText().toString();
-            String nameString=name.getText().toString();
-            MemberListItem member=new MemberListItem(phoneString,nameString);
-            if (!membersList.contains(member)) {
-                membersList.add(member);
-                phones.add(phoneString);
-                members_adapter.notifyDataSetChanged();
-            }
 
-        });*/
 
         ImageView btnDone=findViewById(R.id.btnDone);
         btnDone.setOnClickListener(view->{
@@ -195,39 +201,36 @@ public class MembersActivity extends AppCompatActivity {
 
             EventsAPI eventsAPI=new EventsAPI();
             FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(MembersActivity.this, instanceIdResult -> {
-            //String tok = "";
+
             String tok = instanceIdResult.getToken();
-            System.out.println("token shani");
-            System.out.println(tok);
-            //System.out.println("phonesss");
-            //System.out.println(phones.size());
-            //for(int i=0;i<phones.size();i++){
-            //    System.out.println(phones.get(i));
-            //}
-            List<PhoneUsers2> pu=eventsAPI.checkPhones(token, title, description, start, end, alert, date, membersList, tok, "0");
+
+
+            pu=eventsAPI.checkPhones(token, title, description, start, end, alert, date, membersList, tok, WITHOUT_GOOGLE_CALENDAR,requestCode);
             if (pu.get(0).getId().equals("-1")){
-                System.out.println("-1");
+
                 members_adapter.updateNotUsers(pu.get(0).getNotUsers());
-                System.out.println("after");
+
             }
             else{
-                System.out.println("++++++++++++++++++++++++++++++++++");
-                System.out.println(h1);
-                System.out.println(m1);
-                System.out.println(h2);
-                System.out.println(m2);
-                System.out.println(yearInt);
-                System.out.println(monthInt);
-                System.out.println(dayInt);
+
                 FirebaseAPI firebaseAPI = new FirebaseAPI();
-                for (int i=0; i<pu.size(); i++){
-                    String message = " you got new invitation from "+ pu.get(i).getSender();
-                    System.out.println("firebaseee");
-                    System.out.println(message);
-                    System.out.println(pu.get(i).getAppToken());
-                    firebaseAPI.sendMessage("new invitation!", message, pu.get(i).getAppToken());
+
+                if(!pu.get(0).getTitle().equals("")) {
+
+
+                    for (int i = 0; i < pu.size(); i++) {
+                        String message = " you got new invitation from " + fullName;
+
+                        firebaseAPI.sendMessage("new invitation!", message, pu.get(i).getAppToken());
+                    }
+                    showCustomPermissionDialog(pu.get(0).getId(), title, description, start, end, monthInt - 1, yearInt, dayInt, h1, m1, h2, m2, token);
+
+
                 }
-                showCustomPermissionDialog(pu.get(0).getId(), title, description, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, token);
+                else{
+                    showCustomPermissionDialog(pu.get(0).getId(), title, description, start, end, monthInt - 1, yearInt, dayInt, h1, m1, h2, m2, token);
+                }
+
 
             }
             });
@@ -245,29 +248,33 @@ public class MembersActivity extends AppCompatActivity {
 
         TextView tvTitle = dialogView.findViewById(R.id.tvTitle);
         TextView tvMessage = dialogView.findViewById(R.id.tvMessage);
+        tvTitle.setText("Google calendar");
+        tvMessage.setText("do you want to add this event to your google calendar?");
         Button btnPositive = dialogView.findViewById(R.id.btnPositive);
         Button btnNegative = dialogView.findViewById(R.id.btnNegative);
         Intent intent = new Intent(this, CalendarActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("username", username);
+        intent.putExtra("fullName",fullName);
+
         btnPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle Allow button click
+
                 dialog.dismiss();
                 addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
-                startActivity(intent);
-                // Perform action to grant permission or proceed
+
+
             }
         });
 
         btnNegative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle Deny button click
+
                 dialog.dismiss();
                 startActivity(intent);
-                // Perform action to deny permission or exit
+
             }
         });
 
@@ -275,24 +282,20 @@ public class MembersActivity extends AppCompatActivity {
     }
 
     private void addEventToCalendar(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2) {
-        // Check again if permissions are granted
-        System.out.println("add event");
+
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-            System.out.println("permission");
+
             java.util.Calendar startCal = java.util.Calendar.getInstance();
-            startCal.set(yearInt, monthInt, dayInt, h1, m1); // Year, month, day, hour, minute
+            startCal.set(yearInt, monthInt, dayInt, h1, m1);
             long startTime = startCal.getTimeInMillis();
             int numH = h2 - h1;
             int numM = m2 - m1;
-            int timeInM = (numH * 60) + numM;
-            long endTime = startTime + timeInM * 60 * 1000;
+            int timeInM = (numH * MINUTES) + numM;
+            long endTime = startTime + timeInM * MINUTES * 1000;
 
 
-            System.out.println(startTime);
-            System.out.println(endTime);
-            System.out.println(title);
-            System.out.println(des);
             ContentResolver cr = getContentResolver();
             ContentValues values = new ContentValues();
             values.put(CalendarContract.Events.DTSTART, startTime);
@@ -307,11 +310,14 @@ public class MembersActivity extends AppCompatActivity {
 
             EventsAPI eventsAPI = new EventsAPI();
             eventsAPI.addGoogleEvent(Integer.parseInt(id),(int)googleID,token);
-            //System.out.println("Event added with ID:" + eventID);
-            //Log.d("CalendarSync", "Event added with ID: " + eventID);
+            Intent intent = new Intent(this, CalendarActivity.class);
+            intent.putExtra("token", token);
+            intent.putExtra("username", username);
+            intent.putExtra("fullName",fullName);
+            startActivity(intent);
+
         } else {
-            // Request permissions if not granted
-            System.out.println("no permission calendar");
+
             requestCalendarPermissions(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, date);
         }
     }
@@ -339,7 +345,7 @@ public class MembersActivity extends AppCompatActivity {
             cursor.close();
         }
 
-        return -1; // Default to invalid ID if primary calendar is not found
+        return -1;
     }
 
     private void requestCalendarPermissions(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2, String date) {
@@ -351,11 +357,50 @@ public class MembersActivity extends AppCompatActivity {
                     PERMISSIONS_REQUEST_CODE_CALENDAR);
         }
         else{
-            System.out.println("in");
+
             addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
-            //ContentResolver contentResolver = getContentResolver();
-            //deleteEvent(contentResolver,8);
-            //updateEventTime(8);
+
         }
     }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
+
+        if (requestCode == PERMISSIONS_REQUEST_CODE_CALENDAR) {
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+
+                addEventToCalendar(pu.get(0).getId(), title, description, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
+            } else {
+
+                Toast.makeText(this, "Can't add to google calendar", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, CalendarActivity.class);
+                intent.putExtra("token", token);
+                intent.putExtra("username", username);
+                intent.putExtra("fullName",fullName);
+                startActivity(intent);
+
+            }
+        }
+        if (requestCode == PERMISSIONS_REQUEST_CODE_SMS) {
+
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(this, AddAriaActivity.class);
+                intent.putExtra("token",token);
+                intent.putExtra("username",username);
+                intent.putExtra("fullName",fullName);
+                startActivity(intent);
+
+            } else {
+                Toast.makeText(this, "aria needs sms permission", Toast.LENGTH_SHORT).show();
+
+
+
+            }
+        }
+        }
 }

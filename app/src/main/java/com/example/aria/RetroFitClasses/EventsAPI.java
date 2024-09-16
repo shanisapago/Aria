@@ -3,7 +3,6 @@ import com.example.aria.Alert;
 import com.example.aria.JoinEvent;
 import com.example.aria.MemberListItem;
 import com.google.gson.JsonObject;
-import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,10 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class EventsAPI {
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
-
-    String flag;
-    String id;
-    String res;
+    String id, res,title;
     List<PhoneUsers2> pu;
     List<MembersNotificationsMsg> msg;
     NewEvent2 events;
@@ -25,7 +21,7 @@ public class EventsAPI {
 
     public EventsAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl("http://172.20.10.5:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -51,124 +47,8 @@ public class EventsAPI {
 
     }
 
-    public void updateTitle(int id, String title) {
-        //ConvertToJSON s=new ConvertToJSON(title);
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("title", title);
-        Call<Void> call = webServiceAPI.updateTitle(id, jsonObject);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-            }
-        });
-    }
-
-    public void updateDescription(int id, String description) {
-        //ConvertToJSONDes s=new ConvertToJSONDes(description);
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("description", description);
-        Call<Void> call = webServiceAPI.updateDescription(id, jsonObject);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-            }
-        });
-    }
-
-    public void updateDate(int id, String date) {
-        //ConvertToJSONDate s=new ConvertToJSONDate(date);
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("date", date);
-        Call<Void> call = webServiceAPI.updateDate(id, jsonObject);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-            }
-        });
-    }
-
-    public void updateStart(int id, String start) {
-        //ConvertToJSONStart s=new ConvertToJSONStart(start);
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("start", start);
-        Call<Void> call = webServiceAPI.updateStart(id, jsonObject);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-            }
-        });
-    }
-
-    public void updateEnd(int id, String end) {
-        //ConvertToJSONEnd s=new ConvertToJSONEnd(end);
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("end", end);
-        Call<Void> call = webServiceAPI.updateEnd(id, jsonObject);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-            }
-        });
-    }
-
-    public void deleteByDate(String date) {
-        Call<Void> call = webServiceAPI.deleteByDate(date);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-            }
-        });
-    }
-
-    public void updateAlert(int id, String username,String alert) {
-        //ConvertToJSON s=new ConvertToJSON();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("username", username);
-        jsonObject.addProperty("alert", alert);
-
-        Call<Void> call = webServiceAPI.updateAlert(id, jsonObject);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                System.out.println("onResponse");
-                System.out.println(response);
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                System.out.println("fail");
-                System.out.println(t);
-                System.out.println(call);
-            }
-        });
-    }
-
-    public void updateAll(int id, String token,String title,String start,String end,String date,String alert,String description) {
-        //ConvertToJSON s=new ConvertToJSON();
+    public void updateAll(int id, String token,String title,String start,String end,String date,String alert,String description, int requestCode) {
+        String request = String.valueOf(requestCode);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token", token);
         jsonObject.addProperty("title", title);
@@ -177,6 +57,7 @@ public class EventsAPI {
         jsonObject.addProperty("date", date);
         jsonObject.addProperty("alert", alert);
         jsonObject.addProperty("description", description);
+        jsonObject.addProperty("requestCode", request);
 
         Call<Void> call = webServiceAPI.updateAll(id, jsonObject);
         Thread t=new Thread((() -> {
@@ -193,13 +74,13 @@ public class EventsAPI {
         catch (Exception e){
         }
     }
-    public NewEvent updateAriaResult(int id, String start,String date,String token) {
-        //ConvertToJSON s=new ConvertToJSON();
+    public NewEvent updateAriaResult(int id, String start,String date,String token,int requestCode) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("start", start);
 
         jsonObject.addProperty("date", date);
         jsonObject.addProperty("token", token);
+        jsonObject.addProperty("requestCode",requestCode);
 
         Call<NewEvent> call = webServiceAPI.updateAriaResult(id, jsonObject);
         Thread t=new Thread((() -> {
@@ -216,31 +97,13 @@ public class EventsAPI {
         catch (Exception e){
         }
         return ariaEvent;
-//        call.enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//                System.out.println("onResponse");
-//                System.out.println(response);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                System.out.println("fail");
-//                System.out.println(t);
-//                System.out.println(call);
-//            }
-//        });
     }
-    public void deleteEventById(int id, String username) {
-        //ConvertToJSON s=new ConvertToJSON();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("username", username);
+    public String deleteEventById(int id, String username) {
 
-
-        Call<Void> call = webServiceAPI.deleteEventById(id, username);
+        Call<String> call = webServiceAPI.deleteEventById(id, username);
         Thread t=new Thread((() -> {
             try{
-                call.execute();
+                title=call.execute().body();
             }
             catch (Exception e){
             }
@@ -251,6 +114,8 @@ public class EventsAPI {
         }
         catch (Exception e){
         }
+
+        return title;
 
     }
 
@@ -283,8 +148,6 @@ public class EventsAPI {
         Thread t=new Thread((() -> {
             try{
                 res = call.execute().body();
-                System.out.println("ininin");
-                System.out.println(res);
             }
             catch (Exception e){
             }
@@ -299,7 +162,6 @@ public class EventsAPI {
     }
 
     public void deleteGoogle(int id, String username) {
-        //ConvertToJSON s=new ConvertToJSON();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("username", username);
 
@@ -322,7 +184,8 @@ public class EventsAPI {
     }
 
     public String addEvent(String token, String title, String description, String start, String end, String alertString, String date, String flag) {
-        NewAddEvent event = new NewAddEvent("0", token, title, description, start, end, alertString, date, flag);
+        final String ID="0";
+        NewAddEvent event = new NewAddEvent(ID, token, title, description, start, end, alertString, date, flag);
         Call<String> call = webServiceAPI.addEvent(event);
         Thread t=new Thread((() -> {
             try{
@@ -339,22 +202,16 @@ public class EventsAPI {
         }
         return id;
     }
-    public List<PhoneUsers2> checkPhones(String token, String title, String description, String start, String end, String alertString, String date, List<MemberListItem> phones, String tok, String flag) {
-        System.out.println("in checks phone");
-        System.out.println(tok);
-        System.out.println(flag);
-        NewEvent event_details=new NewEvent("0", token, title, description, start, end, alertString, date, phones, tok, flag);
+    public List<PhoneUsers2> checkPhones(String token, String title, String description, String start, String end, String alertString, String date, List<MemberListItem> phones, String tok, String flag,int requestCode) {
+        final String ID="0";
+        NewEvent event_details=new NewEvent(ID, token, title, description, start, end, alertString, date, phones, tok, flag,requestCode);
 
         Call<List<PhoneUsers2>> call = webServiceAPI.checkPhones(event_details);
         Thread t=new Thread((() -> {
             try{
                 pu=call.execute().body();
-                System.out.println("pu");
-                System.out.println(pu);
             }
             catch (Exception e){
-                System.out.println("exception");
-                System.out.println(e);
             }
         }));
         t.start();

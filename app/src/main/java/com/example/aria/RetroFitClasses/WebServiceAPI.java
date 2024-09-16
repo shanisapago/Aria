@@ -20,11 +20,10 @@ public interface WebServiceAPI {
         @GET("Users/CheckUsername")
         Call<Void> checkUsername(@Header("username") String username);
 
-        @PUT("Users/Phones")
-        Call<PhoneUsers> checkUser(@Body PhoneArray phones);
+
 
         @POST("Tokens")
-        Call<String> createPost(@Body JsonObject user);
+        Call<UserDetails> createPost(@Body JsonObject user);
 
         @GET("Users")
         Call<List<NewEvent>> getEvents(@Header("authorization") String token);
@@ -35,42 +34,20 @@ public interface WebServiceAPI {
         @POST("Events/Join")
         Call<NewEvent2> joinEvent(@Body JoinEvent event);
 
-        @PUT("Events/{id}/Title")
-        Call<Void> updateTitle(@Path("id") int id, @Body JsonObject title);
-
-        @PUT("Events/{id}/Description")
-        Call<Void> updateDescription(@Path("id") int id, @Body JsonObject description);
-
-        @PUT("Events/{id}/Date")
-        Call<Void> updateDate(@Path("id") int id, @Body JsonObject date);
-
-        @PUT("Events/{id}/Start")
-        Call<Void> updateStart(@Path("id") int id, @Body JsonObject start);
-
-        @PUT("Events/{id}/End")
-        Call<Void> updateEnd(@Path("id") int id, @Body JsonObject end);
-
-        @DELETE("Events/{id}/Date")
-        Call<Void> deleteByDate(@Path("id") String date);
-
-        @PUT("Events/{id}/Alert")
-        Call<Void> updateAlert(@Path("id") int id, @Body JsonObject Alert);
-
         @PUT("Events/{id}/All")
         Call<Void> updateAll(@Path("id") int id, @Body JsonObject All);
         @PUT("Events/{id}/AriaResult")
         Call<NewEvent> updateAriaResult(@Path("id") int id, @Body JsonObject AriaResult);
 
-        @DELETE("Events/{id}/{username}/DeleteById")
-        Call<Void> deleteEventById(@Path("id") int id, @Path("username") String username);
+        @PUT("Events/{id}/{username}/DeleteById")
+        Call<String> deleteEventById(@Path("id") int id, @Path("username") String username);
         @POST("Chats/AddChat")
         Call<Void> addChat(@Body JsonObject jsonObject);
 
         @POST("Chats/AddMessage")
         Call<JsonObject> addMessage(@Body JsonObject jsonobject);
 
-        @DELETE("Chats/{id}/{token}")
-        Call<Void> deleteChat(@Path("id") int id, @Path("token") String token);
+
 
         @POST("Events/AddGoogleEvent")
         Call<Void> addGoogleEvent(@Body JsonObject idEvent);
@@ -93,4 +70,14 @@ public interface WebServiceAPI {
 
         @GET("Chats/GetAriaList")
         Call<List<List<AriaEventsItems>>> getAriaList(@Header("authorization") String token);
+        @PUT("Users/{id}/UpdateToken")
+        Call<Void> updateToken(@Path("id") String id, @Body JsonObject token);
+        @GET("Users/{day}/GetTimes")
+        Call <List<String>> getTimes(@Path("day") int day,@Header("authorization") String token);
+        @GET("Users/GetTimesAriaSort")
+        Call <List<AriaTimes>> getTimesAriaSort(@Header("authorization") String token);
+        @PUT("Users/CalendarTimes")
+        Call<Void> calendarTimes(@Body  JsonObject ct);
+        @PUT("Users/AriaTimes")
+        Call<Void> ariaTimes(@Body  UpdateAriaTimes ct);
 }

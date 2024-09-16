@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.aria.R;
 import com.example.aria.TimeMeeting;
-
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

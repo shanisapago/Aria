@@ -1,6 +1,5 @@
 package com.example.aria.RetroFitClasses;
 import com.example.aria.MemberListItem;
-
 import java.util.List;
 public class NewEvent {
     private String token;
@@ -12,11 +11,11 @@ public class NewEvent {
     private String id;
     private String alertString;
     private List<MemberListItem> phones;
-    //private List<String> appTokens
     private String tok;
     private String flag;
+    private int requestCode;
 
-    public NewEvent(String id, String token, String title, String description, String start, String end, String alertString, String date,List<MemberListItem>phones, String senderToken, String flag) {
+    public NewEvent(String id, String token, String title, String description, String start, String end, String alertString, String date,List<MemberListItem>phones, String senderToken, String flag,int requestCode) {
         this.token = token;
         this.id = id;
         this.title = title;
@@ -28,6 +27,7 @@ public class NewEvent {
         this.phones=phones;
         this.tok = senderToken;
         this.flag = flag;
+        this.requestCode=requestCode;
     }
 
     public List<MemberListItem> getPhones() {
@@ -145,5 +145,13 @@ public class NewEvent {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+    public int getRequestCode() {
+        return requestCode;
+    }
+
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
     }
 }

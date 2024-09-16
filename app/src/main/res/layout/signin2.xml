@@ -18,14 +18,14 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.35"></View>
+            android:layout_weight="0.25"></View>
 
 
         <LinearLayout
             android:id="@+id/white"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.85"
+            android:layout_weight="0.95"
             android:background="@drawable/white_background"
             android:backgroundTint="@color/whiteBackground"
             android:orientation="vertical"
@@ -72,7 +72,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.95"
-                    android:layout_gravity="top"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:textColor="@color/black"
@@ -108,20 +107,88 @@
                     android:id="@+id/usernameTextWrong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="your username already taken, enter new username"
-                    android:paddingLeft="30dp"
+                    android:text="your username is already taken"
+                    android:layout_marginLeft="30dp"
                     android:gravity="center"
                     android:textColor="@color/RedWarning">
                 </TextView>
             </LinearLayout>
 
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.03">
+                android:layout_weight="0.01">
             </View>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="0.1"
+                android:paddingLeft="15dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/full_name" />
+
+                <TextView
+                    android:id="@+id/fullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/cinzel"
+                    android:shadowColor="@color/white"
+                    android:shadowDx="4"
+                    android:shadowDy="1.5"
+                    android:shadowRadius="1"
+                    android:textSize="18dp"
+                    android:text="Full name"
+                    android:textColor="@color/blueText"
+                    android:layout_marginLeft="7dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/fullNameSubmit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.95"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="30dp"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wrong"
+
+                    android:visibility="invisible"
+                    android:gravity="center"
+                    >
+
+                </ImageView>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.05">
+
+                </View>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.04">
+            </View>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -134,7 +201,6 @@
                     android:id="@+id/imageView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:rotation="-20"
                     app:srcCompat="@drawable/password" />
 
@@ -149,7 +215,6 @@
                     android:shadowDy="1.5"
                     android:text="Password"
                     android:textSize="18dp"
-                    android:layout_gravity="center"
                     android:textColor="@color/blueText"
                     android:layout_marginLeft="7dp"
                     android:textStyle="bold"/>
@@ -169,6 +234,7 @@
                     android:textColor="@color/black"
                     android:id="@+id/passwordSignin"
                     android:layout_height="wrap_content"
+
                     android:inputType="textPassword"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="30dp"
@@ -210,7 +276,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.03">
+                android:layout_weight="0.01">
             </View>
 
             <LinearLayout
@@ -291,7 +357,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="wrong confirming"
+                    android:text="The passwords are different"
                     android:paddingLeft="30dp"
                     android:gravity="center"
                     android:textColor="@color/RedWarning">
@@ -301,7 +367,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.03">
+                android:layout_weight="0.01">
             </View>
 
             <LinearLayout
@@ -351,8 +417,7 @@
                     android:gravity="right"
                     android:layout_gravity="center"
                     android:textSize="14dp"
-
-                    android:paddingBottom="15dp">
+                    android:paddingBottom="2dp">
                 </TextView>
                 <EditText
                     android:layout_width="0dp"
@@ -362,7 +427,6 @@
                     android:id="@+id/phoneSubmit"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="30dp"
                     android:textSize="14dp"
                     android:fontFamily="@font/poppins"
@@ -402,7 +466,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.05">
+                android:layout_weight="0.03">
             </View>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -459,7 +523,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.05">
+                android:layout_weight="0.02">
             </View>
         </LinearLayout>
     </LinearLayout>
@@ -476,7 +540,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.14">
+            android:layout_weight="0.04">
         </View>
 
         <ImageView
@@ -490,7 +554,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.9">
+            android:layout_weight="0.88">
         </View>
 
     </LinearLayout>

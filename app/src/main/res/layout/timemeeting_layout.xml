@@ -3,46 +3,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    >
+
     <TextView
         android:id="@+id/date"
         android:layout_width="0dp"
+        android:layout_weight="0.35"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
 
         android:fontFamily="@font/poppins"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="30dp"
         android:paddingLeft="10dp"
         android:text="08/06/2024">
 
     </TextView>
+
+
+
     <TextView
         android:id="@+id/time"
         android:layout_width="0dp"
+        android:layout_weight="0.2"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-
+        android:gravity="center"
         android:fontFamily="@font/poppins"
 
         android:text="00:00"
+        >
+
+    </TextView>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="0.06"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:fontFamily="@font/poppins"
+
+        android:text=" - "
         >
 
     </TextView>
     <TextView
         android:id="@+id/time2"
         android:layout_width="0dp"
+        android:layout_weight="0.2"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-
+        android:gravity="center"
         android:fontFamily="@font/poppins"
 
         android:text="00:00"
         >
 
     </TextView>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.04">
+
+    </View>
     <ImageButton
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="0.065"
         android:layout_height="wrap_content"
         android:id="@+id/minus"
         android:background="@drawable/minus"
@@ -51,20 +71,16 @@
     </ImageButton>
     <ImageView
         android:id="@+id/errorIcon"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="0.1"
         android:layout_height="wrap_content"
         android:src="@drawable/wrong"
-        android:layout_marginRight="10dp"
-        android:visibility="invisible"
+        android:visibility="visible"
+        android:layout_marginTop="1dp"
 
         >
     </ImageView>
-    <View
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25">
 
-    </View>
 
 
 
