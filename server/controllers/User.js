@@ -1,61 +1,96 @@
 import UserModel from '../models/User.js'
+
 async function checkUsername(req, res) {
-    console.log("in controllers check")
+    const ERROR_CODE = 409
     const result = await UserModel.checkUsername(req.headers.username);
     if (!result) {
-        console.log("there is user in this username")
-        res.status(409);
-    }
-    res.end();
-}
-async function addUser(req,res){
-    console.log("in controllers")
-    const result = await UserModel.addUser(req.body.username,req.body.password, req.body.phoneNumber, req.body.token);
-    if (!result) {
-        console.log("there is user in this username")
-        res.status(409);
+        res.status(ERROR_CODE);
     }
     res.end();
 }
 
-async function getEvents (req,res){
-    console.log("in controllers get events")
-    //console.log(req)
-    //console.log("////////////////////////////////////////////////////////")
-    //console.log(req.params.id)
+async function addUser(req, res) {
+    const ERROR_CODE = 409
+    const result = await UserModel.addUser(req.body.username, req.body.password, req.body.phoneNumber, req.body.token, req.body.fullName);
+    if (!result) {
+        res.status(ERROR_CODE);
+    }
+    res.end();
+}
+
+async function getEvents(req, res) {
+    const ERROR_CODE = 401
     const result = await UserModel.getEvents(req.headers.authorization);
-    //console.log("result:")
-    //console.log(result)
-    //const result = await UserModel.getEvents(req.headers.authorization.split(" ")[1], req.params.id);
-    if (result==0){
-        res.status(401);
+    if (result == 0) {
+        res.status(ERROR_CODE);
         res.end();
     }
     else {
-      
-        //res.end("shani");
-        //console.log("result:")
-        //console.log(result)
-        //console.log("////////////////////////////////////////////////////////")
-        //console.log(JSON.stringify(result))
         res.end(JSON.stringify(result));
     }
 }
-async function userCheck(req, res) {
-    console.log("in controllers check user")
-    const result = await UserModel.checkUser(req.body.phones);
+
+async function updateToken(req, res) {
+    const ERROR_CODE = 401
+    const result = await UserModel.updateToken(req.params.id, req.body.token);
     if (!result) {
-        res.status(409);
+        res.status(ERROR_CODE)
+        res.end();
     }
-    console.log("controller result")
-    console.log(result)
-    console.log(JSON.stringify(result))
+    else {
+        res.end();
+    }
+}
+
+async function getTimes(req, res) {
+    const ERROR_CODE = 401
+    const result = await UserModel.getTimes(req.headers.authorization, req.params.day);
+    if (!result) {
+        res.status(ERROR_CODE);
+        res.end();
+    }
+    else {
+        res.end(JSON.stringify(result));
+    }
+}
+
+async function getTimesAriaSort(req, res) {
+    const ERROR_CODE = 401
+    const result = await UserModel.getTimesAriaSort(req.headers.authorization, req.params.day);
+    if (!result) {
+        res.status(ERROR_CODE);
+        res.end();
+    }
+    else {
+        res.end(JSON.stringify(result));
+    }
+}
+
+async function updateCalendarTimes(req, res) {
+    const ERROR_CODE = 409
+    const result = await UserModel.updateCalendarTimes(req.body.day, req.body.time, req.body.flag, req.body.token);
+    if (!result) {
+        res.status(ERROR_CODE);
+    }
     res.end(JSON.stringify(result));
 }
 
-export{
+async function updateAriaTimes(req, res) {
+    const ERROR_CODE = 409
+    const result = await UserModel.updateAriaTimes(req.body.day, req.body.time, req.body.flag, req.body.token);
+    if (!result) {
+        res.status(ERROR_CODE);
+    }
+    res.end(JSON.stringify(result));
+}
+
+export {
     addUser,
     getEvents,
-    userCheck,
-    checkUsername
+    checkUsername,
+    updateToken,
+    getTimes,
+    updateCalendarTimes,
+    updateAriaTimes,
+    getTimesAriaSort
 }
