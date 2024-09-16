@@ -311,8 +311,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/wrong"
                     android:layout_marginRight="20dp"
-                    android:paddingTop="25dp"
-                    android:visibility="visible"
+                    android:layout_marginTop="6dp"
+                    android:visibility="invisible"
                     android:gravity="center"
                     android:layout_gravity="center"
 
