@@ -7,15 +7,17 @@ public class DayListItem {
     String id;
     String end;
     String alertString;
+    int requestCode;
 
 
-    public DayListItem(String id, String time, String end, String title, String description, String alertString) {
+    public DayListItem(String id, String time, String end, String title, String description, String alertString,int requestCode) {
         this.time = time;
         this.title = title;
         this.description = description;
         this.id = id;
         this.end = end;
         this.alertString = alertString;
+        this.requestCode=requestCode;
     }
 
     public String getTime() {
@@ -40,5 +42,13 @@ public class DayListItem {
 
     public String getAlerts() {
         return alertString;
+    }
+
+    public int getRequestCode() {
+        return requestCode;
+    }
+
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
     }
 }

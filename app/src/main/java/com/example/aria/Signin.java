@@ -1,5 +1,7 @@
 package com.example.aria;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -10,17 +12,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.aria.RetroFitClasses.TokensAPI;
+import com.example.aria.RetroFitClasses.UserDetails;
 import com.example.aria.RetroFitClasses.UsersAPI;
 import com.google.firebase.iid.FirebaseInstanceId;
-
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Signin extends AppCompatActivity {
     private  Boolean usernameUnique=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences("shp", Context.MODE_PRIVATE);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin2);
+
+
 
         TextView textView = findViewById(R.id.clickHereLogin);
         String text = "Log in";
@@ -49,14 +56,11 @@ public class Signin extends AppCompatActivity {
             Boolean confirmFlag=false;
             Boolean usernameFlag=false;
 
-            System.out.println("");
             if(!(username_save.get().equals(username)))
             {
-                System.out.println("check the username unique");
                 UsersAPI users=new UsersAPI();
                 boolean code=users.checkUsername(username);
-                System.out.println("code");
-                System.out.println(code);
+
                 username_save.set(username);
                 usernameUnique=code;
             }
@@ -78,24 +82,33 @@ public class Signin extends AppCompatActivity {
             if(passFlag&&phoneFlag&&usernameFlag&&confirmFlag&&usernameUnique){
                 FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Signin.this, instanceIdResult -> {
                     String newToken = "";
+                    EditText fullNameEdit = findViewById(R.id.fullNameSubmit);
+                    String fullName = fullNameEdit.getText().toString();
                     newToken = instanceIdResult.getToken();
-                    System.out.println("the token");
-                    System.out.println(newToken);
+
                     UsersAPI usersAPI=new UsersAPI();
-                    usersAPI.post(username, password, phone, newToken);
-//                if(code) {
-                    Intent i = new Intent(this, Login.class);
+                    usersAPI.post(username, password, phone, newToken, fullName);
+                    Intent i = new Intent(this, CalendarActivity.class);
+                    i.putExtra("activity","signin");
+                    TokensAPI tokensAPI = new TokensAPI();
+
+                    UserDetails userDetails = tokensAPI.post(username, password);
+                    String token=userDetails.getToken();
+
+                    if (token != null) {
+                        i.putExtra("token", token);
+                        i.putExtra("username", username);
+                        i.putExtra("fullName",fullName);
+                        SharedPreferences.Editor edit = sharedPreferences.edit();
+                        edit.putString("token", token);
+                        edit.apply();
+                    }
                     startActivity(i);
                 });
-//                }
-//                else{
-//                    System.out.println("the username is not unique");
-//                    usernameSignin.setText("");
-//                }
+
             }
             else {
                 if(passFlag==false) {
-                    System.out.println("password not good");
                     ImageView errorIcon = findViewById(R.id.wrongPass);
                     LinearLayout errorText = findViewById(R.id.wrongPass2);
                     errorIcon.setVisibility(View.VISIBLE);
@@ -133,7 +146,6 @@ public class Signin extends AppCompatActivity {
                 }
                 if(usernameFlag==false)
                 {
-                    System.out.println("not unique username");
                     ImageView errorIcon = findViewById(R.id.wrongUsername);
                     errorIcon.setVisibility(View.VISIBLE);
                     LinearLayout errorText2 = findViewById(R.id.wrongUsername2);
@@ -143,18 +155,16 @@ public class Signin extends AppCompatActivity {
 
                 }
                 else if(usernameUnique==false){
-                    System.out.println("not unique username");
                     ImageView errorIcon = findViewById(R.id.wrongUsername);
                     LinearLayout errorText = findViewById(R.id.wrongUsername2);
                     errorIcon.setVisibility(View.VISIBLE);
                     errorText.setVisibility(View.VISIBLE);
                     TextView usernameTextWrong=findViewById(R.id.usernameTextWrong);
-                    usernameTextWrong.setText("your username already taken, enter new username");
+                    usernameTextWrong.setText("your username is already taken");
 
                 }
                 else
                 {
-                    System.out.println("unique");
                     ImageView errorIcon = findViewById(R.id.wrongUsername);
                     LinearLayout errorText = findViewById(R.id.wrongUsername2);
                     errorIcon.setVisibility(View.INVISIBLE);

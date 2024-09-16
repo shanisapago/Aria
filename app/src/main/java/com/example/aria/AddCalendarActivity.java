@@ -18,7 +18,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,28 +26,41 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import com.example.aria.RetroFitClasses.EventsAPI;
-import com.example.aria.RetroFitClasses.PhoneUsers;
 import com.example.aria.RetroFitClasses.PhoneUsers2;
-import com.example.aria.adapters.MembersAdapter;
+import com.example.aria.RetroFitClasses.UsersAPI;
+import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
 public class AddCalendarActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_CODE_CALENDAR = 100;
+    private static final int PERMISSIONS_REQUEST_CODE_NOTIFICATIONS = 1001;
+    private static final int PERMISSIONS_REQUEST_CODE_NOTIFICATIONS_MEMBERS = 1010;
+    private static final int PERMISSIONS_REQUEST_CODE_SMS = 1011;
+
+    private final String WITHOUT_GOOGLE_CALENDAR="0";
+    private final String PADDING_ZERO="0";
+    private final int ONE_DIGIT=10;
+    private final int MINUTES=60;
+
+
     private EventsAPI eventsAPI = new EventsAPI();
-    private String username,title, des, token, start, end, a, date="";
+    private String username,title, des, token, start, end, a, date="",fullName;
+
+    String id;
+    int requestCodePending;
+
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
@@ -56,31 +68,56 @@ public class AddCalendarActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_calendar2);
+
+        final int EMPTY_LENGTH=0;
+
+
         List<MemberListItem> membersList = new ArrayList<>();
         username=getIntent().getExtras().getString("username");
-
-//        ListView lstMembers=findViewById(R.id.lstMembers);
-//        MembersAdapter adapter=new MembersAdapter(membersList);
-//        lstMembers.setAdapter(adapter);
-//
-//        ImageButton addMember = findViewById(R.id.addMember);
-//        addMember.setOnClickListener(v -> {
-//            EditText phone2=findViewById(R.id.phoneNumber);
-//            EditText name2=findViewById(R.id.name);
-//            MemberListItem m1=new MemberListItem(phone2.getText().toString(),name2.getText().toString());
-//
-//            if(!membersList.contains(m1)) {
-//                membersList.add(m1);
-//                adapter.notifyDataSetChanged();
-//            }
-//        });
+        fullName = getIntent().getExtras().getString("fullName");
+        int dayint=getIntent().getExtras().getInt("day");
+        requestCodePending = generateUniqueRequestCode();
         createNotificationChannel();
         token = getIntent().getExtras().getString("token");
-
         date = getIntent().getExtras().getString("date");
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(view -> {
             onBackPressed();
+        });
+
+        UsersAPI usersAPI=new UsersAPI();
+        List<String> lst= usersAPI.getTimes(dayint,token);
+
+
+        TextView time1=findViewById(R.id.time1);
+        TextView time2=findViewById(R.id.time2);
+        TextView time3=findViewById(R.id.time3);
+        time1.setText(lst.get(0));
+        time2.setText(lst.get(1));
+        time3.setText(lst.get(2));
+        time1.setOnClickListener(v->{
+            String time1str=time1.getText().toString();
+            TextView startView=findViewById(R.id.startsTextView);
+            startView.setText(time1str.split("-")[0]);
+            TextView endView=findViewById(R.id.endsTextView);
+            endView.setText(time1str.split("-")[1]);
+
+        });
+        time2.setOnClickListener(v->{
+            String time2str=time2.getText().toString();
+            TextView startView=findViewById(R.id.startsTextView);
+            startView.setText(time2str.split("-")[0]);
+            TextView endView=findViewById(R.id.endsTextView);
+            endView.setText(time2str.split("-")[1]);
+
+        });
+        time3.setOnClickListener(v->{
+            String time3str=time3.getText().toString();
+            TextView startView=findViewById(R.id.startsTextView);
+            startView.setText(time3str.split("-")[0]);
+            TextView endView=findViewById(R.id.endsTextView);
+            endView.setText(time3str.split("-")[1]);
+
         });
 
         ImageButton btnhome=findViewById(R.id.btnhome);
@@ -88,24 +125,43 @@ public class AddCalendarActivity extends AppCompatActivity {
             Intent intent=new Intent(this,CalendarActivity.class);
             intent.putExtra("username",username);
             intent.putExtra("token",token);
+            intent.putExtra("fullName",fullName);
             startActivity(intent);
         });
 
         ImageButton btnAriaList=findViewById(R.id.arialstbtn);
         btnAriaList.setOnClickListener(view->{
 
+
+
             Intent intent=new Intent(this, AriaListEventsActivity.class);
             intent.putExtra("username",username);
             intent.putExtra("token",token);
+            intent.putExtra("fullName",fullName);
             startActivity(intent);
         });
 
         ImageButton btnAria = findViewById(R.id.btnAria);
         btnAria.setOnClickListener(view -> {
-            Intent intent = new Intent(this, AddAriaActivity.class);
-            intent.putExtra("token",token);
-            intent.putExtra("username",username);
-            startActivity(intent);
+
+            String[] permissions2 = {Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS};
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED ||  ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, permissions2, PERMISSIONS_REQUEST_CODE_SMS);
+
+            }
+            else {
+                Intent intent = new Intent(this, AddAriaActivity.class);
+                intent.putExtra("token",token);
+                intent.putExtra("username",username);
+                intent.putExtra("fullName",fullName);
+                startActivity(intent);
+
+            }
+
+
+
         });
         Spinner spinner = findViewById(R.id.alert);
         Button btnMembers = findViewById(R.id.btnAddMembers);
@@ -126,8 +182,8 @@ public class AddCalendarActivity extends AppCompatActivity {
             {
                 timeFlag=true;
             }
-            if(editTitle.getText().toString().length() != 0){
-                System.out.println("title is not empty");
+            if(editTitle.getText().toString().length() != EMPTY_LENGTH){
+
                 titleFlag=true;
             }
             if (titleFlag&&timeFlag) {
@@ -147,10 +203,12 @@ public class AddCalendarActivity extends AppCompatActivity {
                 int yearInt = Integer.valueOf(year);
 
 
-                if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{
-                            Manifest.permission.POST_NOTIFICATIONS
-                    }, 1001);
+                if (!(((String)spinner.getSelectedItem()).equals("None"))&& checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+
+                        requestPermissions(new String[]{
+                                Manifest.permission.POST_NOTIFICATIONS
+                        }, PERMISSIONS_REQUEST_CODE_NOTIFICATIONS_MEMBERS);
+
                 } else {
 
 
@@ -165,6 +223,7 @@ public class AddCalendarActivity extends AppCompatActivity {
                     String description = "";
 
                     if (a.equals("hour before")) {
+
                         if (hourInt == 0) {
                             hourInt = 23;
                         } else {
@@ -184,84 +243,83 @@ public class AddCalendarActivity extends AppCompatActivity {
 
                     Intent intent1 = new Intent(AddCalendarActivity.this, NotificationBroadcast.class);
                     intent1.setAction("com.example.aria.ACTION_SHOW_NOTIFICATION");
-                    intent1.putExtra("title", title); // Add title string
+                    intent1.putExtra("title", title);
                     intent1.putExtra("description", description);
-                    int requestCodePending = generateUniqueRequestCode();
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(AddCalendarActivity.this, requestCodePending, intent1, PendingIntent.FLAG_IMMUTABLE);
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                    if (!a.equals("None")) {
-                        System.out.println("alerttt");
-                        System.out.println(hourInt);
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.YEAR, yearInt); // Year
-                        calendar.set(Calendar.MONTH, monthInt); // Month (Note: January is 0)
-                        calendar.set(Calendar.DAY_OF_MONTH, newDayInt); // Day of the month
-                        calendar.set(Calendar.HOUR_OF_DAY, hourInt); // Hour (in 24-hour format)
-                        calendar.set(Calendar.MINUTE, minuteInt); // Minute
-                        calendar.set(Calendar.SECOND, 0); // Second
-                        long alarmTimeMillis = calendar.getTimeInMillis();
+                    final int[] timeValues = {hourInt, minuteInt, newDayInt, monthInt, yearInt};
 
-                        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeMillis, pendingIntent);
-                    }
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(AddCalendarActivity.this, instanceIdResult -> {
+                        String newToken = "";
+                        newToken = instanceIdResult.getToken();
+                        intent1.putExtra("token",newToken);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(AddCalendarActivity.this, requestCodePending, intent1, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                        int code = -1;
+                        if (!a.equals("None")) {
+
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(Calendar.YEAR, yearInt);
+                            calendar.set(Calendar.MONTH, timeValues[3]);
+                            calendar.set(Calendar.DAY_OF_MONTH, timeValues[2]);
+                            calendar.set(Calendar.HOUR_OF_DAY, timeValues[0]);
+                            calendar.set(Calendar.MINUTE, minuteInt);
+                            calendar.set(Calendar.SECOND, 0);
+                            long alarmTimeMillis = calendar.getTimeInMillis();
+
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeMillis, pendingIntent);
+                            code = requestCodePending;
+                        }
+                        List <String> list = new ArrayList<String>();
+                        intent.putExtra("token",token);
+                        intent.putExtra("username",username);
+                        intent.putExtra("title",title);
+                        intent.putExtra("description",des);
+                        intent.putExtra("start",start);
+                        intent.putExtra("end",end);
+                        intent.putExtra("date",date);
+                        intent.putExtra("alert",a);
+                        intent.putExtra("monthInt",timeValues[3]);
+                        intent.putExtra("dayInt",dayInt);
+                        intent.putExtra("yearInt",yearInt);
+                        intent.putExtra("h1",h1);
+                        intent.putExtra("m1",m1);
+                        intent.putExtra("h2",h2);
+                        intent.putExtra("m2",m2);
+                        intent.putExtra("code", code);
+                        intent.putExtra("fullName",fullName);
+
+                        startActivity(intent);
+
+                    });
 
 
 
                 }
-                //Intent intent = new Intent(this, CalendarActivity.class);
-                List <String> list = new ArrayList<String>();
 
-                //PhoneUsers2 pu = eventsAPI.checkPhones(token, title, des, start, end, a, date, list);
-                //System.out.println("id event");
-                //System.out.println(id);
-                //intent.putExtra("token", token);
-                //intent.putExtra("username", username);
-                //startActivity(intent);
-                //String id=pu.getId();
-
-
-                intent.putExtra("token",token);
-                intent.putExtra("username",username);
-                intent.putExtra("title",title);
-                intent.putExtra("description",des);
-                intent.putExtra("start",start);
-                intent.putExtra("end",end);
-                intent.putExtra("date",date);
-                intent.putExtra("alert",a);
-                intent.putExtra("monthInt",monthInt);
-                intent.putExtra("dayInt",dayInt);
-                intent.putExtra("yearInt",yearInt);
-                intent.putExtra("h1",h1);
-                intent.putExtra("m1",m1);
-                intent.putExtra("h2",h2);
-                intent.putExtra("m2",m2);
-
-                startActivity(intent);
-
-                // showCustomPermissionDialog(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, token);
             }
             else {
 
                 if (timeFlag == false) {
-                    System.out.println("time not good");
+
                     ImageView errorIcon = findViewById(R.id.wrongTime);
                     LinearLayout errorText = findViewById(R.id.wrongTime2);
                     errorIcon.setVisibility(View.VISIBLE);
                     errorText.setVisibility(View.VISIBLE);
                 } else {
-                    System.out.println("time good");
+
                     ImageView errorIcon = findViewById(R.id.wrongTime);
                     LinearLayout errorText = findViewById(R.id.wrongTime2);
                     errorIcon.setVisibility(View.INVISIBLE);
                     errorText.setVisibility(View.INVISIBLE);
                 }
                 if (titleFlag==false) {
-                    System.out.println("title not good");
+
                     ImageView errorIcon = findViewById(R.id.wrongTitle);
                     LinearLayout errorText = findViewById(R.id.wrongTitle2);
                     errorIcon.setVisibility(View.VISIBLE);
                     errorText.setVisibility(View.VISIBLE);
                 } else {
-                    System.out.println("title good");
+
                     ImageView errorIcon = findViewById(R.id.wrongTitle);
                     LinearLayout errorText = findViewById(R.id.wrongTitle2);
                     errorIcon.setVisibility(View.INVISIBLE);
@@ -277,7 +335,7 @@ public class AddCalendarActivity extends AppCompatActivity {
 
         Button btnDone = findViewById(R.id.btnDone);
         btnDone.setOnClickListener(view -> {
-            System.out.println("done btn");
+
             EditText editTitle = findViewById(R.id.title);
             TextView startView = findViewById(R.id.startsTextView);
             TextView endView = findViewById(R.id.endsTextView);
@@ -293,17 +351,30 @@ public class AddCalendarActivity extends AppCompatActivity {
             {
                 timeFlag=true;
             }
-            if(editTitle.getText().toString().length() != 0){
-                System.out.println("title is not empty");
+            if(editTitle.getText().toString().length() != EMPTY_LENGTH){
+
                 titleFlag=true;
             }
             if (titleFlag&&timeFlag) {
+
+
+
+
                 EditText editDes = findViewById(R.id.des);
                 a = (String) spinner.getSelectedItem();
                 title = editTitle.getText().toString();
                 des = editDes.getText().toString();
                 start = startView.getText().toString();
                 end = endView.getText().toString();
+
+
+
+                String range=start+"-"+end;
+                int flag=0;
+                if(range.equals(time1.getText().toString())||range.equals(time2.getText().toString())||range.equals(time3.getText().toString())){
+                    flag=1;
+                }
+                usersAPI.calendarTimes(dayint,range,flag,token);
 
                 int index_first_slash = date.indexOf("/");
                 String day = date.substring(index_first_slash - 2, index_first_slash);
@@ -314,11 +385,14 @@ public class AddCalendarActivity extends AppCompatActivity {
                 int yearInt = Integer.valueOf(year);
 
 
-                if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{
-                            Manifest.permission.POST_NOTIFICATIONS
-                    }, 1001);
-                } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if ((!((String)spinner.getSelectedItem()).equals("None"))&&checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, PERMISSIONS_REQUEST_CODE_NOTIFICATIONS);
+
+
+                    }
+                 else {
+
 
 
                     int index_time = start.indexOf(":");
@@ -351,65 +425,90 @@ public class AddCalendarActivity extends AppCompatActivity {
 
                     Intent intent1 = new Intent(AddCalendarActivity.this, NotificationBroadcast.class);
                     intent1.setAction("com.example.aria.ACTION_SHOW_NOTIFICATION");
-                    intent1.putExtra("title", title); // Add title string
+                    intent1.putExtra("title", title);
                     intent1.putExtra("description", description);
-                    int requestCodePending = generateUniqueRequestCode();
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(AddCalendarActivity.this, requestCodePending, intent1, PendingIntent.FLAG_IMMUTABLE);
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                    if (!a.equals("None")) {
-                        System.out.println("alerttt");
-                        System.out.println(hourInt);
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.YEAR, yearInt); // Year
-                        calendar.set(Calendar.MONTH, monthInt); // Month (Note: January is 0)
-                        calendar.set(Calendar.DAY_OF_MONTH, newDayInt); // Day of the month
-                        calendar.set(Calendar.HOUR_OF_DAY, hourInt); // Hour (in 24-hour format)
-                        calendar.set(Calendar.MINUTE, minuteInt); // Minute
-                        calendar.set(Calendar.SECOND, 0); // Second
-                        long alarmTimeMillis = calendar.getTimeInMillis();
 
-                        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeMillis, pendingIntent);
-                    }
+                    int newHourInt=hourInt;
+                    int newMonthInt=monthInt;
+                    int newDayInt2=newDayInt;
+
+
+                        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(AddCalendarActivity.this, instanceIdResult -> {
+                        String newToken = "";
+                        newToken = instanceIdResult.getToken();
+                        intent1.putExtra("token", newToken);
+
+
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(AddCalendarActivity.this, requestCodePending, intent1, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                        int code = -1;
+                        if (!a.equals("None")) {
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(Calendar.YEAR, yearInt);
+                            calendar.set(Calendar.MONTH, newMonthInt);
+                            calendar.set(Calendar.DAY_OF_MONTH, newDayInt2);
+                            calendar.set(Calendar.HOUR_OF_DAY, newHourInt);
+                            calendar.set(Calendar.MINUTE, minuteInt);
+                            calendar.set(Calendar.SECOND, 0);
+                            long alarmTimeMillis = calendar.getTimeInMillis();
+
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeMillis, pendingIntent);
+                            code = requestCodePending;
+                        }
+
+
+
+                            List <MemberListItem> list2 = null;
+                            String empty = "";
+                            List<PhoneUsers2> pu = eventsAPI.checkPhones(token, title, des, start, end, a, date, list2, empty, WITHOUT_GOOGLE_CALENDAR,code);
+                            id=pu.get(0).getId();
+                            showCustomPermissionDialog(id, title, des, start, end, Integer.valueOf(month)-1, yearInt, dayInt, h1, m1, h2, m2, token);
+                    });
+
+
+
 
 
 
                 }
-                //Intent intent = new Intent(this, CalendarActivity.class);
-                List <MemberListItem> list2 = null;
-                String empty = "";
-                List<PhoneUsers2> pu = eventsAPI.checkPhones(token, title, des, start, end, a, date, list2, empty, "0");
-                System.out.println(pu);
-                System.out.println("id event");
-                //System.out.println(id);
-                //intent.putExtra("token", token);
-                //intent.putExtra("username", username);
-                //startActivity(intent);
-                String id=pu.get(0).getId();
-                showCustomPermissionDialog(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, token);
+            }
+                else{
+
+                    List <MemberListItem> list2 = null;
+                    String empty = "";
+                    List<PhoneUsers2> pu = eventsAPI.checkPhones(token, title, des, start, end, a, date, list2, empty, WITHOUT_GOOGLE_CALENDAR,-1);
+                    id=pu.get(0).getId();
+                    showCustomPermissionDialog(id, title, des, start, end, Integer.valueOf(month)-1, yearInt, dayInt, h1, m1, h2, m2, token);
+
+
+                }
+
             }
             else {
 
                 if (timeFlag == false) {
-                    System.out.println("time not good");
+
                     ImageView errorIcon = findViewById(R.id.wrongTime);
                     LinearLayout errorText = findViewById(R.id.wrongTime2);
                     errorIcon.setVisibility(View.VISIBLE);
                     errorText.setVisibility(View.VISIBLE);
                 } else {
-                    System.out.println("time good");
+
                     ImageView errorIcon = findViewById(R.id.wrongTime);
                     LinearLayout errorText = findViewById(R.id.wrongTime2);
                     errorIcon.setVisibility(View.INVISIBLE);
                     errorText.setVisibility(View.INVISIBLE);
                 }
                 if (titleFlag==false) {
-                    System.out.println("title not good");
+
                     ImageView errorIcon = findViewById(R.id.wrongTitle);
                     LinearLayout errorText = findViewById(R.id.wrongTitle2);
                     errorIcon.setVisibility(View.VISIBLE);
                     errorText.setVisibility(View.VISIBLE);
                 } else {
-                    System.out.println("title good");
+
                     ImageView errorIcon = findViewById(R.id.wrongTitle);
                     LinearLayout errorText = findViewById(R.id.wrongTitle2);
                     errorIcon.setVisibility(View.INVISIBLE);
@@ -432,12 +531,12 @@ public class AddCalendarActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialogStarts=new TimePickerDialog(AddCalendarActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        if(minute<10&&hourOfDay<10)
-                            startsTextView.setText("0"+hourOfDay+":"+"0"+minute);
-                        else if(minute<10)
-                            startsTextView.setText(hourOfDay+":"+"0"+minute);
-                        else if(hourOfDay<10)
-                            startsTextView.setText("0"+hourOfDay+":"+minute);
+                        if(minute<ONE_DIGIT&&hourOfDay<ONE_DIGIT)
+                            startsTextView.setText(PADDING_ZERO+hourOfDay+":"+PADDING_ZERO+minute);
+                        else if(minute<ONE_DIGIT)
+                            startsTextView.setText(hourOfDay+":"+PADDING_ZERO+minute);
+                        else if(hourOfDay<ONE_DIGIT)
+                            startsTextView.setText(PADDING_ZERO+hourOfDay+":"+minute);
                         else
                             startsTextView.setText(hourOfDay+":"+minute);
                     }
@@ -453,12 +552,12 @@ public class AddCalendarActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialogStarts=new TimePickerDialog(AddCalendarActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        if(minute<10&&hourOfDay<10)
-                            endsTextView.setText("0"+hourOfDay+":"+"0"+minute);
-                        else if(minute<10)
-                            endsTextView.setText(hourOfDay+":"+"0"+minute);
-                        else if(hourOfDay<10)
-                            endsTextView.setText("0"+hourOfDay+":"+minute);
+                        if(minute<ONE_DIGIT&&hourOfDay<ONE_DIGIT)
+                            endsTextView.setText(PADDING_ZERO+hourOfDay+":"+PADDING_ZERO+minute);
+                        else if(minute<ONE_DIGIT)
+                            endsTextView.setText(hourOfDay+":"+PADDING_ZERO+minute);
+                        else if(hourOfDay<ONE_DIGIT)
+                            endsTextView.setText(PADDING_ZERO+hourOfDay+":"+minute);
                         else
                             endsTextView.setText(hourOfDay+":"+minute);
                     }
@@ -491,8 +590,20 @@ public class AddCalendarActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1001) {
+
+        if (requestCode == PERMISSIONS_REQUEST_CODE_NOTIFICATIONS) {
+
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                EditText editTitle = findViewById(R.id.title);
+                TextView startView = findViewById(R.id.startsTextView);
+                TextView endView = findViewById(R.id.endsTextView);
+                String startTime = startView.getText().toString();
+                String endTime = endView.getText().toString();
+                int h1 = Integer.parseInt(startTime.substring(0, startTime.indexOf(':')));
+                int m1 = Integer.parseInt(startTime.substring(startTime.indexOf(':') + 1, startTime.length()));
+                int h2 = Integer.parseInt(endTime.substring(0, endTime.indexOf(':')));
+                int m2 = Integer.parseInt(endTime.substring(endTime.indexOf(':') + 1, endTime.length()));
                 int index_time = start.indexOf(":");
                 String hour = start.substring(index_time - 2, index_time);
                 String minute = start.substring(index_time + 1);
@@ -541,39 +652,228 @@ public class AddCalendarActivity extends AppCompatActivity {
                     }
                     description = "tomorrow at " + start;
                 }
+                final int[] timeValues = {hourInt, minuteInt, dayInt, newMonthInt, yearInt};
+
                 Intent intent = new Intent(this, CalendarActivity.class);
                 Intent intent1 = new Intent(AddCalendarActivity.this, NotificationBroadcast.class);
                 intent1.setAction("com.example.aria.ACTION_SHOW_NOTIFICATION");
                 intent1.putExtra("title", title);
                 intent1.putExtra("description", description);
-                int requestCodePending = generateUniqueRequestCode();
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(AddCalendarActivity.this, requestCodePending, intent1, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(AddCalendarActivity.this, instanceIdResult -> {
+                    String newToken = "";
+                    newToken = instanceIdResult.getToken();
+                    intent1.putExtra("token",newToken);
 
-                if(!a.equals("None")){
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(Calendar.YEAR, yearInt); // Year
-                    calendar.set(Calendar.MONTH, newMonthInt); // Month (Note: January is 0)
-                    calendar.set(Calendar.DAY_OF_MONTH, dayInt); // Day of the month
-                    calendar.set(Calendar.HOUR_OF_DAY, hourInt); // Hour (in 24-hour format)
-                    calendar.set(Calendar.MINUTE, minuteInt); // Minute
-                    calendar.set(Calendar.SECOND, 0); // Second
 
-                    long alarmTimeMillis = calendar.getTimeInMillis();
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeMillis, pendingIntent);
-                }
-                List <MemberListItem> list2 = null;
-                String empty = "";
-                eventsAPI.checkPhones(token, title, des, start, end, a, date, list2, empty, "0");
-                intent.putExtra("token", token);
-                intent.putExtra("username",username);
-                startActivity(intent);
+
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(AddCalendarActivity.this, requestCodePending, intent1, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    int code=-1;
+                    if(!a.equals("None")){
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.YEAR, yearInt);
+                        calendar.set(Calendar.MONTH, timeValues[3]);
+                        calendar.set(Calendar.DAY_OF_MONTH, timeValues[2]);
+                        calendar.set(Calendar.HOUR_OF_DAY, timeValues[0]);
+                        calendar.set(Calendar.MINUTE, minuteInt);
+                        calendar.set(Calendar.SECOND, 0);
+
+                        long alarmTimeMillis = calendar.getTimeInMillis();
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeMillis, pendingIntent);
+                        code=requestCodePending;
+                    }
+                    List <MemberListItem> list2 = null;
+                    String empty = "";
+
+                    List<PhoneUsers2> pu= eventsAPI.checkPhones(token, title, des, start, end, a, date, list2, empty, WITHOUT_GOOGLE_CALENDAR,code);
+
+                    id=pu.get(0).getId();
+                    showCustomPermissionDialog(id, title, des, start, end, monthInt, yearInt, timeValues[2], h1, m1, h2, m2, token);
+
+                });
+
+
             } else {
-                // Permission is denied
-                // You may inform the user about the consequences of not granting the permission
-                // Or you may disable functionality that requires this permission
+
+                Spinner spinner=findViewById(R.id.alert);
+                spinner.setSelection(0);
+                TextView alertmsgTextView=findViewById(R.id.alertmsg);
+                alertmsgTextView.setVisibility(View.VISIBLE);
+
+
+
             }
         }
+        if(requestCode==PERMISSIONS_REQUEST_CODE_NOTIFICATIONS_MEMBERS)
+        {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                TextView startView = findViewById(R.id.startsTextView);
+                TextView endView = findViewById(R.id.endsTextView);
+                String startTime = startView.getText().toString();
+                String endTime = endView.getText().toString();
+                int h1 = Integer.parseInt(startTime.substring(0, startTime.indexOf(':')));
+                int m1 = Integer.parseInt(startTime.substring(startTime.indexOf(':') + 1, startTime.length()));
+                int h2 = Integer.parseInt(endTime.substring(0, endTime.indexOf(':')));
+                int m2 = Integer.parseInt(endTime.substring(endTime.indexOf(':') + 1, endTime.length()));
+
+                int index_first_slash = date.indexOf("/");
+                String day = date.substring(index_first_slash - 2, index_first_slash);
+                String month = date.substring(index_first_slash + 1, index_first_slash + 3);
+                String year = date.substring(index_first_slash + 4, date.length());
+                int dayInt = Integer.valueOf(day);
+                int monthInt = Integer.valueOf(month);
+                int yearInt = Integer.valueOf(year);
+
+                int index_time = start.indexOf(":");
+                String hour = start.substring(index_time - 2, index_time);
+                String minute = start.substring(index_time + 1, start.length());
+
+                int hourInt = Integer.valueOf(hour);
+                int minuteInt = Integer.valueOf(minute);
+
+                monthInt = monthInt - 1;
+                String description = "";
+
+                if (a.equals("hour before")) {
+
+                    if (hourInt == 0) {
+                        hourInt = 23;
+                    } else {
+                        hourInt = hourInt - 1;
+                    }
+                    description = "today at " + start;
+                }
+                int newDayInt = dayInt;
+                if (a.equals("day before")) {
+                    if (newDayInt == 1) {
+                        newDayInt = 23;
+                    } else {
+                        newDayInt = newDayInt - 1;
+                    }
+                    description = "tomorrow at " + start;
+                }
+
+                Intent intent1 = new Intent(AddCalendarActivity.this, NotificationBroadcast.class);
+                intent1.setAction("com.example.aria.ACTION_SHOW_NOTIFICATION");
+                intent1.putExtra("title", title);
+                intent1.putExtra("description", description);
+                final int[] timeValues = {hourInt, minuteInt, newDayInt, monthInt, yearInt};
+
+                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(AddCalendarActivity.this, instanceIdResult -> {
+                    String newToken = "";
+                    newToken = instanceIdResult.getToken();
+                    intent1.putExtra("token",newToken);
+
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(AddCalendarActivity.this, requestCodePending, intent1, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    if (!a.equals("None")) {
+
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.YEAR, yearInt);
+                        calendar.set(Calendar.MONTH, timeValues[3]);
+                        calendar.set(Calendar.DAY_OF_MONTH, timeValues[2]);
+                        calendar.set(Calendar.HOUR_OF_DAY, timeValues[0]);
+                        calendar.set(Calendar.MINUTE, minuteInt);
+                        calendar.set(Calendar.SECOND, 0);
+                        long alarmTimeMillis = calendar.getTimeInMillis();
+
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeMillis, pendingIntent);
+                    }
+                    List <String> list = new ArrayList<String>();
+                    Intent intent = new Intent(this, MembersActivity.class);
+                    intent.putExtra("token",token);
+                    intent.putExtra("username",username);
+                    intent.putExtra("title",title);
+                    intent.putExtra("description",des);
+                    intent.putExtra("start",start);
+                    intent.putExtra("end",end);
+                    intent.putExtra("date",date);
+                    intent.putExtra("alert",a);
+                    intent.putExtra("monthInt",timeValues[3]);
+                    intent.putExtra("dayInt",dayInt);
+                    intent.putExtra("yearInt",yearInt);
+                    intent.putExtra("h1",h1);
+                    intent.putExtra("m1",m1);
+                    intent.putExtra("h2",h2);
+                    intent.putExtra("m2",m2);
+                    intent.putExtra("fullName",fullName);
+
+                    startActivity(intent);
+                });
+
+
+
+
+
+
+
+
+            }
+            else{
+            Spinner spinner=findViewById(R.id.alert);
+            spinner.setSelection(0);
+            TextView alertmsgTextView=findViewById(R.id.alertmsg);
+            alertmsgTextView.setVisibility(View.VISIBLE);
+
+            }
+
+        }
+
+        if (requestCode == PERMISSIONS_REQUEST_CODE_CALENDAR) {
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                TextView startView = findViewById(R.id.startsTextView);
+                TextView endView = findViewById(R.id.endsTextView);
+                String startTime = startView.getText().toString();
+                String endTime = endView.getText().toString();
+                int h1 = Integer.parseInt(startTime.substring(0, startTime.indexOf(':')));
+                int m1 = Integer.parseInt(startTime.substring(startTime.indexOf(':') + 1, startTime.length()));
+                int h2 = Integer.parseInt(endTime.substring(0, endTime.indexOf(':')));
+                int m2 = Integer.parseInt(endTime.substring(endTime.indexOf(':') + 1, endTime.length()));
+                int index_first_slash = date.indexOf("/");
+                String day = date.substring(index_first_slash - 2, index_first_slash);
+                String month = date.substring(index_first_slash + 1, index_first_slash + 3);
+                String year = date.substring(index_first_slash + 4, date.length());
+                int dayInt = Integer.valueOf(day);
+                int monthInt = Integer.valueOf(month);
+                int yearInt = Integer.valueOf(year);
+                monthInt = monthInt - 1;
+
+                addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
+            } else {
+
+                Toast.makeText(this, "Can't add to google calendar", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, CalendarActivity.class);
+                intent.putExtra("token", token);
+                intent.putExtra("username", username);
+                intent.putExtra("fullName",fullName);
+                startActivity(intent);
+
+            }
+        }
+        if (requestCode == PERMISSIONS_REQUEST_CODE_SMS) {
+
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(this, AddAriaActivity.class);
+                intent.putExtra("token",token);
+                intent.putExtra("username",username);
+                intent.putExtra("fullName",fullName);
+                startActivity(intent);
+
+            } else {
+                Toast.makeText(this, "aria needs sms permission", Toast.LENGTH_SHORT).show();
+
+
+
+            }
+        }
+
+
     }
     private void showCustomPermissionDialog(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2, String token) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -585,53 +885,52 @@ public class AddCalendarActivity extends AppCompatActivity {
 
         TextView tvTitle = dialogView.findViewById(R.id.tvTitle);
         TextView tvMessage = dialogView.findViewById(R.id.tvMessage);
+        tvTitle.setText("Google calendar");
+        tvMessage.setText("do you want to add this event to your google calendar?");
         Button btnPositive = dialogView.findViewById(R.id.btnPositive);
         Button btnNegative = dialogView.findViewById(R.id.btnNegative);
         Intent intent = new Intent(this, CalendarActivity.class);
         intent.putExtra("token", token);
         intent.putExtra("username", username);
+        intent.putExtra("fullName",fullName);
         btnPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle Allow button click
+
                 dialog.dismiss();
                 addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
-                startActivity(intent);
-                // Perform action to grant permission or proceed
+
             }
         });
 
         btnNegative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle Deny button click
+
                 dialog.dismiss();
                 startActivity(intent);
-                // Perform action to deny permission or exit
+
             }
         });
 
         dialog.show();
     }
     private void addEventToCalendar(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2) {
-        // Check again if permissions are granted
-        System.out.println("add event");
+
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-            System.out.println("permission");
+
             java.util.Calendar startCal = java.util.Calendar.getInstance();
-            startCal.set(yearInt, monthInt, dayInt, h1, m1); // Year, month, day, hour, minute
+            startCal.set(yearInt, monthInt, dayInt, h1, m1);
             long startTime = startCal.getTimeInMillis();
             int numH = h2 - h1;
             int numM = m2 - m1;
-            int timeInM = (numH * 60) + numM;
-            long endTime = startTime + timeInM * 60 * 1000;
+            int timeInM = (numH * MINUTES) + numM;
+            long endTime = startTime + timeInM * MINUTES * 1000;
 
 
-            System.out.println(startTime);
-            System.out.println(endTime);
-            System.out.println(title);
-            System.out.println(des);
+
             ContentResolver cr = getContentResolver();
             ContentValues values = new ContentValues();
             values.put(CalendarContract.Events.DTSTART, startTime);
@@ -646,11 +945,15 @@ public class AddCalendarActivity extends AppCompatActivity {
 
             EventsAPI eventsAPI = new EventsAPI();
             eventsAPI.addGoogleEvent(Integer.parseInt(id),(int)googleID,token);
-            //System.out.println("Event added with ID:" + eventID);
-            //Log.d("CalendarSync", "Event added with ID: " + eventID);
+            Intent intent = new Intent(this, CalendarActivity.class);
+            intent.putExtra("token", token);
+            intent.putExtra("username", username);
+            intent.putExtra("fullName",fullName);
+            startActivity(intent);
+
         } else {
-            // Request permissions if not granted
-            System.out.println("no permission calendar");
+
+
             requestCalendarPermissions(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, date);
         }
     }
@@ -677,22 +980,26 @@ public class AddCalendarActivity extends AppCompatActivity {
             cursor.close();
         }
 
-        return -1; // Default to invalid ID if primary calendar is not found
+        return -1;
     }
     private void requestCalendarPermissions(String id, String title, String des, String start, String end, int monthInt, int yearInt, int dayInt, int h1, int m1, int h2, int m2, String date) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR},
-                    PERMISSIONS_REQUEST_CODE_CALENDAR);
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR},
+                        PERMISSIONS_REQUEST_CODE_CALENDAR);
+
+            } else {
+
+                addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
+
+            }
         }
         else{
-            System.out.println("in");
-            addEventToCalendar(id, title, des, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2);
-            //ContentResolver contentResolver = getContentResolver();
-            //deleteEvent(contentResolver,8);
-            //updateEventTime(8);
+
         }
     }
 }

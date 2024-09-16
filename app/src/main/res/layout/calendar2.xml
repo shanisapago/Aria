@@ -13,13 +13,159 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.25"
             android:orientation="vertical">
 
+            <ImageButton
+
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleX="-1"
+                android:padding="16dp"
+
+                >
+
+            </ImageButton>
+            <TextView
+                android:layout_weight="0.25"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/blueText"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:shadowColor="#80000000"
+                android:shadowDx="2"
+                android:shadowDy="7"
+                android:shadowRadius="3"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.75"
+            android:background="@drawable/white_background"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
+
+
+
+
+            <com.applandeo.materialcalendarview.CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+
+
+
+                android:firstDayOfWeek="1"
+
+                app:selectionColor="@color/blueText"
+                app:todayLabelColor="@color/lightBlue"
+                app:headerLabelColor="@color/blueText"
+                app:abbreviationsLabelsColor="@color/blueText"
+
+                app:headerColor="@color/whiteBackground"
+                app:previousButtonSrc="@drawable/backnew"
+                app:forwardButtonSrc="@drawable/nextnew"
+                android:background="@color/invisible"
+                android:backgroundTint="@color/invisible"
+
+                app:abbreviationsBarColor="@color/invisible"
+
+
+
+
+
+
+
+                />
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="0.05"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25">
+
+                </View>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.12">
+
+                </View>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.12">
+
+                </View>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25">
+
+                </View>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:layout_weight="0.007">
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/background"
+        android:alpha="0.45"
+        >
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25"
+            android:orientation="vertical">
             <ImageButton
                 android:id="@+id/btnExit"
                 android:layout_weight="1"
@@ -48,32 +194,27 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.75"
-            android:background="@drawable/white_background"
-            android:backgroundTint="@color/whiteBackground"
+
             android:orientation="vertical">
-
-            <CalendarView
-
-                android:id="@+id/calendarView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_centerInParent="true"
-                android:layout_weight="0.95"
-                android:dateTextAppearance="@style/CalenderViewDateCustomText2"
-                android:firstDayOfWeek="1"
-                android:theme="@style/CalenderViewDateCustomText1"
-                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
+                android:layout_weight="0.95">
+
+            </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_weight="0.05"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="2dp">
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -96,12 +237,12 @@
 
                 </View>
                 <ImageButton
-                android:id="@+id/ariabtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ariabtn"
+                    android:id="@+id/ariabtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ariabtn"
                     android:layout_gravity="bottom">
-            </ImageButton>
+                </ImageButton>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -123,21 +264,10 @@
                 </View>
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                android:layout_weight="0.007">
-
-            </LinearLayout>
-
-
         </LinearLayout>
 
-
-
-
-
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

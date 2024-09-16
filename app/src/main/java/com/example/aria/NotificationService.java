@@ -2,22 +2,15 @@ package com.example.aria;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.Service;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.IBinder;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class NotificationService extends FirebaseMessagingService {
     public NotificationService() {
@@ -25,10 +18,7 @@ public class NotificationService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
-        System.out.println("m");
-        System.out.println(message);
-        System.out.println(message.getNotification().getTitle());
-        System.out.println(message.getNotification().getBody());
+
         if (message.getNotification() != null) {
             createNotificationChanel();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1")

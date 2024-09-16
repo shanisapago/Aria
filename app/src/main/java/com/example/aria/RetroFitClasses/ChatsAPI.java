@@ -1,9 +1,7 @@
 package com.example.aria.RetroFitClasses;
 import com.example.aria.AriaEventsItems;
 import com.google.gson.JsonObject;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,7 +15,7 @@ public class ChatsAPI {
 
     public ChatsAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl("http://172.20.10.5:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -35,22 +33,6 @@ public class ChatsAPI {
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
-                    System.out.println("response");
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    System.out.println("failure");
-                    System.out.println(t.getMessage());
-                }
-            });
-        }
-        public void deleteChat(int id, String token) {
-            //JsonObject jsonObject = new JsonObject();
-            Call<Void> call = webServiceAPI.deleteChat(id, token);
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
                 }
 
                 @Override
@@ -58,6 +40,7 @@ public class ChatsAPI {
                 }
             });
         }
+
 
     public JsonObject addMessage(String phone, String token, JsonObject message, String time) {
         JsonObject jsonObject = new JsonObject();

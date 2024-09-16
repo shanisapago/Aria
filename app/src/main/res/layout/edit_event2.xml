@@ -101,11 +101,10 @@
                 android:orientation="horizontal"
                 android:layout_weight="0.1">
 
-
-
                 <EditText
                     android:id="@+id/title"
-                    android:layout_width="match_parent"
+                    android:layout_weight="0.9"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:fontFamily="@font/poppins"
@@ -113,11 +112,43 @@
                     android:background="@drawable/rectangle_field"
                     android:inputType="text"
                     android:textColor="@color/black"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="21dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="30dp"
+
                     android:paddingLeft="10dp"
                     />
+
+                <ImageView
+                    android:id="@+id/wrongTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wrong"
+                    android:visibility="invisible"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginRight="20dp"
+
+                    >
+                </ImageView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/wrongTitle2"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="30dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="enter title"
+                    android:paddingLeft="15dp"
+                    android:gravity="center"
+                    android:textColor="@color/RedWarning">
+                </TextView>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -136,7 +167,8 @@
 
                 <EditText
                     android:id="@+id/des"
-                    android:layout_width="match_parent"
+                    android:layout_weight="0.9"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="top"
@@ -147,7 +179,7 @@
                     android:textColor="@color/black"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="60dp"
                     android:paddingTop="10dp"
                     android:paddingLeft="10dp"
                     />
@@ -156,7 +188,237 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.03"></View>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="0.1">
 
+                <TextView
+
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.08"
+                    android:fontFamily="@font/poppins"
+
+                    android:text="Alert"
+                    android:paddingTop="5dp"
+                    android:layout_marginLeft="7dp"
+                    android:textStyle="bold"
+                    android:shadowColor="@color/white"
+                    android:shadowDy="1.5"
+                    android:shadowRadius="2"
+                    android:textSize="20sp"
+                    android:paddingLeft="10dp"/>
+                <Spinner
+                    android:id="@+id/alert"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.9"
+                    android:gravity="center"
+                    >
+
+
+                </Spinner>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"></View>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/alertmsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please accept permissions for alert."
+                android:textColor="@color/blueText"
+                android:visibility="invisible"
+                android:paddingLeft="15dp"></TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="0.1">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
+                    android:fontFamily="@font/poppins"
+                    android:text="Starts"
+                    android:layout_marginLeft="7dp"
+                    android:textStyle="bold"
+                    android:shadowColor="@color/white"
+                    android:shadowDy="1.5"
+                    android:shadowRadius="2"
+                    android:textSize="20sp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    />
+
+
+                <TextView
+                    android:id="@+id/startsTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="10:00"
+                    android:layout_marginLeft="7dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.35"
+                    android:textStyle="bold"
+                    android:paddingTop="15dp"
+
+                    />
+                <TextView
+
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
+                    android:fontFamily="@font/poppins"
+                    android:text="Ends  "
+                    android:layout_marginLeft="7dp"
+                    android:textStyle="bold"
+                    android:shadowColor="@color/white"
+                    android:shadowDy="1.5"
+                    android:shadowRadius="2"
+                    android:textSize="20sp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    />
+                <TextView
+                    android:id="@+id/endsTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:textStyle="bold"
+                    android:text="11:00"
+                    android:layout_marginLeft="7dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.35"
+                    android:paddingTop="15dp"
+
+                    />
+                <ImageView
+                    android:id="@+id/wrongTime"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wrong"
+                    android:layout_marginRight="20dp"
+                    android:paddingTop="25dp"
+                    android:visibility="visible"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+
+                    >
+                </ImageView>
+
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/wrongTime2"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="end time need to be after start time"
+                    android:paddingLeft="15dp"
+                    android:gravity="center"
+                    android:textColor="@color/RedWarning">
+                </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.08"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:paddingTop="5dp">
+
+
+
+                <TextView
+                    android:id="@+id/time1"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.14"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins"
+                    android:background="@drawable/rectangle_button"
+                    android:inputType="text"
+                    android:text="09:00-10:00"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+
+
+
+
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02">
+
+                </View>
+                <TextView
+                    android:id="@+id/time2"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.14"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins"
+                    android:background="@drawable/rectangle_button"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:text="09:00-10:00"
+                    android:gravity="center"
+
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02">
+
+                </View>
+                <TextView
+                    android:id="@+id/time3"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.14"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins"
+                    android:background="@drawable/rectangle_button"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:text="09:00-10:00"
+                    android:gravity="center"
+
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02">
+
+                </View>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.03"></View>
             <LinearLayout
                 android:id="@+id/chooseDate"
                 android:layout_width="match_parent"
@@ -173,7 +435,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/poppins"
-                        android:text="date"
+                        android:text="Date"
                         android:gravity="center"
                         android:paddingTop="5dp"
                         android:layout_marginLeft="7dp"
@@ -220,8 +482,8 @@
                 android:layout_height="0dp"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_weight="0.2"
-                android:visibility="gone">
+                android:layout_weight="0.35"
+                android:visibility="invisible">
 
             <DatePicker
                 android:id="@+id/DatePicker"
@@ -229,133 +491,15 @@
                 android:layout_height="wrap_content"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
-                android:visibility="gone"/>
+                android:visibility="invisible"/>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:layout_weight="0.1">
-
-                <TextView
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.05"
-                    android:fontFamily="@font/poppins"
-                    android:text="Starts"
-                    android:paddingTop="5dp"
-                    android:layout_marginLeft="7dp"
-                    android:textStyle="bold"
-                    android:shadowColor="@color/white"
-                    android:shadowDy="1.5"
-                    android:shadowRadius="2"
-                    android:textSize="20sp"
-                    android:paddingLeft="10dp"
-                    />
-
-
-                <TextView
-                    android:id="@+id/startsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins"
-                    android:text="10:00"
-                    android:paddingTop="5dp"
-                    android:layout_marginLeft="7dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.95"
-                    android:textStyle="bold"
-
-                    />
 
 
 
 
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.1">
-                <TextView
-
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.05"
-                    android:fontFamily="@font/poppins"
-                    android:text="Ends  "
-                    android:paddingTop="5dp"
-                    android:layout_marginLeft="7dp"
-                    android:textStyle="bold"
-                    android:shadowColor="@color/white"
-                    android:shadowDy="1.5"
-                    android:shadowRadius="2"
-                    android:textSize="20sp"
-                    android:paddingLeft="10dp"
-                    />
-                <TextView
-                    android:id="@+id/endsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins"
-                    android:textStyle="bold"
-                    android:text="11:00"
-                    android:paddingTop="5dp"
-                    android:layout_marginLeft="7dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.95"
-
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:layout_weight="0.1">
-
-                <TextView
-
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.08"
-                    android:fontFamily="@font/poppins"
-
-                    android:text="Alert"
-                    android:paddingTop="5dp"
-                    android:layout_marginLeft="7dp"
-                    android:textStyle="bold"
-                    android:shadowColor="@color/white"
-                    android:shadowDy="1.5"
-                    android:shadowRadius="2"
-                    android:textSize="20sp"
-                    android:paddingLeft="10dp"/>
-                <Spinner
-                    android:id="@+id/alert"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.9"
-                    android:gravity="center"
-                    >
-
-
-                </Spinner>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"></View>
-
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.05"></View>
 
 
             <LinearLayout
@@ -407,6 +551,7 @@
                 </View>
 
                 <ImageButton
+                    android:id="@+id/btnhome"
                     android:layout_width="wrap_content"
 
                     android:layout_height="wrap_content"
@@ -434,6 +579,7 @@
 
                 </View>
                 <ImageButton
+                    android:id="@+id/arialstbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/listbtn"

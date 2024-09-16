@@ -1,5 +1,4 @@
 package com.example.aria.RetroFitClasses;
-import java.util.List;
 public class NewAddEvent {
     private String token;
     private String title;

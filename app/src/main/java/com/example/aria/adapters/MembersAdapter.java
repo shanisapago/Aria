@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.example.aria.MemberListItem;
 import com.example.aria.R;
 import com.example.aria.RetroFitClasses.NotUser;
-
 import java.util.List;
 
 public class MembersAdapter extends BaseAdapter {
@@ -65,9 +64,6 @@ public class MembersAdapter extends BaseAdapter {
         for(NotUser notUser:notUsers)
         {
             if(viewHolder.phone.getText().toString().equals(notUser.getPhone())){
-                System.out.println("in adapter");
-                System.out.println(viewHolder.phone.getText().toString());
-                System.out.println(notUser.getPhone());
                 viewHolder.errorIcon.setVisibility(View.VISIBLE);}
             else{
                 viewHolder.errorIcon.setVisibility(View.INVISIBLE);

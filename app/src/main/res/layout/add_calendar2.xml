@@ -172,10 +172,7 @@
                     android:paddingLeft="10dp"
                     />
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.03"></View>
+
 
 
 
@@ -192,7 +189,7 @@
                     android:layout_weight="0.05"
                     android:fontFamily="@font/poppins"
                     android:text="Starts"
-                    android:paddingTop="5dp"
+                    android:paddingTop="25dp"
                     android:layout_marginLeft="7dp"
                     android:textStyle="bold"
                     android:shadowColor="@color/white"
@@ -209,23 +206,13 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins"
                     android:text="10:00"
-                    android:paddingTop="5dp"
+                    android:paddingTop="30dp"
                     android:layout_marginLeft="7dp"
                     android:layout_gravity="center"
                     android:layout_weight="0.95"
                     android:textStyle="bold"
 
                     />
-
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.1">
                 <TextView
 
                     android:layout_gravity="center"
@@ -234,7 +221,7 @@
                     android:layout_weight="0.05"
                     android:fontFamily="@font/poppins"
                     android:text="Ends  "
-                    android:paddingTop="5dp"
+                    android:paddingTop="25dp"
                     android:layout_marginLeft="7dp"
                     android:textStyle="bold"
                     android:shadowColor="@color/white"
@@ -250,7 +237,7 @@
                     android:fontFamily="@font/poppins"
                     android:textStyle="bold"
                     android:text="11:00"
-                    android:paddingTop="5dp"
+                    android:paddingTop="30dp"
                     android:layout_marginLeft="7dp"
                     android:layout_gravity="center"
                     android:layout_weight="0.95"
@@ -262,6 +249,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/wrong"
                     android:layout_marginRight="20dp"
+                    android:paddingTop="30dp"
                     android:visibility="invisible"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -269,7 +257,11 @@
                     >
                 </ImageView>
 
+
+
+
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/wrongTime2"
                 android:visibility="invisible"
@@ -284,6 +276,81 @@
                     android:gravity="center"
                     android:textColor="@color/RedWarning">
                 </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.06"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:paddingTop="5dp">
+
+
+
+                <TextView
+                    android:id="@+id/time1"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.14"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins"
+                    android:background="@drawable/rectangle_button"
+                    android:inputType="text"
+                    android:text="09:00-10:00"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+
+
+
+
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02">
+
+                </View>
+                <TextView
+                    android:id="@+id/time2"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.14"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins"
+                    android:background="@drawable/rectangle_button"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:text="09:00-10:00"
+                    android:gravity="center"
+
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02">
+
+                </View>
+                <TextView
+                    android:id="@+id/time3"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.14"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins"
+                    android:background="@drawable/rectangle_button"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:text="09:00-10:00"
+                    android:gravity="center"
+
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02">
+
+                </View>
+
             </LinearLayout>
 
             <LinearLayout
@@ -325,10 +392,16 @@
                     android:layout_weight="0.5"></View>
 
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.05"></View>
+            <TextView
+                android:id="@+id/alertmsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please accept permissions for alert."
+                android:textColor="@color/blueText"
+                android:visibility="invisible"
+                android:paddingLeft="15dp"></TextView>
+
+
 
 
             <LinearLayout
@@ -402,8 +475,8 @@
                 </View>
 
                 <ImageButton
-                    android:layout_width="wrap_content"
                     android:id="@+id/btnhome"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/btnhome"
                     android:layout_gravity="bottom">

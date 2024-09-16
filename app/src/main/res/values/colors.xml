@@ -11,7 +11,13 @@
     <color name="btnDone">#9ECAE7</color>
     <color name="btnAddMembers">#BDDBED</color>
     <color name="grayRectangleField">#144C6AB8</color>
+    <color name="grayRectangleField2">#404C6AB8</color>
     <color name="button">#809ECAE7</color>
     <color name="invisible">#0097CCE2</color>
     <color name="hint">#848383</color>
+    <color name="whiteBackgroundnew">#40FFFFFF</color>
+    <color name="whiteBackgroundnew2">#E6FFFFFF</color>
+
+  
+
 </resources>

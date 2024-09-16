@@ -8,7 +8,7 @@
 
     android:paddingBottom="16dp"
     android:paddingTop="16dp"
-    android:paddingLeft="16dp"
+    android:paddingLeft="10dp"
     android:paddingRight="5dp"
     >
     <LinearLayout
@@ -32,7 +32,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginLeft="15dp"
 
-            android:paddingLeft="10dp"
+            android:paddingLeft="5dp"
 
             android:textColor="@color/black" />
         <ImageView
@@ -75,11 +75,12 @@
         android:hint="Notes"
         android:inputType="text"
         android:textColor="@color/black"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="35dp"
         android:paddingTop="10dp"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:paddingBottom="50dp"
         />
 
@@ -87,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="26dp"
+
         android:layout_marginTop="10dp">
 
         <TextView
@@ -102,7 +103,6 @@
             android:textSize="20sp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="30dp"
-            android:paddingLeft="10dp"
             />
 
         <Spinner
@@ -113,6 +113,17 @@
             android:paddingLeft="15dp"
             android:layout_marginRight="30dp"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/alertmsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please accept permissions for alert."
+        android:textColor="@color/blueText"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:visibility="invisible"
+        ></TextView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -192,15 +203,15 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="35dp"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="5dp"
         />
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="10dp">
+       >
 
         <TextView
             android:layout_width="wrap_content"
@@ -214,7 +225,6 @@
             android:layout_marginLeft="15dp"
 
             android:layout_marginRight="10dp"
-            android:paddingLeft="10dp"
             android:textSize="20sp"/>
 
 
@@ -227,6 +237,24 @@
             android:text="00:00"
             android:gravity="center"
             android:textStyle="bold"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/wrongDuration"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="5dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match time range to duration"
+            android:paddingLeft="15dp"
+            android:textColor="@color/RedWarning">
+        </TextView>
     </LinearLayout>
 
 
@@ -250,9 +278,7 @@
             android:shadowDy="1.5"
             android:shadowRadius="2"
             android:layout_marginLeft="15dp"
-
             android:layout_marginRight="10dp"
-            android:paddingLeft="10dp"
             android:textSize="20sp"/>
 
         <LinearLayout
@@ -260,6 +286,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
+            android:paddingRight="10dp"
             android:background="@drawable/rectangle_field">
 
             <TextView
@@ -268,8 +295,10 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/poppins"
                 android:paddingLeft="10dp"
-                android:text="08/06/2024"
+                android:text="26/09/2024"
                 android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:textSize="16dp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -279,18 +308,31 @@
                 android:fontFamily="@font/poppins"
                 android:gravity="center"
                 android:paddingLeft="30dp"
-                android:text="00:00"
+                android:layout_marginTop="5dp"
+                android:text="10:00"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:textSize="16dp"
+                android:text="-"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/time2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/poppins"
-                android:paddingLeft="30dp"
-                android:text="00:00"
-                android:gravity="center"
-                android:textStyle="bold"/>
+                android:layout_marginTop="5dp"
 
+                android:text="11:00"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:textStyle="bold"/>
             <ImageButton
                 android:id="@+id/addDate"
                 android:layout_width="wrap_content"
@@ -300,18 +342,12 @@
                 android:background="@drawable/add"
                 android:clickable="true"
                 android:visibility="visible"/>
-        </LinearLayout>
-        <ImageView
-            android:id="@+id/wrongTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/wrong"
 
-            android:visibility="invisible"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            >
-        </ImageView>
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
     <LinearLayout
         android:id="@+id/wrongTime2"
@@ -331,6 +367,182 @@
             android:textColor="@color/RedWarning">
         </TextView>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:paddingTop="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Suggestions:"
+            android:fontFamily="@font/poppins"
+            android:textStyle="bold"
+            android:visibility="gone">
+
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/linearTime1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/poppins"
+            android:orientation="vertical"
+            android:background="@drawable/rectangle_button"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="18dp"
+
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/time1"
+                android:textSize="16dp"
+
+                android:inputType="text"
+                android:text=" 09:00-10:00  "
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_margin="5dp"
+
+
+
+
+
+
+                />
+            <TextView
+                android:id="@+id/date1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins"
+                android:inputType="text"
+                android:text=" 06/09/2024  "
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_marginBottom="5dp"
+
+
+
+
+                />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearTime1a"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/poppins"
+            android:orientation="vertical"
+            android:background="@drawable/rectangle_button"
+            android:layout_marginRight="18dp"
+
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/time1a"
+
+                android:inputType="text"
+                android:text=" 09:00-10:00  "
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:textSize="16dp"
+
+
+
+
+
+                />
+            <TextView
+                android:id="@+id/date1a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins"
+                android:inputType="text"
+                android:text=" 06/09/2024  "
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_marginBottom="5dp"
+                android:textSize="16dp"
+
+
+
+
+                />
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearTime1b"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/poppins"
+            android:orientation="vertical"
+            android:background="@drawable/rectangle_button"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/time1b"
+
+                android:inputType="text"
+                android:text=" 09:00-10:00  "
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:textSize="16dp"
+
+
+
+
+
+                />
+            <TextView
+                android:id="@+id/date1b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins"
+                android:inputType="text"
+                android:text=" 06/09/2024  "
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_marginBottom="5dp"
+                android:textSize="16dp"
+
+
+
+
+                />
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/timePicker1"
