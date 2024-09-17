@@ -57,7 +57,6 @@ async function addMessage(phone, token, message1, timemsg) {
                         id: ID_ERROR,
                         array: []
                     }
-                    await client.close();
                     return JSON.stringify(array);
 
                 }
@@ -66,11 +65,9 @@ async function addMessage(phone, token, message1, timemsg) {
                         id: result.id,
                         array: result.chat
                     }
-                    await client.close();
                     return JSON.stringify(array);
                 }
             } catch (error) {
-                await client.close();
                 return JSON.stringify("error");
             }
 
@@ -98,12 +95,11 @@ async function addMessage(phone, token, message1, timemsg) {
             }
         }
         catch (err) {
-            await client.close();
             return false;
         }
     }
     finally {
-        //await client.close();
+        await client.close();
     }
 }
 
