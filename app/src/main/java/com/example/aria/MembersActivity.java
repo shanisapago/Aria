@@ -223,12 +223,12 @@ public class MembersActivity extends AppCompatActivity {
 
                         firebaseAPI.sendMessage("new invitation!", message, pu.get(i).getAppToken());
                     }
-                    showCustomPermissionDialog(pu.get(0).getId(), title, description, start, end, monthInt - 1, yearInt, dayInt, h1, m1, h2, m2, token);
+                    showCustomPermissionDialog(pu.get(0).getId(), title, description, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, token);
 
 
                 }
                 else{
-                    showCustomPermissionDialog(pu.get(0).getId(), title, description, start, end, monthInt - 1, yearInt, dayInt, h1, m1, h2, m2, token);
+                    showCustomPermissionDialog(pu.get(0).getId(), title, description, start, end, monthInt, yearInt, dayInt, h1, m1, h2, m2, token);
                 }
 
 
