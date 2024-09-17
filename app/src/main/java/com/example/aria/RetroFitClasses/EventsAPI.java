@@ -17,6 +17,7 @@ public class EventsAPI {
     List<PhoneUsers2> pu;
     List<MembersNotificationsMsg> msg;
     NewEvent2 events;
+    Title title;
     NewEvent ariaEvent;
 
     public EventsAPI() {
@@ -100,10 +101,10 @@ public class EventsAPI {
     }
     public String deleteEventById(int id, String username) {
 
-        Call<String> call = webServiceAPI.deleteEventById(id, username);
+        Call<Title> call = webServiceAPI.deleteEventById(id, username);
         Thread t=new Thread((() -> {
             try{
-                title=call.execute().body();
+                title = call.execute().body();
             }
             catch (Exception e){
             }
@@ -114,8 +115,7 @@ public class EventsAPI {
         }
         catch (Exception e){
         }
-
-        return title;
+        return title.getTitle();
 
     }
 
