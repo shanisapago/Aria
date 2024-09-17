@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class EventsAPI {
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
-    String id, res,title;
+    String id, res;
     List<PhoneUsers2> pu;
     List<MembersNotificationsMsg> msg;
     NewEvent2 events;
