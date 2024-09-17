@@ -15,12 +15,6 @@ async function sendMessage(title, description, token) {
         token: registrationToken
     };
     admin.messaging().send(message)
-    /*.then((response) => {
-        console.log('Successfully sent message:', response);
-    })
-    .catch((error) => {
-        console.error('Error sending message:', error);
-    });*/
 }
 
 export default {
