@@ -40,7 +40,7 @@ public interface WebServiceAPI {
         Call<NewEvent> updateAriaResult(@Path("id") int id, @Body JsonObject AriaResult);
 
         @PUT("Events/{id}/{username}/DeleteById")
-        Call<String> deleteEventById(@Path("id") int id, @Path("username") String username);
+        Call<Title> deleteEventById(@Path("id") int id, @Path("username") String username);
         @POST("Chats/AddChat")
         Call<Void> addChat(@Body JsonObject jsonObject);
 
