@@ -461,8 +461,7 @@ async function deleteEventById(id, token) {
             await open_events.deleteOne({ id: idNum })
         }
         if (event.length == 1) {
-            var result = await events.find({ id: idNum }).toArray()
-            title = result[0].title
+            title = event[0].title
 
             if (event[0].users.length == 1) {
                 await events.deleteOne({ id: idNum })
@@ -477,11 +476,16 @@ async function deleteEventById(id, token) {
                     { $pull: { "alert": { "username": username.username } } }
                 )
             }
-            
-            return title
+            const json={
+                title: title
+            }
+            return JSON.stringify(json)
         }
         else {
-            return "false"
+            const json={
+                title: "falseee"
+            }
+            return JSON.stringify(json)
         }
     }
     finally {
