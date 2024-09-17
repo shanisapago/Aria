@@ -84,8 +84,8 @@ async function updateAriaResult(req, res) {
 }
 
 async function deleteEventById(req, res) {
-    const resDelete = await EventModel.deleteEventById(req.params.id, req.params.username)
-    res.end(resDelete)
+        const resDelete = await EventModel.deleteEventById(req.params.id, req.params.username);
+        res.end(resDelete);
 }
 
 async function addGoogleEvent(req, res) {
