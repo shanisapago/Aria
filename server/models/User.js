@@ -343,8 +343,8 @@ async function getTimesAriaSort(token) {
                 if (arrayTemp[imax].counter - 1 >= 0) {
                     let json = {
                         "k": k,
-                        "time": dayItem[0].values[arrayTemp[imax].counter - 1].time,   //4 change
-                        "q_value": dayItem[0].values[arrayTemp[imax].counter - 1].q_value, //4 change
+                        "time": dayItem[0].values[arrayTemp[imax].counter - 1].time,
+                        "q_value": dayItem[0].values[arrayTemp[imax].counter - 1].q_value, 
                         "counter": arrayTemp[imax].counter - 1
                     }
                     arrayTemp.push(json)
@@ -457,10 +457,9 @@ async function updateCalendarTimes(day, time, flag, token) {
     const SMALL_REWARD = 5
     const BIG_REWARD = 10
     const ALPHA = 0.1
-    const GAMMA = 0.9
-    //q[old_s][old_a] = q[old_s][old_a] + 0.1 * (r + 0.9 * (q[new_s][new_a]) - q[old_s][old_a]) 
+    const GAMMA = 0.9 
     let isin = 0;
-    let lastEmpty = 0;
+    let maxTime = "";
     let oldQValue = 0;
     let maxQValue = -1;
     let reward = SMALL_REWARD
@@ -485,11 +484,6 @@ async function updateCalendarTimes(day, time, flag, token) {
                 if (timeMongo === time) {
                     isin = 1
                     oldQValue = qValueMongo
-                }
-                if (i === NUMBER_OF_RANGES - 1) {
-                    if (timeMongo === "") {
-                        lastEmpty = 1
-                    }
                 }
                 if (maxQValue < qValueMongo) {
                     maxQValue = qValueMongo;
@@ -518,28 +512,6 @@ async function updateCalendarTimes(day, time, flag, token) {
                 );
             }
             else {
-                if (lastEmpty) {
-                    const valuesArray = jsonDay[0].values;
-                    const valueIndex = valuesArray.findIndex(val => val.time === "");
-                    let newReward = ALPHA * (reward + (GAMMA * maxQValue))
-                    const updatePath = `calendarTimes.$[calElem].values.${ valueIndex }.time`;
-                    const updateQValuePath = `calendarTimes.$[calElem].values.${ valueIndex }.q_value`;
-                    await usersMongo.updateOne(
-                        { "username": username },
-                        {
-                            $set: {
-                                [updatePath]: time,
-                                [updateQValuePath]: newReward
-                            }
-                        },
-                        {
-                            arrayFilters: [
-                                { "calElem.day": day }
-                            ]
-                        }
-                    );
-                }
-                else {
                     let minTime = "-1"
                     let minQValue = -1
                     for (let i = 0; i < NUMBER_OF_RANGES; i++) {
@@ -575,8 +547,6 @@ async function updateCalendarTimes(day, time, flag, token) {
                             ]
                         }
                     );
-                }
-
             }
             sort(token)
             return true;
@@ -595,8 +565,7 @@ async function updateAriaTimes(day, time, flag, token) {
     const SMALL_REWARD = 5
     const BIG_REWARD = 10
     const ALPHA = 0.1
-    const GAMMA = 0.9
-    //q[old_s][old_a] = q[old_s][old_a] + 0.1 * (r + 0.9 * (q[new_s][new_a]) - q[old_s][old_a]) 
+    const GAMMA = 0.9 
     const client = new MongoClient("mongodb://127.0.0.1:27017");
     try {
         const db = client.db('Aria');
@@ -606,7 +575,7 @@ async function updateAriaTimes(day, time, flag, token) {
         const username = data.username;
         for (let k = 0; k < time.length; k++) {
             let isin = 0;
-            let lastEmpty = 0;
+            let maxTime = "";
             let oldQValue = 0;
             let maxQValue = -1;
             let reward = SMALL_REWARD
@@ -624,11 +593,6 @@ async function updateAriaTimes(day, time, flag, token) {
                     if (timeMongo === time[k]) {
                         isin = 1
                         oldQValue = qValueMongo
-                    }
-                    if (i === NUMBER_OF_RANGES - 1) {
-                        if (timeMongo === "") {
-                            lastEmpty = 1
-                        }
                     }
                     if (maxQValue < qValueMongo) {
                         maxQValue = qValueMongo;
@@ -657,28 +621,6 @@ async function updateAriaTimes(day, time, flag, token) {
                     );
                 }
                 else {
-                    if (lastEmpty) {
-                        const valuesArray = jsonDay[0].values;
-                        const valueIndex = valuesArray.findIndex(val => val.time === "");
-                        let newReward = ALPHA * (reward + (GAMMA * maxQValue))
-                        const updatePath = `ariaTimes.$[calElem].values.${ valueIndex }.time`;
-                        const updateQValuePath = `ariaTimes.$[calElem].values.${ valueIndex }.q_value`;
-                        await usersMongo.updateOne(
-                            { "username": username },
-                            {
-                                $set: {
-                                    [updatePath]: time[k],
-                                    [updateQValuePath]: newReward
-                                }
-                            },
-                            {
-                                arrayFilters: [
-                                    { "calElem.day": day[k] }
-                                ]
-                            }
-                        );
-                    }
-                    else {
                         let minTime = "-1"
                         let minQValue = -1
                         for (let i = 0; i < NUMBER_OF_RANGES; i++) {
@@ -694,7 +636,6 @@ async function updateAriaTimes(day, time, flag, token) {
                                     minTime = timeMongo
                                 }
                             }
-                        }
                         const valuesArray = jsonDay[0].values
                         const valueIndex = valuesArray.findIndex(val => val.time === minTime);
                         let newReward = ALPHA * (reward + (GAMMA * maxQValue))
