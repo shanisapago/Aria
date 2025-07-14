@@ -64,6 +64,12 @@ The app checks if the friend has the application installed, and if so, sends the
 
 ![WhatsApp Image 2025-07-14 at 14 24 23](https://github.com/user-attachments/assets/88ee9e1c-ac21-4704-bf5f-8d204b5755ad)
 
+## Server side
+The backend is built using Node.js and follows the MVC (Model-View-Controller) architecture with clearly defined models, controllers, and routes.<br> We use MongoDB as the database to store all application data.<br>
+The server handles input validation, executes the machine learning algorithm for personalized scheduling, and manages data persistence as well as the core application functionality and rules.<br>
+
+
+
 
 
 
