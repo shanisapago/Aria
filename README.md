@@ -9,3 +9,11 @@ If the scheduling fails, the user is notified with the result of the conversatio
 Aria also leverages a Q-learning machine learning algorithm to learn each user's preferred time slots.<br>
 Based on past scheduling patterns, the app suggests optimal time ranges for future events, improving the experience over time.<br>
 Additionally, users can invite friends to events directly from the app, making it easy to coordinate gatherings and meetings.<br>
+
+## Sign-up screen
+The app includes a registration screen where users can sign up by providing a username, full name, password, and phone number.<br>
+Input validation is performed to ensure all fields are correctly and securely filled.<br>
+
+
+![WhatsApp Image 2025-07-14 at 14 12 48](https://github.com/user-attachments/assets/044bef48-7fb7-4b18-a431-815398283c17)
+
